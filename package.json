@@ -1,0 +1,54 @@
+{
+  "name": "text-proofing",
+  "version": "0.0.0",
+  "description": "A text proofing platform.",
+  "bin": "cli.js",
+  "main": "lib/index.js",
+  "files": [
+    "lib/",
+    "cli.js"
+  ],
+  "keywords": [
+    "text",
+    "proofing",
+    "language"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ritterim/text-proofing"
+  },
+  "scripts": {
+    "audit": "nsp check package",
+    "build": "babel -d ./ ./src",
+    "check": "npm run audit && npm outdated --depth 0",
+    "coverage": "nyc --require babel-core/register --reporter=lcov --reporter=text --reporter=html npm test",
+    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "lint": "eslint src test",
+    "test": "ava",
+    "test:watch": "chokidar 'test/*.js' 'src/**' -c 'npm test' --silent --initial",
+    "validate": "npm run lint && npm test",
+    "prepare": "npm run build && npm run validate && npm run check"
+  },
+  "author": {
+    "name": "Ritter Insurance Marketing",
+    "url": "https://www.ritterim.com"
+  },
+  "dependencies": {
+    "meow": "^3.7.0",
+    "chalk": "^1.1.1"
+  },
+  "devDependencies": {
+    "ava": "^0.11.0",
+    "babel-cli": "^6.4.5",
+    "babel-core": "^6.4.5",
+    "babel-eslint": "^4.1.5",
+    "babel-plugin-transform-function-bind": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "chokidar-cli": "^1.2.0",
+    "coveralls": "^2.11.6",
+    "eslint": "^1.10.3",
+    "nsp": "^2.2.0",
+    "nyc": "^5.5.0"
+  }
+}
