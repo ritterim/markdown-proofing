@@ -5,7 +5,7 @@
     "missing-oxford-commas": "error",
     "sentiment-score": "info",
     "sentiment-comparative-score": "info",
-    "statistics-flesch-kincaid-reading-ease > 40": "warning",
-    "statistics-flesch-kincaid-grade-level > 12": "warning"
+    "statistics-flesch-kincaid-reading-ease": "warning < 40",
+    "statistics-flesch-kincaid-grade-level": "warning > 12"
   }
 }
