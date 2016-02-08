@@ -1,0 +1,11 @@
+{
+  "extends": [],
+  "rules": {
+    "spelling-error": "error",
+    "missing-oxford-commas": "error",
+    "sentiment-score": "info",
+    "sentiment-comparative-score": "info",
+    "statistics-flesch-kincaid-reading-ease > 40": "warning",
+    "statistics-flesch-kincaid-grade-level > 12": "warning"
+  }
+}

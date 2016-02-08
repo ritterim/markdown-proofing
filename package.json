@@ -1,7 +1,7 @@
 {
-  "name": "text-proofing",
+  "name": "markdown-proofing",
   "version": "0.0.0",
-  "description": "A text proofing platform.",
+  "description": "A markdown proofing platform for individuals, teams, and organizations.",
   "bin": "cli.js",
   "main": "lib/index.js",
   "files": [
@@ -9,14 +9,14 @@
     "cli.js"
   ],
   "keywords": [
-    "text",
+    "markdown",
     "proofing",
     "language"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ritterim/text-proofing"
+    "url": "https://github.com/ritterim/markdown-proofing"
   },
   "scripts": {
     "audit": "nsp check package",
@@ -35,8 +35,19 @@
     "url": "https://www.ritterim.com"
   },
   "dependencies": {
+    "alex": "^2.0.0",
+    "buzzwords": "^1.0.1",
+    "chalk": "^1.1.1",
+    "ensure-oxford-commas": "^0.1.0",
+    "fillers": "^1.0.0",
+    "glob": "^6.0.4",
     "meow": "^3.7.0",
-    "chalk": "^1.1.1"
+    "passive-voice": "^0.1.0",
+    "round-to": "^1.1.0",
+    "sentiment": "^1.0.6",
+    "text-statistics": "^0.1.1",
+    "weasels": "^1.0.0",
+    "write-good": "^0.9.1"
   },
   "devDependencies": {
     "ava": "^0.11.0",
