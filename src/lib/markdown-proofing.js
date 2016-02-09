@@ -1,7 +1,9 @@
+import Rule from './rule';
+
 export default class MarkdownProofing {
   constructor() {
     this.analyzers = [];
-    this.options = {};
+    this.rules = [];
   }
 
   addAnalyzer(analyzer) {
@@ -10,20 +12,8 @@ export default class MarkdownProofing {
     return this;
   }
 
-  addConfiguration(key, value) {
-    const allowedConfigurationValues = [
-      'error',
-      'info',
-      'warning'
-    ];
-
-    if (!allowedConfigurationValues.includes(value)) {
-      throw new Error(
-        `Invalid configuration value: '${value}'. `
-        + `Valid values are: ${allowedConfigurationValues.join(', ')}.`);
-    }
-
-    this.options[key] = value;
+  addRule(messageType, ruleCondition) {
+    this.rules.push(new Rule(messageType, ruleCondition));
 
     return this;
   }
@@ -34,8 +24,10 @@ export default class MarkdownProofing {
     this.analyzers.forEach(X => {
       const result = new X().analyze(text);
 
-      // Flatten the messages returned by all analyzers into a single collection
-      result.messages.forEach(
+      const applicableMessages = result.messages.filter(
+        message => this.rules.some(rule => rule.matchesCondition(message)));
+
+      applicableMessages.forEach(
         x => analyzerMessages.push({ type: x.type, message: x.message }));
     });
 

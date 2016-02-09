@@ -1,9 +1,4 @@
-export class AnalyzerMessage {
-  constructor(type, message) {
-    this.type = type;
-    this.message = message;
-  }
-}
+import AnalyzerMessage from './analyzer-message';
 
 export default class AnalyzerResult {
   constructor() {

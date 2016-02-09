@@ -18,7 +18,8 @@ test('Should read Jekyll markdown blog post string', t => {
 test('Should parse statistics from Jekyll markdown blog post string', t => {
   const result = new MarkdownProofing()
     .addAnalyzer(StatisticsAnalyzer)
+    .addRule('statistics-word-count', 'info')
     .proof(exampleJekyllBlogPost);
 
-  t.true(result.messages.length > 0);
+  t.is(result.messages.length, 1);
 });

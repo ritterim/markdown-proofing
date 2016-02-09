@@ -31,11 +31,22 @@ test('Returns empty messages when no analyzers', t => {
   t.is(result.messages.length, 0);
 });
 
-test('Returns expected single message with one analyzer', t => {
+test('Returns empty messages with one analyzera and no matching configuration', t => {
   const text = 'a';
 
   const output = new MarkdownProofing()
     .addAnalyzer(TestAnalyzer1)
+    .proof(text);
+
+  t.is(output.messages.length, 0);
+});
+
+test('Returns expected single message with one analyzer with matching configuration rule', t => {
+  const text = 'a';
+
+  const output = new MarkdownProofing()
+    .addAnalyzer(TestAnalyzer1)
+    .addRule('test-analyzer-1', 'info')
     .proof(text);
 
   t.is(output.messages.length, 1);
@@ -44,12 +55,29 @@ test('Returns expected single message with one analyzer', t => {
   t.is(output.messages[0].message, 'test-analyzer-1 message.');
 });
 
-test('Returns expected two messages from two analyzers', t => {
+test('Returns expected one message from two analyzers with one matching configuration rules', t => {
   const text = 'a';
 
   const output = new MarkdownProofing()
     .addAnalyzer(TestAnalyzer1)
     .addAnalyzer(TestAnalyzer2)
+    .addRule('test-analyzer-1', 'info')
+    .proof(text);
+
+  t.is(output.messages.length, 1);
+
+  t.is(output.messages[0].type, 'test-analyzer-1');
+  t.is(output.messages[0].message, 'test-analyzer-1 message.');
+});
+
+test('Returns expected two messages from two analyzers with two matching configuration rules', t => {
+  const text = 'a';
+
+  const output = new MarkdownProofing()
+    .addAnalyzer(TestAnalyzer1)
+    .addAnalyzer(TestAnalyzer2)
+    .addRule('test-analyzer-1', 'info')
+    .addRule('test-analyzer-2', 'info')
     .proof(text);
 
   t.is(output.messages.length, 2);
