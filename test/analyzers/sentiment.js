@@ -12,5 +12,5 @@ test('Returns sentiment-score', t => {
 
 test('Returns sentiment-comparative-score', t => {
   const result = new SentimentAnalyzer().analyze(text);
-  t.is(result.getMessage('sentiment-comparative-score'), 1.3333333333333333);
+  t.is(result.getMessage('sentiment-comparative-score'), 1.33);
 });
