@@ -1,4 +1,4 @@
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 import passive from 'passive-voice';
 
 export default class PassiveVoiceAnalyzer {

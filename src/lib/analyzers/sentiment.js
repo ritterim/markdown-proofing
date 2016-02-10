@@ -1,4 +1,4 @@
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 import roundTo from 'round-to';
 import sentiment from 'sentiment';
 

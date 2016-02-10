@@ -3,7 +3,7 @@
 
 // https://github.com/nathanjsweet/nodehun
 
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 
 export default class SpellingAnalyzer {
   analyze(str) {

@@ -1,4 +1,4 @@
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 
 export default class MatchWordListAnalyzer {
   constructor(messageType, words) {

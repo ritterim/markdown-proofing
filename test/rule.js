@@ -1,7 +1,7 @@
 import test from 'ava';
 import 'babel-core/register';
 
-import AnalyzerMessage from '../src/lib/analyzers/analyzer-message';
+import AnalyzerMessage from '../src/lib/analyzer-message';
 import Rule from '../src/lib/rule';
 
 const testMessageType = 'test-message-type';

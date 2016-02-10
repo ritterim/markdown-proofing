@@ -1,6 +1,6 @@
 import textStatistics from 'text-statistics';
 import roundTo from 'round-to';
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 
 export default class StatisticsAnalyzer {
   analyze(str) {

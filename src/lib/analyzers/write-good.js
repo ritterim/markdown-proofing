@@ -1,4 +1,4 @@
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 import writeGood from 'write-good';
 
 export default class WriteGoodAnalyzer {

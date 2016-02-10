@@ -1,4 +1,4 @@
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 import { isMissingOxfordCommas } from 'ensure-oxford-commas';
 
 export default class RequireOxfordCommasAnalyzer {

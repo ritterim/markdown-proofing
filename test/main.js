@@ -2,7 +2,7 @@ import test from 'ava';
 import 'babel-core/register';
 
 import MarkdownProofing from '../src/lib/main';
-import AnalyzerResult from '../src/lib/analyzers/analyzer-result';
+import AnalyzerResult from '../src/lib/analyzer-result';
 import StatisticsAnalyzer from '../src/lib/analyzers/statistics';
 
 class TestAnalyzer1 {

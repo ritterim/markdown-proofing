@@ -1,4 +1,4 @@
-import AnalyzerResult from './analyzer-result';
+import AnalyzerResult from '../analyzer-result';
 import alex from 'alex';
 
 export default class SensitivityAnalyzer {
