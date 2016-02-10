@@ -61,7 +61,7 @@ An example configuration file might be:
 
 ```json
 {
-  "extends": [],
+  "presets": [],
   "analyzers": [
     "buzzwords",
     "fillers",

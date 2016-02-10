@@ -1,5 +1,5 @@
 {
-  "extends": [
+  "presets": [
     "technical-blog"
   ],
   "analyzers": [

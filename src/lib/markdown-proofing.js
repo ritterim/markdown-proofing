@@ -16,8 +16,8 @@ export default class MarkdownProofing {
 
     const markdownProofing = new MarkdownProofing();
 
-    if (configuration.extends) {
-      configuration.extends.forEach(x => {
+    if (configuration.presets) {
+      configuration.presets.forEach(x => {
         const presetFilePath = appRootPath.resolve(presetFolder + `${x}.json`);
         const presetConfiguration = JSON.parse(fs.readFileSync(presetFilePath, 'utf-8'));
 

@@ -118,9 +118,9 @@ test('createUsingConfiguration adds rules', t => {
   t.is(proofing.rules.length, 1);
 });
 
-test('createUsingConfiguration extends adds preset analyzers', t => {
+test('createUsingConfiguration presets adds preset analyzers', t => {
   const configuration = {
-    extends: [
+    presets: [
       'technical-blog'
     ]
   };
@@ -130,9 +130,9 @@ test('createUsingConfiguration extends adds preset analyzers', t => {
   t.true(proofing.analyzers.length > 1);
 });
 
-test('createUsingConfiguration extends adds preset rules', t => {
+test('createUsingConfiguration presets adds preset rules', t => {
   const configuration = {
-    extends: [
+    presets: [
       'technical-blog'
     ]
   };
