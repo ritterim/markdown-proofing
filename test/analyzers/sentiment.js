@@ -7,10 +7,10 @@ const text = 'This is awesome!';
 
 test('Returns sentiment-score', t => {
   const result = new SentimentAnalyzer().analyze(text);
-  t.is(result.getMessage('sentiment-score'), 'Score: 4');
+  t.is(result.getMessage('sentiment-score'), 4);
 });
 
 test('Returns sentiment-comparative-score', t => {
   const result = new SentimentAnalyzer().analyze(text);
-  t.is(result.getMessage('sentiment-comparative-score'), 'Comparative Score: 1.3333333333333333');
+  t.is(result.getMessage('sentiment-comparative-score'), 1.3333333333333333);
 });

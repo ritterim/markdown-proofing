@@ -6,11 +6,11 @@ export default class SentimentAnalyzer {
     const result = new AnalyzerResult();
     const sentimentResult = sentiment(str);
 
-    result.addMessage('sentiment-score', `Score: ${sentimentResult.score}`);
+    result.addMessage('sentiment-score', sentimentResult.score);
 
     // Explanation of comparative:
     // https://github.com/thisandagain/sentiment/issues/20
-    result.addMessage('sentiment-comparative-score', `Comparative Score: ${sentimentResult.comparative}`);
+    result.addMessage('sentiment-comparative-score', sentimentResult.comparative);
 
     return result;
   }
