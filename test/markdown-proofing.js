@@ -117,3 +117,27 @@ test('createUsingConfiguration adds rules', t => {
 
   t.is(proofing.rules.length, 1);
 });
+
+test('createUsingConfiguration extends adds preset analyzers', t => {
+  const configuration = {
+    extends: [
+      'technical-blog'
+    ]
+  };
+
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, null, '/src/lib/presets/');
+
+  t.true(proofing.analyzers.length > 1);
+});
+
+test('createUsingConfiguration extends adds preset rules', t => {
+  const configuration = {
+    extends: [
+      'technical-blog'
+    ]
+  };
+
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, null, 'src/lib/presets/');
+
+  t.true(proofing.rules.length > 1);
+});

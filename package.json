@@ -20,7 +20,7 @@
   },
   "scripts": {
     "audit": "nsp check package",
-    "build": "babel -d ./ ./src",
+    "build": "babel -d ./ ./src && shjs build-copy-presets.js",
     "check": "npm run audit && npm outdated --depth 0",
     "coverage": "nyc --require babel-core/register --reporter=lcov --reporter=text --reporter=html npm test",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
@@ -61,6 +61,7 @@
     "coveralls": "^2.11.6",
     "eslint": "^1.10.3",
     "nsp": "^2.2.0",
-    "nyc": "^5.5.0"
+    "nyc": "^5.5.0",
+    "shelljs": "^0.6.0"
   }
 }

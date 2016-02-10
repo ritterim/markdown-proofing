@@ -1,16 +1,8 @@
 {
-  "extends": [],
+  "extends": [
+    "technical-blog"
+  ],
   "analyzers": [
-    "buzzwords",
-    "fillers",
-    "passive-voice",
-    "require-oxford-commas",
-    "sensitivity",
-    "sentiment",
-    "spelling",
-    "statistics",
-    "weasel-words",
-    "write-good"
   ],
   "rules": {
     "spelling-error": "error",

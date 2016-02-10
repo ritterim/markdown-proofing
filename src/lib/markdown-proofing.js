@@ -1,4 +1,5 @@
 import appRootPath from 'app-root-path';
+import fs from 'fs';
 import Rule from './rule';
 
 export default class MarkdownProofing {
@@ -7,14 +8,31 @@ export default class MarkdownProofing {
     this.rules = [];
   }
 
-  // The requireAnalyzerFunction parameter exists for testing
-  // (in case `npm test` is ran before `npm run build`)
-  static createUsingConfiguration(configuration, requireAnalyzerFunction) {
+  // The requireAnalyzerFunction and presetFolder parameters help with testing
+  static createUsingConfiguration(configuration, requireAnalyzerFunction, presetFolder) {
+    if (!presetFolder) {
+      presetFolder = '/lib/presets/';
+    }
+
     const markdownProofing = new MarkdownProofing();
 
-    // TODO: Process `extends`, look for and apply preset --
-    // perhaps by calling this static method recursively?
+    if (configuration.extends) {
+      configuration.extends.forEach(x => {
+        const presetFilePath = appRootPath.resolve(presetFolder + `${x}.json`);
+        const presetConfiguration = JSON.parse(fs.readFileSync(presetFilePath, 'utf-8'));
 
+        this.addAssetsToInstance(
+          markdownProofing, presetConfiguration, requireAnalyzerFunction);
+      });
+    }
+
+    this.addAssetsToInstance(
+      markdownProofing, configuration, requireAnalyzerFunction);
+
+    return markdownProofing;
+  }
+
+  static addAssetsToInstance(markdownProofing, configuration, requireAnalyzerFunction) {
     if (configuration.analyzers) {
       configuration.analyzers.forEach(x => {
         const analyzer = requireAnalyzerFunction
@@ -30,8 +48,6 @@ export default class MarkdownProofing {
         markdownProofing.addRule(prop, configuration.rules[prop]);
       }
     }
-
-    return markdownProofing;
   }
 
   addAnalyzer(analyzer) {
