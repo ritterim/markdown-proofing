@@ -41,7 +41,7 @@ There are two core concepts: **Analyzers** and **Rules**.
     - `info` signals to add this to any output. It should show up in build results and any place where messages should be visible.
     - `warning` is a standard *warning*, it shouldn't fail a build.
     - `error` violations should result in a build failure.
-  - Rules can have an optional condition, which is applied as `warning < 40` -- it's an `warning` only when the value is less than `40`.
+  - Rules can have an optional condition, which is applied as `warning < 40` -- it's a `warning` only when the value is less than `40`.
     - This is useful for statistics and other numerical outputs from analyzers.
 
 ## TODO
