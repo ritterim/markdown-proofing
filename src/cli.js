@@ -8,7 +8,7 @@ import chalk from 'chalk';
 import glob from 'glob';
 import fs from 'fs';
 
-import MarkdownProofing from './lib/markdown-proofing';
+import MarkdownProofing from './lib/main';
 
 const defaultConfigurationPath = '/.markdown-proofing';
 

@@ -21,9 +21,9 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _markdownProofing = require('./lib/markdown-proofing');
+var _main = require('./lib/main');
 
-var _markdownProofing2 = _interopRequireDefault(_markdownProofing);
+var _main2 = _interopRequireDefault(_main);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -65,7 +65,7 @@ try {
 }
 
 var configuration = JSON.parse(_fs2.default.readFileSync(filePath, 'utf-8'));
-var markdownProofing = _markdownProofing2.default.createUsingConfiguration(configuration);
+var markdownProofing = _main2.default.createUsingConfiguration(configuration);
 
 //
 // Process input file(s)

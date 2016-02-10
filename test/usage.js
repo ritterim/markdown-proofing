@@ -2,7 +2,7 @@ import test from 'ava';
 import 'babel-core/register';
 import fs from 'fs';
 
-import MarkdownProofing from '../src/lib/markdown-proofing';
+import MarkdownProofing from '../src/lib/main';
 import StatisticsAnalyzer from '../src/lib/analyzers/statistics';
 
 const exampleJekyllBlogPost = fs
