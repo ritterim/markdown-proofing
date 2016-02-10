@@ -3,6 +3,7 @@ import 'babel-core/register';
 
 import MarkdownProofing from '../src/lib/markdown-proofing';
 import AnalyzerResult from '../src/lib/analyzers/analyzer-result';
+import StatisticsAnalyzer from '../src/lib/analyzers/statistics';
 
 class TestAnalyzer1 {
   analyze(/* str */) {
@@ -87,4 +88,32 @@ test('Returns expected two messages from two analyzers with two matching configu
 
   t.is(output.messages[1].type, 'test-analyzer-2');
   t.is(output.messages[1].message, 'test-analyzer-2 message.');
+});
+
+test('createUsingConfiguration adds analyzers', t => {
+  const configuration = {
+    analyzers: [
+      'statistics'
+    ]
+  };
+
+  const requireAnalyzerFunction = () => {
+    return new StatisticsAnalyzer();
+  }
+
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, requireAnalyzerFunction);
+
+  t.is(proofing.analyzers.length, 1);
+});
+
+test('createUsingConfiguration adds rules', t => {
+  const configuration = {
+    rules: {
+      'statistics-word-count': 'info'
+    }
+  };
+
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration);
+
+  t.is(proofing.rules.length, 1);
 });

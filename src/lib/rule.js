@@ -11,7 +11,7 @@ export default class Rule {
       '<=',
       '>',
       '>=',
-      '='
+      '=='
     ];
 
     if (!this.supportedConditionPrefixes.some(x => condition.startsWith(x))) {

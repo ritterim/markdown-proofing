@@ -1,6 +1,10 @@
 #! /usr/bin/env node
 'use strict';
 
+var _appRootPath = require('app-root-path');
+
+var _appRootPath2 = _interopRequireDefault(_appRootPath);
+
 var _meow = require('meow');
 
 var _meow2 = _interopRequireDefault(_meow);
@@ -21,14 +25,16 @@ var _markdownProofing = require('./lib/markdown-proofing');
 
 var _markdownProofing2 = _interopRequireDefault(_markdownProofing);
 
-var _statistics = require('./lib/analyzers/statistics');
-
-var _statistics2 = _interopRequireDefault(_statistics);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var defaultConfigurationPath = '/.markdown-proofing';
+
 var cli = (0, _meow2.default)({
-  help: ['Usage', '  $ markdown-proofing [...file-glob]', '', 'Options', '  -c, --configuration  Specify a configuration file to use. [Default: .markdown-proofing]', '', 'Examples', '  $ markdown-proofing ./file1.md', '  Analyze ./file1.md file', '  $ markdown-proofing ./file1.md ./file2.md', '  Analyze ./file1.md and ./file2.md files', '  $ markdown-proofing -c ./custom-configuration.json ./file1.md', '  Analyze ./file.md file using ./custom-configuration.json', '  $ markdown-proofing **/*.md', '  Analyze all .md files recursively']
+  help: ['Usage', '  $ markdown-proofing [...file-glob]', '', 'Options', '  -c, --configuration  Specify a configuration file to use. [Default: .markdown-proofing]', '  -n, --no-colors      Do not apply colors to the output.   [Default: false]', '', 'Examples', '  $ markdown-proofing ./file1.md', '  Analyze ./file1.md file', '  $ markdown-proofing ./file1.md ./file2.md', '  Analyze ./file1.md and ./file2.md files', '  $ markdown-proofing -c ./custom-configuration.json ./file1.md', '  Analyze ./file.md file using ./custom-configuration.json', '  $ markdown-proofing **/*.md', '  Analyze all .md files recursively'],
+  alias: {
+    c: 'configuration',
+    n: 'no-colors'
+  }
 });
 
 var input = cli.input || [];
@@ -39,11 +45,26 @@ if (!input) {
   process.exit(1);
 }
 
+//
+// Create markdownProofing using configuration file from disk
+//
+
+var filePath = _appRootPath2.default.resolve(cli.flags.configuration || defaultConfigurationPath);
+
+try {
+  _fs2.default.accessSync(filePath, _fs2.default.F_OK);
+} catch (e) {
+  throw new Error('Configuration was not found or could not be read from \'' + filePath + '\'.', e);
+}
+
+var configuration = JSON.parse(_fs2.default.readFileSync(filePath, 'utf-8'));
+var markdownProofing = _markdownProofing2.default.createUsingConfiguration(configuration);
+
+//
+// Process input file(s)
+//
+
 function processFile(file) {
-  var markdownProofing = new _markdownProofing2.default().addAnalyzer(_statistics2.default);
-
-  // TODO: Get / set configuration
-
   _fs2.default.readFile(file, 'utf-8', function (err, data) {
     var results = markdownProofing.proof(data);
 
@@ -54,7 +75,23 @@ function processFile(file) {
     console.log();
 
     results.messages.forEach(function (message) {
-      console.log(message.type + ': ' + message.message);
+      if (!cli.flags['no-colors']) {
+        switch (message.type) {
+          case 'info':
+            console.log(_chalk2.default.blue(message.type + ': ' + message.message));
+            break;
+          case 'warning':
+            console.log(_chalk2.default.yellow(message.type + ': ' + message.message));
+            break;
+          case 'error':
+            console.log(_chalk2.default.red(message.type + ': ' + message.message));
+            break;
+          default:
+            console.log(message.type + ': ' + message.message);
+        }
+      } else {
+        console.log(message.type + ': ' + message.message);
+      }
     });
   });
 }
