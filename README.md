@@ -8,34 +8,54 @@
 
 A markdown proofing platform for individuals, teams, and organizations.
 
-## Features / Ideas
+## Quickstart: Installation, usage, and build integrations
 
-- Read US English markdown text to check for issues and provide statistics.
-- Configurable response to analysis with info, warnings, or errors.
-- Pluggable into modern development platform build processes
+Install into your project:
+
+```
+> npm install markdown-proofing --save
+```
+
+Now, give it a test:
+
+```
+> node cli.js ./file1.md
+```
+
+Next, you could wire it up in your `package.json` as part of your build *(or, perhaps as a lint step, you decide!)*.
+
+## Core concepts
+
+There are two core concepts: **Analyzers** and **Rules**.
+
+- **Analyzers** *process the text!*
+  - Analyzers parse a markdown text string and return an `AnalyzerResult`, which includes a collection of `AnalyzerMessage` objects.
+    - `AnalyzerMessage`'s are simply `{ type: String, message: String }`.
+  - There are useful analyzers built-in and ready for use. Custom analyzers are supported as well.
+- **Rules** *react to analyzers!*
+  - These react to the output of the configured analyzers. Without any rules, the output of the analyzers is not surfaced to the user or applied in any way. So, you'll need some rules!
+  - Rules are in the format of `'{{message-type}}': '{{condition}}'`.
+    - Example rule: `'statistics-word-count': 'info'`
+    - Example rule: `'statistics-flesch-kincaid-reading-ease': 'warning < 40'`
+  - There are **three** kinds for rules, `info`, `warning`, and `error`.
+    - `info` signals to add this to any output. It should show up in build results and any place where messages should be visible.
+    - `warning` is a standard *warning*, it shouldn't fail a build.
+    - `error` violations should result in a build failure.
+  - Rules can have an optional condition, which is applied as `warning < 40` -- it's an `warning` only when the value is less than `40`.
+    - This is useful for statistics and other numerical outputs from analyzers.
+
+## TODO
+
+There are built-in presets for analyzers and rules. Or, you can supply your own -- optionally extending a preset!
 
 ## Potential future features
 
 - Describe location of potential problems
 - Automatic reports to GitHub pull requests based on build results.
 
-## Install
-
-```
-> npm install markdown-proofing
-```
-
-## Usage
-
-```
-> node cli.js ./file1.md
-```
-
 ## Configuration
 
-**Configuration is TODO / WIP**
-
-Configuration might be read from a `.markdown-proofing` file from the root of the target project.
+Configuration is specified in JSON. By default markdown-proofing reads from a `.markdown-proofing` JSON configuration file from the root of the target project. You can optionally supply a different file, if you'd like.
 
 An example configuration file might be:
 
@@ -65,6 +85,28 @@ An example configuration file might be:
 }
 ```
 
+## Custom Analyzers
+
+```javascript
+import AnalyzerResult from './analyzer-result'; // TODO: Change this import to allow for outside scripts to use it
+
+export default class MyCustomAnalyzerAnalyzer {
+  analyze(str) {
+    const result = new AnalyzerResult();
+
+    result.addMessage('my-custom-analyzer-message-type', 'some-value');
+
+    return result;
+  }
+}
+```
+
+Then, simply wire it up!
+
+```
+TODO
+```
+
 ## Author
 
 Ritter Insurance Marketing
@@ -76,3 +118,5 @@ Ritter Insurance Marketing
 ## Contributing
 
 Contributions are highly welcome!
+
+If you construct a useful analyzer, we'd appreciate a pull request to incorporate it into the project!
