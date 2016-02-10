@@ -53,16 +53,15 @@ export default class MarkdownProofing {
       // Instead of unwrapped the default if present
       // https://www.npmjs.com/package/babel-plugin-add-module-exports
       // may be useful, but I'm not sure and haven't tested it.
-      let currentAnalyzer;
+      let CurrentAnalyzer;
 
       if (x && x.default) {
-        currentAnalyzer = x.default;
-      }
-      else {
-        currentAnalyzer = x;
+        CurrentAnalyzer = x.default;
+      } else {
+        CurrentAnalyzer = x;
       }
 
-      const result = new currentAnalyzer().analyze(text);
+      const result = new CurrentAnalyzer().analyze(text);
 
       const applicableMessages = result.messages.filter(
         message => this.rules.some(rule => rule.matchesCondition(message)));

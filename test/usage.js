@@ -3,7 +3,6 @@ import 'babel-core/register';
 import fs from 'fs';
 
 import MarkdownProofing from '../src/lib/markdown-proofing';
-import AnalyzerResult from '../src/lib/analyzers/analyzer-result';
 import StatisticsAnalyzer from '../src/lib/analyzers/statistics';
 
 const exampleJekyllBlogPost = fs
@@ -11,8 +10,10 @@ const exampleJekyllBlogPost = fs
   .toString();
 
 test('Should read Jekyll markdown blog post string', t => {
-  const result = new MarkdownProofing()
+  new MarkdownProofing()
     .proof(exampleJekyllBlogPost);
+
+  t.pass();
 });
 
 test('Should parse statistics from Jekyll markdown blog post string', t => {

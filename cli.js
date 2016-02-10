@@ -27,6 +27,8 @@ var _markdownProofing2 = _interopRequireDefault(_markdownProofing);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint-disable no-console */
+
 var defaultConfigurationPath = '/.markdown-proofing';
 
 var cli = (0, _meow2.default)({
@@ -40,16 +42,21 @@ var cli = (0, _meow2.default)({
 var input = cli.input || [];
 var flags = cli.flags || {};
 
-if (!input) {
+if (!cli.input || cli.input.length === 0) {
   console.log(cli.help);
+
+  /* eslint-disable no-process-exit */
+
   process.exit(1);
+
+  /* eslint-enable no-process-exit */
 }
 
 //
 // Create markdownProofing using configuration file from disk
 //
 
-var filePath = _appRootPath2.default.resolve(cli.flags.configuration || defaultConfigurationPath);
+var filePath = _appRootPath2.default.resolve(flags.configuration || defaultConfigurationPath);
 
 try {
   _fs2.default.accessSync(filePath, _fs2.default.F_OK);
@@ -66,6 +73,8 @@ var markdownProofing = _markdownProofing2.default.createUsingConfiguration(confi
 
 function processFile(file) {
   _fs2.default.readFile(file, 'utf-8', function (err, data) {
+    if (err) throw err;
+
     var results = markdownProofing.proof(data);
 
     console.log();
@@ -75,7 +84,10 @@ function processFile(file) {
     console.log();
 
     results.messages.forEach(function (message) {
-      if (!cli.flags['no-colors']) {
+      if (!flags['no-colors']) {
+
+        /* eslint-disable indent */
+
         switch (message.type) {
           case 'info':
             console.log(_chalk2.default.blue(message.type + ': ' + message.message));
@@ -89,9 +101,11 @@ function processFile(file) {
           default:
             console.log(message.type + ': ' + message.message);
         }
+
+        /* eslint-enable */
       } else {
-        console.log(message.type + ': ' + message.message);
-      }
+          console.log(message.type + ': ' + message.message);
+        }
     });
   });
 }

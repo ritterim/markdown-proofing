@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 
+/* eslint-disable no-console */
+
 import appRootPath from 'app-root-path';
 import meow from 'meow';
 import chalk from 'chalk';
@@ -27,7 +29,7 @@ const cli = meow({
     '  $ markdown-proofing -c ./custom-configuration.json ./file1.md',
     '  Analyze ./file.md file using ./custom-configuration.json',
     '  $ markdown-proofing **/*.md',
-    '  Analyze all .md files recursively',
+    '  Analyze all .md files recursively'
   ],
   alias: {
     c: 'configuration',
@@ -38,21 +40,25 @@ const cli = meow({
 const input = cli.input || [];
 const flags = cli.flags || {};
 
-if (!input) {
+if (!cli.input || cli.input.length === 0) {
   console.log(cli.help);
+
+/* eslint-disable no-process-exit */
+
   process.exit(1);
+
+/* eslint-enable no-process-exit */
 }
 
 //
 // Create markdownProofing using configuration file from disk
 //
 
-const filePath = appRootPath.resolve(cli.flags.configuration || defaultConfigurationPath);
+const filePath = appRootPath.resolve(flags.configuration || defaultConfigurationPath);
 
 try {
   fs.accessSync(filePath, fs.F_OK);
-}
-catch (e) {
+} catch (e) {
   throw new Error(`Configuration was not found or could not be read from '${filePath}'.`, e);
 }
 
@@ -65,6 +71,8 @@ const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration
 
 function processFile(file) {
   fs.readFile(file, 'utf-8', (err, data) => {
+    if (err) throw err;
+
     const results = markdownProofing.proof(data);
 
     console.log();
@@ -74,7 +82,10 @@ function processFile(file) {
     console.log();
 
     results.messages.forEach(message => {
-      if (!cli.flags['no-colors']) {
+      if (!flags['no-colors']) {
+
+/* eslint-disable indent */
+
         switch (message.type) {
           case 'info':
             console.log(chalk.blue(`${message.type}: ${message.message}`));
@@ -88,8 +99,10 @@ function processFile(file) {
           default:
             console.log(`${message.type}: ${message.message}`);
         }
-      }
-      else {
+
+/* eslint-enable */
+
+      } else {
         console.log(`${message.type}: ${message.message}`);
       }
     });

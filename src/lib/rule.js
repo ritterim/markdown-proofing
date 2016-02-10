@@ -39,17 +39,12 @@ export default class Rule {
       return output;
     }
 
-    throw new Error(`Unable to determine comparision operator from condition '${this.condition}'`);
+    throw new Error(`Unable to determine comparison operator from condition '${this.condition}'`);
   }
 
   _getComparisonValue(condition) {
-    // Order comparisons by length of text strings descending
-    const orderedSupportedOperators = this.supportedOperators
-      .slice()
-      .sort((a, b) => b.length - a.length);
-
     const matches = condition.match(/\d+$/gi);
-    const comparisonValue = new Number(matches[matches.length - 1]);
+    const comparisonValue = Number(matches[matches.length - 1]);
 
     return comparisonValue;
   }
@@ -63,13 +58,21 @@ export default class Rule {
         throw new Error(`Encountered a problem while parsing numeric condition operator: ${operator}`);
       }
 
-      // `0` is a valid comparisionValue value
+/* eslint-disable no-undefined */
+
+      // `0` is a valid comparisonValue value
       if (comparisonValue === undefined || comparisonValue === null) {
-        throw new Error(`Encountered a problem while parsing numeric condition value: ${comparisionValue}`);
+        throw new Error(`Encountered a problem while parsing numeric condition value: ${comparisonValue}`);
       }
+
+/* eslint-enable no-undefined */
+
+/* eslint-disable no-eval */
 
       return analyzerMessage.type === this.messageType
         && eval(`${analyzerMessage.message} ${operator} ${comparisonValue}`);
+
+/* eslint-enable no-eval */
     }
 
     return analyzerMessage.type === this.messageType;

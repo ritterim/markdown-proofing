@@ -99,7 +99,7 @@ test('createUsingConfiguration adds analyzers', t => {
 
   const requireAnalyzerFunction = () => {
     return new StatisticsAnalyzer();
-  }
+  };
 
   const proofing = MarkdownProofing.createUsingConfiguration(configuration, requireAnalyzerFunction);
 
