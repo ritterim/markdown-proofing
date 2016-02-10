@@ -1,3 +1,5 @@
+import Validator from './validator';
+
 export default class Rule {
   constructor(messageType, condition) {
     this.supportedConditionPrefixes = [
@@ -13,6 +15,8 @@ export default class Rule {
       '>=',
       '=='
     ];
+
+    Validator.ensureValidMessageType(messageType);
 
     if (!this.supportedConditionPrefixes.some(x => condition.startsWith(x))) {
       throw new Error(`Unsupported configuration condition: '${condition}'`);
