@@ -141,3 +141,18 @@ test('createUsingConfiguration presets adds preset rules', t => {
 
   t.true(proofing.rules.length > 1);
 });
+
+test('createUsingConfiguration removes rules from preset with none', t => {
+  const configuration = {
+    presets: [
+      'technical-blog'
+    ],
+    rules: {
+      'spelling-error': 'none'
+    }
+  };
+
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, null, 'src/lib/presets/');
+
+  t.false(proofing.rules.some(x => x.messageType === 'spelling-error'));
+});

@@ -37,10 +37,11 @@ There are two core concepts: **Analyzers** and **Rules**.
   - Rules are in the format of `'{{message-type}}': '{{condition}}'`.
     - Example rule: `'statistics-word-count': 'info'`
     - Example rule: `'statistics-flesch-kincaid-reading-ease': 'warning < 40'`
-  - There are **three** kinds for rules, `info`, `warning`, and `error`.
+  - There are **three** kinds for rules, `info`, `warning`, `error`, and `none`.
     - `info` signals to add this to any output. It should show up in build results and any place where messages should be visible.
     - `warning` is a standard *warning*, it shouldn't fail a build.
     - `error` violations should result in a build failure.
+    - `none` is used to override a preset.
   - Rules can have an optional condition, which is applied as `warning < 40` -- it's a `warning` only when the value is less than `40`.
     - This is useful for statistics and other numerical outputs from analyzers.
 
