@@ -80,7 +80,7 @@ export default class Rule {
     } else if (!this.supportedConditionPrefixes.some(x => x === this.condition)) {
       // If non-numeric comparison, ensure matches
       // one of the valid message types exactly.
-      throw new Error(`Invalid condition specified: ${this.condition}`)
+      throw new Error(`Invalid condition specified: ${this.condition}`);
     }
 
     return analyzerMessage.type === this.messageType;
