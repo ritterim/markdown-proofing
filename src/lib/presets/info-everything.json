@@ -1,0 +1,51 @@
+{
+  "analyzers": [
+    "buzzwords",
+    "fillers",
+    "passive-voice",
+    "require-oxford-commas",
+    "sensitivity",
+    "sentiment",
+    "spelling",
+    "statistics",
+    "weasel-words",
+    "write-good"
+  ],
+  "rules": {
+    "buzzword-usage-counts": "info",
+
+    "filler-words-usage-counts": "info",
+
+    "passive-voice-usage-count": "info",
+
+    "missing-oxford-commas": "info",
+
+    "sensitivity-issues-count": "info",
+    "sensitivity-issues-details": "info",
+
+    "sentiment-score": "info",
+    "sentiment-comparative-score": "info",
+
+    "spelling-error": "info",
+
+    "statistics-text-length": "info",
+    "statistics-letter-count": "info",
+    "statistics-sentence-count": "info",
+    "statistics-word-count": "info",
+    "statistics-average-words-per-sentence": "info",
+    "statistics-average-syllables-per-word": "info",
+    "statistics-words-with-three-syllables": "info",
+    "statistics-percentage-words-with-three-syllables": "info",
+    "statistics-flesch-kincaid-reading-ease": "info",
+    "statistics-flesch-kincaid-grade-level": "info",
+    "statistics-gunning-fog-score": "info",
+    "statistics-coleman-liau-index": "info",
+    "statistics-smog-index": "info",
+    "statistics-automated-readability-index": "info",
+
+    "weasel-word-usage-counts": "info",
+
+    "write-good-suggestions-count": "info",
+    "write-good-suggestions-details": "info"
+  }
+}
