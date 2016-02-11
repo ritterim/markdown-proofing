@@ -9,11 +9,7 @@ export default class MarkdownProofing {
   }
 
   // The requireAnalyzerFunction and presetFolder parameters help with testing
-  static createUsingConfiguration(configuration, requireAnalyzerFunction, presetFolder) {
-    if (!presetFolder) {
-      presetFolder = '/lib/presets/';
-    }
-
+  static createUsingConfiguration(configuration, requireAnalyzerFunction, presetFolder = '/lib/presets') {
     const markdownProofing = new MarkdownProofing();
 
     if (configuration.presets) {
