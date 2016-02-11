@@ -72,7 +72,6 @@ An example configuration file might be:
     "sentiment",
     "spelling",
     "statistics",
-    "weasel-words",
     "write-good"
   ],
   "rules": {

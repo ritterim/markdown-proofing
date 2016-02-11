@@ -47,7 +47,6 @@
     "round-to": "^1.1.0",
     "sentiment": "^1.0.6",
     "text-statistics": "^0.1.1",
-    "weasels": "^1.0.0",
     "write-good": "^0.9.1"
   },
   "devDependencies": {

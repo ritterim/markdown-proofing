@@ -8,7 +8,6 @@
     "sentiment",
     "spelling",
     "statistics",
-    "weasel-words",
     "write-good"
   ],
   "rules": {
