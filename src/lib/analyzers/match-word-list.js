@@ -8,7 +8,7 @@ export default class MatchWordListAnalyzer {
 
   analyze(str) {
     const result = new AnalyzerResult();
-    const usages = {};
+    const usages = [];
 
     // Populate usages object with counts of usages
     this.words.forEach(x => {
@@ -17,15 +17,17 @@ export default class MatchWordListAnalyzer {
 
       if (matches && matches.length > 0) {
         const prop = matches[0].toLowerCase();
-        usages[prop] = matches.length;
+
+        usages.push({
+          word: prop,
+          count: matches.length
+        });
       }
     });
 
-    const messageItems = [];
+    usages.sort((a, b) => b.count - a.count);
 
-    for (const usage in usages) {
-      messageItems.push(`${usage}: ${usages[usage]}`);
-    }
+    const messageItems = usages.map(usage => `${usage.word}: ${usage.count}`);
 
     if (messageItems.length > 0) {
       result.addMessage(this.messageType, messageItems.join(', '));
