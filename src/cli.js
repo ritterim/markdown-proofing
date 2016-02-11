@@ -76,9 +76,9 @@ function processFile(file) {
     const results = markdownProofing.proof(data);
 
     console.log();
-    console.log(new Array(file.length).join('-'));
+    console.log(new Array(file.length + 1).join('-'));
     console.log(file);
-    console.log(new Array(file.length).join('-'));
+    console.log(new Array(file.length + 1).join('-'));
     console.log();
 
     results.messages.forEach(message => {
