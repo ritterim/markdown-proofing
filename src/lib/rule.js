@@ -26,7 +26,7 @@ export default class Rule {
     this.condition = condition;
   }
 
-  _getOperator(condition) {
+  _getOperator() {
     // Order comparisons by length of text strings descending
     const orderedSupportedOperators = this.supportedOperators
       .slice()
@@ -34,39 +34,38 @@ export default class Rule {
 
     let output;
     orderedSupportedOperators.forEach(x => {
-      if (condition.includes(x)) {
+      if (this.condition.includes(x)) {
         output = x;
       }
     });
 
-    if (output) {
-      return output;
-    }
-
-    throw new Error(`Unable to determine comparison operator from condition '${this.condition}'`);
+    return output;
   }
 
-  _getComparisonValue(condition) {
-    const matches = condition.match(/\d+$/gi);
+  _getComparisonValue() {
+    const matches = this.condition.match(/\d+$/gi);
     const comparisonValue = Number(matches[matches.length - 1]);
 
     return comparisonValue;
   }
 
   matchesCondition(analyzerMessage) {
-    if (/* isNumericRule: */ this.supportedOperators.some(x => this.condition.includes(x))) {
-      const operator = this._getOperator(this.condition);
-      const comparisonValue = this._getComparisonValue(this.condition);
-
+    // If this rule is a numeric rule
+    // use the operator and comparison value
+    // during the matchesCondition check.
+    if (this.supportedOperators.some(x => this.condition.includes(x))) {
+      const operator = this._getOperator();
       if (!operator) {
-        throw new Error(`Encountered a problem while parsing numeric condition operator: ${operator}`);
+        throw new Error(`Encountered a problem while parsing numeric condition operator from: ${this.condition}`);
       }
+
+      const comparisonValue = this._getComparisonValue();
 
 /* eslint-disable no-undefined */
 
-      // `0` is a valid comparisonValue value
+      // `0` is a valid `comparisonValue` value
       if (comparisonValue === undefined || comparisonValue === null) {
-        throw new Error(`Encountered a problem while parsing numeric condition value: ${comparisonValue}`);
+        throw new Error(`Encountered a problem while parsing numeric condition value from: ${this.condition}`);
       }
 
 /* eslint-enable no-undefined */
@@ -77,6 +76,11 @@ export default class Rule {
         && eval(`${analyzerMessage.message} ${operator} ${comparisonValue}`);
 
 /* eslint-enable no-eval */
+
+    } else if (!this.supportedConditionPrefixes.some(x => x === this.condition)) {
+      // If non-numeric comparison, ensure matches
+      // one of the valid message types exactly.
+      throw new Error(`Invalid condition specified: ${this.condition}`)
     }
 
     return analyzerMessage.type === this.messageType;

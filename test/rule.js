@@ -67,3 +67,14 @@ test('matchesCondition returns false when message type match outside numeric all
 
   t.is(result, false);
 });
+
+test('matchesCondition throws when invalid operator used', t => {
+  const testInvalidCondition = 'error LT 3';
+
+  const analyzerMessage = new AnalyzerMessage(testMessageType, 15);
+  const rule = new Rule(testMessageType, testInvalidCondition);
+
+  t.throws(
+    () => rule.matchesCondition(analyzerMessage),
+    `Invalid condition specified: ${testInvalidCondition}`);
+});
