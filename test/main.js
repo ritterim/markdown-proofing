@@ -97,13 +97,10 @@ test('createUsingConfiguration adds analyzers', t => {
     ]
   };
 
-  const requireAnalyzerFunction = () => {
-    return new StatisticsAnalyzer();
-  };
-
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, requireAnalyzerFunction);
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
 
   t.is(proofing.analyzers.length, 1);
+  t.is(proofing.analyzers.typeof, StatisticsAnalyzer);
 });
 
 test('createUsingConfiguration adds rules', t => {
@@ -113,7 +110,7 @@ test('createUsingConfiguration adds rules', t => {
     }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration);
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
 
   t.is(proofing.rules.length, 1);
 });
@@ -125,7 +122,7 @@ test('createUsingConfiguration presets adds preset analyzers', t => {
     ]
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, null, '/src/lib/presets/');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
 
   t.true(proofing.analyzers.length > 1);
 });
@@ -137,12 +134,12 @@ test('createUsingConfiguration presets adds preset rules', t => {
     ]
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, null, 'src/lib/presets/');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
 
   t.true(proofing.rules.length > 1);
 });
 
-test('createUsingConfiguration removes rules from preset with none', t => {
+test.only('createUsingConfiguration removes rules from preset with none', t => {
   const configuration = {
     presets: [
       'technical-blog'
@@ -152,7 +149,7 @@ test('createUsingConfiguration removes rules from preset with none', t => {
     }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, null, 'src/lib/presets/');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
 
   t.false(proofing.rules.some(x => x.messageType === 'spelling-error'));
 });

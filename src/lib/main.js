@@ -8,33 +8,30 @@ export default class MarkdownProofing {
     this.rules = [];
   }
 
-  // The requireAnalyzerFunction and presetFolder parameters help with testing
-  static createUsingConfiguration(configuration, requireAnalyzerFunction, presetFolder = '/lib/presets') {
+  // The `rootFolder` parameter helps with testing
+  static createUsingConfiguration(configuration, rootFolder = '/lib') {
     const markdownProofing = new MarkdownProofing();
 
     if (configuration.presets) {
       configuration.presets.forEach(x => {
-        const presetFilePath = appRootPath.resolve(presetFolder + `${x}.json`);
+        const presetFilePath = appRootPath.resolve(`${rootFolder}/presets/${x}.json`);
         const presetConfiguration = JSON.parse(fs.readFileSync(presetFilePath, 'utf-8'));
 
         this.addAssetsToInstance(
-          markdownProofing, presetConfiguration, requireAnalyzerFunction);
+          markdownProofing, presetConfiguration, rootFolder);
       });
     }
 
     this.addAssetsToInstance(
-      markdownProofing, configuration, requireAnalyzerFunction);
+      markdownProofing, configuration, rootFolder);
 
     return markdownProofing;
   }
 
-  static addAssetsToInstance(markdownProofing, configuration, requireAnalyzerFunction) {
+  static addAssetsToInstance(markdownProofing, configuration, rootFolder) {
     if (configuration.analyzers) {
       configuration.analyzers.forEach(x => {
-        const analyzer = requireAnalyzerFunction
-          ? requireAnalyzerFunction()
-          : require(appRootPath.resolve(`lib/analyzers/${x}.js`));
-
+        const analyzer = require(appRootPath.resolve(`${rootFolder}/analyzers/${x}.js`));
         markdownProofing.addAnalyzer(analyzer);
       });
     }
