@@ -85,10 +85,13 @@ function processFile(file) {
 
     results.messages.forEach(function (message) {
       if (!flags['no-colors']) {
+        var ruleCondition = markdownProofing.rules.find(function (x) {
+          return x.messageType === message.type;
+        }).condition;
 
         /* eslint-disable indent */
 
-        switch (message.type) {
+        switch (ruleCondition) {
           case 'info':
             console.log(_chalk2.default.blue(message.type + ': ' + message.message));
             break;

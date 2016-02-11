@@ -83,10 +83,14 @@ function processFile(file) {
 
     results.messages.forEach(message => {
       if (!flags['no-colors']) {
+        const ruleCondition = markdownProofing
+          .rules
+          .find(x => x.messageType === message.type)
+          .condition;
 
 /* eslint-disable indent */
 
-        switch (message.type) {
+        switch (ruleCondition) {
           case 'info':
             console.log(chalk.blue(`${message.type}: ${message.message}`));
             break;
