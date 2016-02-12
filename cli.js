@@ -95,9 +95,9 @@ function processFile(file) {
           return x.messageType === message.type;
         }).condition;
 
-        console.log(colorsLookup[ruleCondition](message.type + ': ' + message.message));
+        console.log(colorsLookup[ruleCondition](message.type + ': ' + message.text));
       } else {
-        console.log(message.type + ': ' + message.message);
+        console.log(message.type + ': ' + message.text);
       }
     });
   });
