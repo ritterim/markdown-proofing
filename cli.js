@@ -84,7 +84,12 @@ function processFile(file) {
     console.log();
 
     results.messages.forEach(function (message) {
+
+      /* eslint-disable no-undefined */
+
       var location = message.line !== undefined && message.offset !== undefined ? ' (' + message.line + ', ' + message.offset + ')' : '';
+
+      /* eslint-enable no-undefined */
 
       var messageTemplate = '' + message.type + location + ': ' + message.text;
 
