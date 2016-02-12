@@ -5,8 +5,8 @@ export default class AnalyzerResult {
     this.messages = [];
   }
 
-  addMessage(type, message) {
-    this.messages.push(new AnalyzerMessage(type, message));
+  addMessage(type, message, line, offset) {
+    this.messages.push(new AnalyzerMessage(type, message, line, offset));
   }
 
   getMessage(type) {
