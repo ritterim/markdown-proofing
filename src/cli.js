@@ -82,6 +82,12 @@ function processFile(file) {
     console.log();
 
     results.messages.forEach(message => {
+      const location = (message.line !== undefined && message.offset !== undefined)
+        ? ` (${message.line}, ${message.offset})`
+        : '';
+
+      const messageTemplate = `${message.type}${location}: ${message.text}`;
+
       if (!flags['no-colors']) {
         const colorsLookup = {
           info: chalk.blue,
@@ -94,9 +100,9 @@ function processFile(file) {
           .find(x => x.messageType === message.type)
           .condition;
 
-        console.log(colorsLookup[ruleCondition](`${message.type}: ${message.text}`));
+        console.log(colorsLookup[ruleCondition](messageTemplate));
       } else {
-        console.log(`${message.type}: ${message.text}`);
+        console.log(messageTemplate);
       }
     });
   });

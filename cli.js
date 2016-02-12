@@ -84,6 +84,10 @@ function processFile(file) {
     console.log();
 
     results.messages.forEach(function (message) {
+      var location = message.line !== undefined && message.offset !== undefined ? ' (' + message.line + ', ' + message.offset + ')' : '';
+
+      var messageTemplate = '' + message.type + location + ': ' + message.text;
+
       if (!flags['no-colors']) {
         var colorsLookup = {
           info: _chalk2.default.blue,
@@ -95,9 +99,9 @@ function processFile(file) {
           return x.messageType === message.type;
         }).condition;
 
-        console.log(colorsLookup[ruleCondition](message.type + ': ' + message.text));
+        console.log(colorsLookup[ruleCondition](messageTemplate));
       } else {
-        console.log(message.type + ': ' + message.text);
+        console.log(messageTemplate);
       }
     });
   });
