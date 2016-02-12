@@ -17,5 +17,5 @@ test('Uses expected buzzwords', t => {
 
   const result = new BuzzwordsAnalyzer().analyze(text);
 
-  t.is(result.getMessage(messageType).message, 'ajax: 1');
+  t.is(result.getMessage(messageType).text, 'ajax: 1');
 });

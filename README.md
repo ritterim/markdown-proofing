@@ -30,7 +30,7 @@ There are two core concepts: **Analyzers** and **Rules**.
 
 - **Analyzers** *process the text!*
   - Analyzers parse a markdown text string and return an `AnalyzerResult`, which includes a collection of `AnalyzerMessage` objects.
-    - `AnalyzerMessage`'s are simply `{ type: String, message: String }`.
+    - `AnalyzerMessage`'s are `{ type: String, text: String, line: Number, offset: Number }`.
   - There are useful analyzers built-in and ready for use. Custom analyzers are supported as well.
 - **Rules** *react to analyzers!*
   - These react to the output of the configured analyzers. Without any rules, the output of the analyzers is not surfaced to the user or applied in any way. So, you'll need some rules!

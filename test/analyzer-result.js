@@ -10,7 +10,7 @@ test('addMessage adds expected message', t => {
 
   result.addMessage(testMessageType, testMessageText);
 
-  t.is(result.getMessage(testMessageType).message, testMessageText);
+  t.is(result.getMessage(testMessageType).text, testMessageText);
 
   // TODO: Add tests for line and offset after changing what getMessage returns
 });
@@ -30,7 +30,7 @@ test('getMessage returns expected message text if it exists', t => {
   const result = new AnalyzerResult();
   result.addMessage(testMessageType, testMessageText);
 
-  const message = result.getMessage(testMessageType).message;
+  const messageText = result.getMessage(testMessageType).text;
 
-  t.is(message, testMessageText);
+  t.is(messageText, testMessageText);
 });

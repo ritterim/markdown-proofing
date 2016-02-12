@@ -11,18 +11,18 @@ test('Constructor sets type', t => {
   t.is(result.type, testType);
 });
 
-test('Constructor sets message', t => {
-  const testMessage = 'Test message.';
+test('Constructor sets text', t => {
+  const testText = 'Test text.';
 
-  const result = new AnalyzerMessage('test-type-1', testMessage);
+  const result = new AnalyzerMessage('test-type-1', testText);
 
-  t.is(result.message, testMessage);
+  t.is(result.text, testText);
 });
 
 test('Constructor sets line', t => {
   const testLine = 2;
 
-  const result = new AnalyzerMessage('test-type-1', 'Test message.', testLine);
+  const result = new AnalyzerMessage('test-type-1', 'Test text.', testLine);
 
   t.is(result.line, testLine);
 });
@@ -30,7 +30,7 @@ test('Constructor sets line', t => {
 test('Constructor sets offset', t => {
   const testOffset = 7;
 
-  const result = new AnalyzerMessage('test-type-1', 'Test message.', 2, testOffset);
+  const result = new AnalyzerMessage('test-type-1', 'Test text.', 2, testOffset);
 
   t.is(result.offset, testOffset);
 });

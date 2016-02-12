@@ -88,7 +88,7 @@ export default class MarkdownProofing {
         message => this.rules.some(rule => rule.matchesCondition(message)));
 
       applicableMessages.forEach(
-        y => analyzerMessages.push({ type: y.type, message: y.message }));
+        y => analyzerMessages.push({ type: y.type, text: y.text }));
     });
 
     analyzerMessages.sort((a, b) => a.type.localeCompare(b.type));

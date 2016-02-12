@@ -17,5 +17,5 @@ test('Uses expected fillers', t => {
 
   const result = new FillersAnalyzer().analyze(text);
 
-  t.is(result.getMessage(messageType).message, 'actual: 1');
+  t.is(result.getMessage(messageType).text, 'actual: 1');
 });

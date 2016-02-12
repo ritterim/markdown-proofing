@@ -1,11 +1,11 @@
 import Validator from './validator';
 
 export default class AnalyzerMessage {
-  constructor(type, message, line, offset) {
+  constructor(type, text, line, offset) {
     Validator.ensureValidMessageType(type);
 
     this.type = type;
-    this.message = message;
+    this.text = text;
     this.line = line;
     this.offset = offset;
   }

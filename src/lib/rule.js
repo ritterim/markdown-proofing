@@ -73,7 +73,7 @@ export default class Rule {
 /* eslint-disable no-eval */
 
       return analyzerMessage.type === this.messageType
-        && eval(`${analyzerMessage.message} ${operator} ${comparisonValue}`);
+        && eval(`${analyzerMessage.text} ${operator} ${comparisonValue}`);
 
 /* eslint-enable no-eval */
 
