@@ -1,7 +1,7 @@
 import test from 'ava';
 import 'babel-core/register';
 
-import AnalyzerResult from '../../src/lib/analyzer-result';
+import AnalyzerResult from '../src/lib/analyzer-result';
 
 test('addMessage adds expected message', t => {
   const testMessageType = 'test';
