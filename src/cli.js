@@ -83,29 +83,18 @@ function processFile(file) {
 
     results.messages.forEach(message => {
       if (!flags['no-colors']) {
+        const colorsLookup = {
+          info: chalk.blue,
+          warning: chalk.yellow,
+          error: chalk.red
+        };
+
         const ruleCondition = markdownProofing
           .rules
           .find(x => x.messageType === message.type)
           .condition;
 
-/* eslint-disable indent */
-
-        switch (ruleCondition) {
-          case 'info':
-            console.log(chalk.blue(`${message.type}: ${message.message}`));
-            break;
-          case 'warning':
-            console.log(chalk.yellow(`${message.type}: ${message.message}`));
-            break;
-          case 'error':
-            console.log(chalk.red(`${message.type}: ${message.message}`));
-            break;
-          default:
-            console.log(`${message.type}: ${message.message}`);
-        }
-
-/* eslint-enable */
-
+        console.log(colorsLookup[ruleCondition](`${message.type}: ${message.message}`));
       } else {
         console.log(`${message.type}: ${message.message}`);
       }

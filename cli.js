@@ -85,30 +85,20 @@ function processFile(file) {
 
     results.messages.forEach(function (message) {
       if (!flags['no-colors']) {
+        var colorsLookup = {
+          info: _chalk2.default.blue,
+          warning: _chalk2.default.yellow,
+          error: _chalk2.default.red
+        };
+
         var ruleCondition = markdownProofing.rules.find(function (x) {
           return x.messageType === message.type;
         }).condition;
 
-        /* eslint-disable indent */
-
-        switch (ruleCondition) {
-          case 'info':
-            console.log(_chalk2.default.blue(message.type + ': ' + message.message));
-            break;
-          case 'warning':
-            console.log(_chalk2.default.yellow(message.type + ': ' + message.message));
-            break;
-          case 'error':
-            console.log(_chalk2.default.red(message.type + ': ' + message.message));
-            break;
-          default:
-            console.log(message.type + ': ' + message.message);
-        }
-
-        /* eslint-enable */
+        console.log(colorsLookup[ruleCondition](message.type + ': ' + message.message));
       } else {
-          console.log(message.type + ': ' + message.message);
-        }
+        console.log(message.type + ': ' + message.message);
+      }
     });
   });
 }
