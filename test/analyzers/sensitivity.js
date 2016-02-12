@@ -3,54 +3,52 @@ import 'babel-core/register';
 
 import SensitivityAnalyzer from '../../src/lib/analyzers/sensitivity';
 
-test('Should return one message when no issues found', t => {
+test('Should return no messages when no issues found', t => {
   const text = 'Hi!';
 
   const result = new SensitivityAnalyzer().analyze(text);
 
-  t.is(result.messages.length, 1);
+  t.is(result.messages.length, 0);
 });
 
-test('Should return expected sensitivity-issues-count for no issues found', t => {
-  const text = 'Hi!';
-
-  const result = new SensitivityAnalyzer().analyze(text);
-
-  t.is(result.getMessage('sensitivity-issues-count').text, 0);
-});
-
-test('Should return expected sensitivity-issues-count for single usage of pop, rather than parent', t => {
-  const text = 'Someone asked pop what time it is.';
-
-  const result = new SensitivityAnalyzer().analyze(text);
-
-  t.is(result.getMessage('sensitivity-issues-count').text, 1);
-});
-
-test('Should return expected sensitivity-issues-details for single usage of pop, rather than parent', t => {
+test('Should return expected text for single usage', t => {
   const text = 'Someone asked pop what time it is.';
 
   const result = new SensitivityAnalyzer().analyze(text);
 
   t.is(
-    result.getMessage('sensitivity-issues-details').text,
+    result.getMessage('sensitivity').text,
     '`pop` may be insensitive, use `parent` instead');
 });
 
-test('Should return expected sensitivity-issues-count for multiple usages of pop, rather than parent', t => {
+test('Should return expected text for multiple usages', t => {
   const text = 'Someone asked pop what time it is. Someone asked pop what time it is.';
 
   const result = new SensitivityAnalyzer().analyze(text);
 
-  t.is(result.getMessage('sensitivity-issues-count').text, 2);
-});
-
-test('Should return expected sensitivity-issues-details for multiple usages of pop, rather than parent', t => {
-  const text = 'Someone asked pop what time it is. Someone asked pop what time it is.';
-
-  const result = new SensitivityAnalyzer().analyze(text);
+  t.is(result.messages.length, 2);
 
   t.is(
-    result.getMessage('sensitivity-issues-details').text,
-    '`pop` may be insensitive, use `parent` instead, `pop` may be insensitive, use `parent` instead');
+    result.messages[0].text,
+    '`pop` may be insensitive, use `parent` instead');
+
+  t.is(
+    result.messages[1].text,
+    '`pop` may be insensitive, use `parent` instead');
+});
+
+test('Should return expected line number', t => {
+  const text = '\n\nSomeone asked pop what time it is.';
+
+  const result = new SensitivityAnalyzer().analyze(text);
+
+  t.is(result.getMessage('sensitivity').line, 3);
+});
+
+test('Should return expected offset', t => {
+  const text = 'Someone asked pop what time it is.';
+
+  const result = new SensitivityAnalyzer().analyze(text);
+
+  t.is(result.getMessage('sensitivity').offset, 14);
 });

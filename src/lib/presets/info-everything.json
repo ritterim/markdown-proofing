@@ -19,8 +19,7 @@
 
     "missing-oxford-commas": "info",
 
-    "sensitivity-issues-count": "info",
-    "sensitivity-issues-details": "info",
+    "sensitivity": "info",
 
     "sentiment-score": "info",
     "sentiment-comparative-score": "info",

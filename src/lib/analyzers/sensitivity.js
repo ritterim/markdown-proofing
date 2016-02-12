@@ -7,15 +7,13 @@ export default class SensitivityAnalyzer {
 
     const alexResult = alex.markdown(str);
 
-    result.addMessage(
-      'sensitivity-issues-count',
-      alexResult.messages.length);
-
-    if (alexResult.messages.length > 0) {
+    alexResult.messages.forEach(x => {
       result.addMessage(
-        'sensitivity-issues-details',
-        alexResult.messages.map(x => x.message).join(', '));
-    }
+        'sensitivity',
+        x.message,
+        x.line,
+        x.column - 1);
+    });
 
     return result;
   }
