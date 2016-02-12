@@ -16,7 +16,7 @@ test('Should return expected write-good-suggestions-count for no issues found', 
 
   const result = new WriteGoodAnalyzer().analyze(text);
 
-  t.is(result.getMessage('write-good-suggestions-count'), 0);
+  t.is(result.getMessage('write-good-suggestions-count').message, 0);
 });
 
 test('Should return expected write-good-suggestions-count for repeated word', t => {
@@ -24,7 +24,7 @@ test('Should return expected write-good-suggestions-count for repeated word', t 
 
   const result = new WriteGoodAnalyzer().analyze(text);
 
-  t.is(result.getMessage('write-good-suggestions-count'), 1);
+  t.is(result.getMessage('write-good-suggestions-count').message, 1);
 });
 
 test('Should return expected write-good-suggestions-details for repeated word', t => {
@@ -33,7 +33,7 @@ test('Should return expected write-good-suggestions-details for repeated word', 
   const result = new WriteGoodAnalyzer().analyze(text);
 
   t.is(
-    result.getMessage('write-good-suggestions-details'),
+    result.getMessage('write-good-suggestions-details').message,
     '"the" is repeated');
 });
 
@@ -42,7 +42,7 @@ test('Should return expected write-good-suggestions-count for multiple repeated 
 
   const result = new WriteGoodAnalyzer().analyze(text);
 
-  t.is(result.getMessage('write-good-suggestions-count'), 2);
+  t.is(result.getMessage('write-good-suggestions-count').message, 2);
 });
 
 test('Should return expected write-good-suggestions-details for multiple repeated words', t => {
@@ -51,6 +51,6 @@ test('Should return expected write-good-suggestions-details for multiple repeate
   const result = new WriteGoodAnalyzer().analyze(text);
 
   t.is(
-    result.getMessage('write-good-suggestions-details'),
+    result.getMessage('write-good-suggestions-details').message,
     '"the" is repeated, "test" is repeated');
 });

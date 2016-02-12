@@ -25,5 +25,5 @@ test('Returns missing-oxford-commas', t => {
   const result = new RequireOxfordCommasAnalyzer().analyze(text);
 
   t.is(result.messages.length, 1);
-  t.is(result.getMessage('missing-oxford-commas'), 'One or more Oxford commas are missing.');
+  t.is(result.getMessage('missing-oxford-commas').message, 'One or more Oxford commas are missing.');
 });

@@ -26,7 +26,7 @@ test('Expected message when one match words used', t => {
   const result = new TestMatchWordListAnalyzer(['apple'])
     .analyze(text);
 
-  t.is(result.getMessage(messageType), 'apple: 1');
+  t.is(result.getMessage(messageType).message, 'apple: 1');
 });
 
 test('Expected message when same match word used more than once', t => {
@@ -35,7 +35,7 @@ test('Expected message when same match word used more than once', t => {
   const result = new TestMatchWordListAnalyzer(['apple'])
     .analyze(text);
 
-  t.is(result.getMessage(messageType), 'apple: 2');
+  t.is(result.getMessage(messageType).message, 'apple: 2');
 });
 
 test('Expected message when multiple match words used', t => {
@@ -44,7 +44,7 @@ test('Expected message when multiple match words used', t => {
   const result = new TestMatchWordListAnalyzer(['apple', 'orange'])
     .analyze(text);
 
-  t.is(result.getMessage(messageType), 'apple: 1, orange: 1');
+  t.is(result.getMessage(messageType).message, 'apple: 1, orange: 1');
 });
 
 test('Displays match words by usage count then alphabetically ', t => {
@@ -52,7 +52,7 @@ test('Displays match words by usage count then alphabetically ', t => {
 
   const result = new TestMatchWordListAnalyzer(['apple', 'orange', 'watermelon']).analyze(text);
 
-  t.is(result.getMessage(messageType), 'orange: 2, watermelon: 2, apple: 1');
+  t.is(result.getMessage(messageType).message, 'orange: 2, watermelon: 2, apple: 1');
 });
 
 test('Matches match words in a case insensitive manner', t => {
@@ -61,5 +61,5 @@ test('Matches match words in a case insensitive manner', t => {
   const result = new TestMatchWordListAnalyzer(['apple'])
     .analyze(text);
 
-  t.is(result.getMessage(messageType), 'apple: 1');
+  t.is(result.getMessage(messageType).message, 'apple: 1');
 });

@@ -9,5 +9,5 @@ test('Returns spelling-error for one spelling error', t => {
   const result = new SpellingAnalyzer().analyze(text);
 
   t.is(result.messages.length, 1);
-  t.is(result.getMessage('spelling-error'), `'${text}' does not match a known dictionary word.`);
+  t.is(result.getMessage('spelling-error').message, `'${text}' does not match a known dictionary word.`);
 });

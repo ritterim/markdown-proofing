@@ -10,12 +10,6 @@ export default class AnalyzerResult {
   }
 
   getMessage(type) {
-    const analyzerMessage = this.messages.find(x => x.type === type);
-
-    if (analyzerMessage) {
-      return analyzerMessage.message;
-    }
-
-    return null;
+    return this.messages.find(x => x.type === type) || null;
   }
 }

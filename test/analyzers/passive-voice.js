@@ -16,7 +16,7 @@ test('Expected message when passive voice is used once', t => {
 
   const result = new PassiveVoiceAnalyzer().analyze(text);
 
-  t.is(result.getMessage('passive-voice-usage-count'), 1);
+  t.is(result.getMessage('passive-voice-usage-count').message, 1);
 });
 
 test('Expected message when passive voice is used more than once', t => {
@@ -24,5 +24,5 @@ test('Expected message when passive voice is used more than once', t => {
 
   const result = new PassiveVoiceAnalyzer().analyze(text);
 
-  t.is(result.getMessage('passive-voice-usage-count'), 2);
+  t.is(result.getMessage('passive-voice-usage-count').message, 2);
 });

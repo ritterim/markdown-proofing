@@ -16,7 +16,7 @@ test('Should return expected sensitivity-issues-count for no issues found', t =>
 
   const result = new SensitivityAnalyzer().analyze(text);
 
-  t.is(result.getMessage('sensitivity-issues-count'), 0);
+  t.is(result.getMessage('sensitivity-issues-count').message, 0);
 });
 
 test('Should return expected sensitivity-issues-count for single usage of pop, rather than parent', t => {
@@ -24,7 +24,7 @@ test('Should return expected sensitivity-issues-count for single usage of pop, r
 
   const result = new SensitivityAnalyzer().analyze(text);
 
-  t.is(result.getMessage('sensitivity-issues-count'), 1);
+  t.is(result.getMessage('sensitivity-issues-count').message, 1);
 });
 
 test('Should return expected sensitivity-issues-details for single usage of pop, rather than parent', t => {
@@ -33,7 +33,7 @@ test('Should return expected sensitivity-issues-details for single usage of pop,
   const result = new SensitivityAnalyzer().analyze(text);
 
   t.is(
-    result.getMessage('sensitivity-issues-details'),
+    result.getMessage('sensitivity-issues-details').message,
     '`pop` may be insensitive, use `parent` instead');
 });
 
@@ -42,7 +42,7 @@ test('Should return expected sensitivity-issues-count for multiple usages of pop
 
   const result = new SensitivityAnalyzer().analyze(text);
 
-  t.is(result.getMessage('sensitivity-issues-count'), 2);
+  t.is(result.getMessage('sensitivity-issues-count').message, 2);
 });
 
 test('Should return expected sensitivity-issues-details for multiple usages of pop, rather than parent', t => {
@@ -51,6 +51,6 @@ test('Should return expected sensitivity-issues-details for multiple usages of p
   const result = new SensitivityAnalyzer().analyze(text);
 
   t.is(
-    result.getMessage('sensitivity-issues-details'),
+    result.getMessage('sensitivity-issues-details').message,
     '`pop` may be insensitive, use `parent` instead, `pop` may be insensitive, use `parent` instead');
 });
