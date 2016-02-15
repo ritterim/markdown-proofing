@@ -5,7 +5,11 @@ import AnalyzerResult from '../analyzer-result';
 export default class StatisticsAnalyzer {
   analyze(str) {
     const result = new AnalyzerResult();
-    const stats = textStatistics(str);
+
+    const strNoYamlFrontMatter = str.replace(/^\n*-{3}(.|\n)*-{3}\n*/, '');
+
+    const stats = textStatistics(strNoYamlFrontMatter || new String());
+    const statsFullTextContent = textStatistics(str);
 
     const addMessage = (messageType, numericValue) => {
       result.addMessage(messageType, roundTo(numericValue, 2));
@@ -15,7 +19,7 @@ export default class StatisticsAnalyzer {
     // General statistics
     //
 
-    addMessage('statistics-text-length', stats.textLength());
+    addMessage('statistics-text-length', statsFullTextContent.textLength());
     addMessage('statistics-letter-count', stats.letterCount());
     addMessage('statistics-sentence-count', stats.sentenceCount());
     addMessage('statistics-word-count', stats.wordCount());
