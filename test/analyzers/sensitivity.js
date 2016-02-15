@@ -52,3 +52,11 @@ test('Should return expected offset', t => {
 
   t.is(result.getMessage('sensitivity').offset, 14);
 });
+
+test('Should return expected offset when potential issue not on first line', t => {
+  const text = 'This is a test.\n\nSomeone asked pop what time it is.';
+
+  const result = new SensitivityAnalyzer().analyze(text);
+
+  t.is(result.getMessage('sensitivity').offset, 14);
+});
