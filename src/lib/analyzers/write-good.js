@@ -7,16 +7,31 @@ export default class WriteGoodAnalyzer {
 
     const suggestions = writeGood(str);
 
-    result.addMessage(
-      'write-good-suggestions-count',
-      suggestions.length);
-
-    if (suggestions.length > 0) {
+    suggestions.forEach(x => {
       result.addMessage(
-        'write-good-suggestions-details',
-        suggestions.map(x => x.reason).join(', '));
-    }
+        'write-good-suggestion',
+        x.reason,
+        WriteGoodAnalyzer.getLine(str, x.index),
+        WriteGoodAnalyzer.getLineOffset(str, x.index));
+    });
 
     return result;
+  }
+
+  static getLine(str, index) {
+    const strPriorToIndex = str.substr(0, index);
+    const matchNewLines = strPriorToIndex.match(/\n/g);
+
+    if (matchNewLines && matchNewLines.length > 0) {
+      return matchNewLines.length + 1;
+    }
+
+    return index;
+  }
+
+  static getLineOffset(str, index) {
+    const strPriorToIndex = str.substr(0, index);
+    const lastNewLineIndex = strPriorToIndex.lastIndexOf('\n');
+    return index - lastNewLineIndex - 1;
   }
 }
