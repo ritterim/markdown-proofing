@@ -45,6 +45,12 @@ There are two core concepts: **Analyzers** and **Rules**.
   - Rules can have an optional condition, which is applied as `warning < 40` -- it's a `warning` only when the value is less than `40`.
     - This is useful for statistics and other numerical outputs from analyzers.
 
+## Spellcheck
+
+The `SpellingAnalyzer` implements [markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck). This package uses a `.spelling` file for permitting unrecognized text.
+
+[markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck) also includes an interactive CLI, which you can use to interactively fix spelling and update the `.spelling` file as necessary. You may find this useful.
+
 ## TODO
 
 There are built-in presets for analyzers and rules. Or, you can supply your own -- optionally extending a preset!
