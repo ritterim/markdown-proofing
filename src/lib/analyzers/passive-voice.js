@@ -7,9 +7,7 @@ export default class PassiveVoiceAnalyzer {
 
     const passiveResult = passive(str/* , { by: true } */);
 
-    if (passiveResult.length > 0) {
-      result.addMessage('passive-voice-usage-count', passiveResult.length);
-    }
+    result.addMessage('passive-voice-usage-count', passiveResult.length);
 
     return result;
   }
