@@ -1,4 +1,5 @@
 import AnalyzerResult from '../analyzer-result';
+import Location from '../location';
 import writeGood from 'write-good';
 
 export default class WriteGoodAnalyzer {
@@ -11,27 +12,12 @@ export default class WriteGoodAnalyzer {
       result.addMessage(
         'write-good-suggestion',
         x.reason,
-        WriteGoodAnalyzer.getLine(str, x.index),
-        WriteGoodAnalyzer.getLineOffset(str, x.index));
+        Location.getLine(str, x.index),
+        Location.getLineOffset(str, x.index));
     });
 
     return result;
   }
 
-  static getLine(str, index) {
-    const strPriorToIndex = str.substr(0, index);
-    const matchNewLines = strPriorToIndex.match(/\n/g);
 
-    if (matchNewLines && matchNewLines.length > 0) {
-      return matchNewLines.length + 1;
-    }
-
-    return index;
-  }
-
-  static getLineOffset(str, index) {
-    const strPriorToIndex = str.substr(0, index);
-    const lastNewLineIndex = strPriorToIndex.lastIndexOf('\n');
-    return index - lastNewLineIndex - 1;
-  }
 }

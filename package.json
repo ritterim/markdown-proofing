@@ -43,6 +43,7 @@
     "ensure-oxford-commas": "^0.1.0",
     "fillers": "^1.0.0",
     "glob": "^6.0.4",
+    "markdown-spellcheck": "^0.9.0",
     "meow": "^3.7.0",
     "passive-voice": "^0.1.0",
     "round-to": "^1.1.0",
