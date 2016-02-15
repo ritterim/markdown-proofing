@@ -85,13 +85,13 @@ function processFile(file) {
 
 /* eslint-disable no-undefined */
 
-      const location = (message.line !== undefined && message.offset !== undefined)
-        ? ` (${message.line}, ${message.offset})`
+      const location = (message.line !== undefined && message.column !== undefined)
+        ? ` (${message.line}:${message.column})`
         : '';
 
 /* eslint-enable no-undefined */
 
-      const messageTemplate = `${message.type}${location}: ${message.text}`;
+      const messageTemplate = `${message.type}${location} : ${message.text}`;
 
       if (!flags['no-colors']) {
         const colorsLookup = {

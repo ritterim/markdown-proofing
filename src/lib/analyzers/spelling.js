@@ -22,7 +22,7 @@ export default class SpellingAnalyzer {
         'spelling-error',
         x.word,
         Location.getLine(str, x.index),
-        Location.getLineOffset(str, x.index));
+        Location.getLineColumn(str, x.index));
     });
 
     return result;

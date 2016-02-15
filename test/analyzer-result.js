@@ -12,7 +12,7 @@ test('addMessage adds expected message', t => {
 
   t.is(result.getMessage(testMessageType).text, testMessageText);
 
-  // TODO: Add tests for line and offset after changing what getMessage returns
+  // TODO: Add tests for line and column after changing what getMessage returns
 });
 
 test('getMessage returns null if message type does not exist', t => {

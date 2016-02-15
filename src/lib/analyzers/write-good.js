@@ -13,11 +13,9 @@ export default class WriteGoodAnalyzer {
         'write-good-suggestion',
         x.reason,
         Location.getLine(str, x.index),
-        Location.getLineOffset(str, x.index));
+        Location.getLineColumn(str, x.index));
     });
 
     return result;
   }
-
-
 }

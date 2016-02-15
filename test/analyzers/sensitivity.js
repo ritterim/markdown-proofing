@@ -45,18 +45,18 @@ test('Should return expected line number', t => {
   t.is(result.getMessage('sensitivity').line, 3);
 });
 
-test('Should return expected offset', t => {
+test('Should return expected column', t => {
   const text = 'Someone asked pop what time it is.';
 
   const result = new SensitivityAnalyzer().analyze(text);
 
-  t.is(result.getMessage('sensitivity').offset, 14);
+  t.is(result.getMessage('sensitivity').column, 15);
 });
 
-test('Should return expected offset when potential issue not on first line', t => {
+test('Should return expected column when potential issue not on first line', t => {
   const text = 'This is a test.\n\nSomeone asked pop what time it is.';
 
   const result = new SensitivityAnalyzer().analyze(text);
 
-  t.is(result.getMessage('sensitivity').offset, 14);
+  t.is(result.getMessage('sensitivity').column, 15);
 });

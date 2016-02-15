@@ -12,7 +12,7 @@ export default class SensitivityAnalyzer {
         'sensitivity',
         x.message,
         x.line,
-        x.column - 1);
+        x.column);
     });
 
     return result;

@@ -10,9 +10,9 @@ export default class Location {
     return index;
   }
 
-  static getLineOffset(str, index) {
+  static getLineColumn(str, index) {
     const strPriorToIndex = str.substr(0, index);
     const lastNewLineIndex = strPriorToIndex.lastIndexOf('\n');
-    return index - lastNewLineIndex - 1;
+    return index - lastNewLineIndex;
   }
 }

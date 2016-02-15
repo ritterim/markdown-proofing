@@ -27,12 +27,12 @@ test('Constructor sets line', t => {
   t.is(result.line, testLine);
 });
 
-test('Constructor sets offset', t => {
-  const testOffset = 7;
+test('Constructor sets column', t => {
+  const testColumn = 7;
 
-  const result = new AnalyzerMessage('test-type-1', 'Test text.', 2, testOffset);
+  const result = new AnalyzerMessage('test-type-1', 'Test text.', 2, testColumn);
 
-  t.is(result.offset, testOffset);
+  t.is(result.column, testColumn);
 });
 
 test('Constructor throws for invalid type', t => {

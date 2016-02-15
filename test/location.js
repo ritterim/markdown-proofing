@@ -18,7 +18,7 @@ test.`;
   t.is(result, 4);
 });
 
-test('Should return expected line offset', t => {
+test('Should return expected line column', t => {
   const testText = `1
 2
 3
@@ -28,7 +28,7 @@ is
 a
 test.`;
 
-  const result = Location.getLineOffset(testText, /* index: */ 21);
+  const result = Location.getLineColumn(testText, /* index: */ 21);
 
-  t.is(result, 15);
+  t.is(result, 16);
 });

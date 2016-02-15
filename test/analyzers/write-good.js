@@ -47,7 +47,7 @@ test.`;
   t.is(result.getMessage('write-good-suggestion').line, 4);
 });
 
-test('Should return expected offset', t => {
+test('Should return expected column', t => {
   const testText = `1
 2
 3
@@ -59,5 +59,5 @@ test.`;
 
   const result = new WriteGoodAnalyzer().analyze(testText);
 
-  t.is(result.getMessage('write-good-suggestion').offset, 15);
+  t.is(result.getMessage('write-good-suggestion').column, 16);
 });

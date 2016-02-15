@@ -91,7 +91,7 @@ export default class MarkdownProofing {
         type: y.type,
         text: y.text,
         line: y.line,
-        offset: y.offset
+        column: y.column
       }));
     });
 

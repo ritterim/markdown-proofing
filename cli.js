@@ -87,11 +87,11 @@ function processFile(file) {
 
       /* eslint-disable no-undefined */
 
-      var location = message.line !== undefined && message.offset !== undefined ? ' (' + message.line + ', ' + message.offset + ')' : '';
+      var location = message.line !== undefined && message.column !== undefined ? ' (' + message.line + ':' + message.column + ')' : '';
 
       /* eslint-enable no-undefined */
 
-      var messageTemplate = '' + message.type + location + ': ' + message.text;
+      var messageTemplate = '' + message.type + location + ' : ' + message.text;
 
       if (!flags['no-colors']) {
         var colorsLookup = {
