@@ -51,7 +51,6 @@ There are built-in presets for analyzers and rules. Or, you can supply your own 
 
 ## Potential future features
 
-- Describe location of potential problems
 - Automatic reports to GitHub pull requests based on build results.
 
 ## Configuration
