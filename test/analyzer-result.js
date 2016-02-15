@@ -11,8 +11,26 @@ test('addMessage adds expected message', t => {
   result.addMessage(testMessageType, testMessageText);
 
   t.is(result.getMessage(testMessageType).text, testMessageText);
+});
 
-  // TODO: Add tests for line and column after changing what getMessage returns
+test('addMessage adds expected line', t => {
+  const testMessageType = 'test';
+  const testMessageLine = 3;
+  const result = new AnalyzerResult();
+
+  result.addMessage(testMessageType, 'test-message', testMessageLine);
+
+  t.is(result.getMessage(testMessageType).line, testMessageLine);
+});
+
+test('addMessage adds expected column', t => {
+  const testMessageType = 'test';
+  const testMessageColumn = 7;
+  const result = new AnalyzerResult();
+
+  result.addMessage(testMessageType, 'test-message', 3, testMessageColumn);
+
+  t.is(result.getMessage(testMessageType).column, testMessageColumn);
 });
 
 test('getMessage returns null if message type does not exist', t => {
