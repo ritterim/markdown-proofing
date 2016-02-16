@@ -94,7 +94,7 @@ test('Returns statistics-automated-readability-index', t => {
 });
 
 test('Ignores YAML front matter in all except statistics-text-length', t => {
-  const initialValues = new StatisticsAnalyzer().analyze(new String());
+  const initialValues = new StatisticsAnalyzer().analyze('');
 
   const result = new StatisticsAnalyzer().analyze(yamlText);
 

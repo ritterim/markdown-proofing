@@ -6,10 +6,10 @@ export default class StatisticsAnalyzer {
   analyze(str) {
     const result = new AnalyzerResult();
 
-    const strNoYamlFrontMatter = str.replace(/^\n*-{3}(.|\n)*-{3}\n*/, '');
+    let strNoYamlFrontMatter = str.replace(/^\n*-{3}(.|\n)*-{3}\n*/, '');
 
-    const stats = textStatistics(strNoYamlFrontMatter || new String());
-    const statsFullTextContent = textStatistics(str);
+    const stats = textStatistics(strNoYamlFrontMatter || ' ');
+    const statsFullTextContent = textStatistics(str || ' ');
 
     const addMessage = (messageType, numericValue) => {
       result.addMessage(messageType, roundTo(numericValue, 2));
