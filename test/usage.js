@@ -10,17 +10,15 @@ const exampleJekyllBlogPost = fs
   .toString();
 
 test('Should read Jekyll markdown blog post string', t => {
-  new MarkdownProofing()
-    .proof(exampleJekyllBlogPost);
-
-  t.pass();
+  return new MarkdownProofing()
+    .proof(exampleJekyllBlogPost)
+    .then(() => t.pass());
 });
 
 test('Should parse statistics from Jekyll markdown blog post string', t => {
-  const result = new MarkdownProofing()
+  return new MarkdownProofing()
     .addAnalyzer(StatisticsAnalyzer)
     .addRule('statistics-word-count', 'info')
-    .proof(exampleJekyllBlogPost);
-
-  t.is(result.messages.length, 1);
+    .proof(exampleJekyllBlogPost)
+    .then(x => t.is(x.messages.length, 1));
 });

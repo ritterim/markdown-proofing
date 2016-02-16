@@ -99,8 +99,11 @@ export default class MyCustomAnalyzerAnalyzer {
   analyze(str) {
     const result = new AnalyzerResult();
 
+    // As part of the logic, optionally add one or more messages:
     result.addMessage('my-custom-analyzer-message-type', 'some-value');
 
+    // The return value can be an `AnalyzerResult`
+    // or a promise to return an `AnalyzerResult`.
     return result;
   }
 }

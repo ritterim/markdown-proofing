@@ -1,5 +1,7 @@
 {
   "analyzers": [
+    "promise-returning-test-analyzer",
+
     "buzzwords",
     "fillers",
     "passive-voice",

@@ -68,7 +68,7 @@ export default class MarkdownProofing {
   }
 
   proof(text) {
-    const analyzerMessages = [];
+    const analyzerPromises = [];
 
     this.analyzers.forEach(x => {
       // Instead of unwrapped the default if present
@@ -82,23 +82,42 @@ export default class MarkdownProofing {
         CurrentAnalyzer = x;
       }
 
-      const result = new CurrentAnalyzer().analyze(text);
+      // Analyzers can return a promise that resolves with an
+      // `AnalyzerResult`, or they can simply return an `AnalyzerResult`.
+      const resultOrPromise = new CurrentAnalyzer().analyze(text);
 
-      const applicableMessages = result.messages.filter(
-        message => this.rules.some(rule => rule.matchesCondition(message)));
+      // If the analyzer output is not a promise,
+      // make it into a promise for consistency.
+      const promise = resultOrPromise.then
+        ? resultOrPromise
+        : Promise.resolve(resultOrPromise);
 
-      applicableMessages.forEach(y => analyzerMessages.push({
-        type: y.type,
-        text: y.text,
-        line: y.line,
-        column: y.column
-      }));
+      analyzerPromises.push(promise);
     });
 
-    analyzerMessages.sort((a, b) => a.type.localeCompare(b.type));
+    return Promise.all(analyzerPromises).then(x => {
+      // Collect any messages outputted by any analyzers
+      const analyzerMessages = [];
 
-    return {
-      messages: analyzerMessages
-    };
+      x.forEach(y => {
+        const applicableMessages = y.messages.filter(
+          message => this.rules.some(
+            rule => rule.matchesCondition(message)));
+
+        applicableMessages.forEach(am => analyzerMessages.push({
+          type: am.type,
+          text: am.text,
+          line: am.line,
+          column: am.column
+        }));
+      });
+
+      // Sort by message type ascending
+      analyzerMessages.sort((a, b) => a.type.localeCompare(b.type));
+
+      return {
+        messages: analyzerMessages
+      };
+    });
   }
 }

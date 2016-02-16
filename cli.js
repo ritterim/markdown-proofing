@@ -104,14 +104,16 @@ function processFile(file) {
   _fs2.default.readFile(file, 'utf-8', function (err, data) {
     if (err) throw err;
 
-    console.log();
-    console.log(new Array(file.length + 1).join('-'));
-    console.log(file);
-    console.log(new Array(file.length + 1).join('-'));
-    console.log();
+    markdownProofing.proof(data).then(function (results) {
 
-    var results = markdownProofing.proof(data);
-    displayResults(results);
+      console.log();
+      console.log(new Array(file.length + 1).join('-'));
+      console.log(file);
+      console.log(new Array(file.length + 1).join('-'));
+      console.log();
+
+      displayResults(results);
+    });
   });
 }
 

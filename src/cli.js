@@ -105,14 +105,17 @@ function processFile(file) {
   fs.readFile(file, 'utf-8', (err, data) => {
     if (err) throw err;
 
-    console.log();
-    console.log(new Array(file.length + 1).join('-'));
-    console.log(file);
-    console.log(new Array(file.length + 1).join('-'));
-    console.log();
+    markdownProofing.proof(data)
+      .then(results => {
 
-    const results = markdownProofing.proof(data);
-    displayResults(results);
+        console.log();
+        console.log(new Array(file.length + 1).join('-'));
+        console.log(file);
+        console.log(new Array(file.length + 1).join('-'));
+        console.log();
+
+        displayResults(results);
+      });
   });
 }
 
