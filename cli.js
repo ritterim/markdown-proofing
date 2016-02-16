@@ -71,11 +71,38 @@ var markdownProofing = _main2.default.createUsingConfiguration(configuration);
 // Process input file(s)
 //
 
+function displayResults(results) {
+  results.messages.forEach(function (message) {
+
+    /* eslint-disable no-undefined */
+
+    var location = message.line !== undefined && message.column !== undefined ? ' (' + message.line + ':' + message.column + ')' : '';
+
+    /* eslint-enable no-undefined */
+
+    var messageTemplate = '' + message.type + location + ' : ' + message.text;
+
+    if (!flags['no-colors']) {
+      var colorsLookup = {
+        info: _chalk2.default.blue,
+        warning: _chalk2.default.yellow,
+        error: _chalk2.default.red
+      };
+
+      var ruleCondition = markdownProofing.rules.find(function (x) {
+        return x.messageType === message.type;
+      }).condition;
+
+      console.log(colorsLookup[ruleCondition](messageTemplate));
+    } else {
+      console.log(messageTemplate);
+    }
+  });
+}
+
 function processFile(file) {
   _fs2.default.readFile(file, 'utf-8', function (err, data) {
     if (err) throw err;
-
-    var results = markdownProofing.proof(data);
 
     console.log();
     console.log(new Array(file.length + 1).join('-'));
@@ -83,32 +110,8 @@ function processFile(file) {
     console.log(new Array(file.length + 1).join('-'));
     console.log();
 
-    results.messages.forEach(function (message) {
-
-      /* eslint-disable no-undefined */
-
-      var location = message.line !== undefined && message.column !== undefined ? ' (' + message.line + ':' + message.column + ')' : '';
-
-      /* eslint-enable no-undefined */
-
-      var messageTemplate = '' + message.type + location + ' : ' + message.text;
-
-      if (!flags['no-colors']) {
-        var colorsLookup = {
-          info: _chalk2.default.blue,
-          warning: _chalk2.default.yellow,
-          error: _chalk2.default.red
-        };
-
-        var ruleCondition = markdownProofing.rules.find(function (x) {
-          return x.messageType === message.type;
-        }).condition;
-
-        console.log(colorsLookup[ruleCondition](messageTemplate));
-      } else {
-        console.log(messageTemplate);
-      }
-    });
+    var results = markdownProofing.proof(data);
+    displayResults(results);
   });
 }
 

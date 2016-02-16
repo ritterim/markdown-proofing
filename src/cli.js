@@ -69,11 +69,41 @@ const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration
 // Process input file(s)
 //
 
+function displayResults(results) {
+  results.messages.forEach(message => {
+
+/* eslint-disable no-undefined */
+
+    const location = (message.line !== undefined && message.column !== undefined)
+      ? ` (${message.line}:${message.column})`
+      : '';
+
+/* eslint-enable no-undefined */
+
+    const messageTemplate = `${message.type}${location} : ${message.text}`;
+
+    if (!flags['no-colors']) {
+      const colorsLookup = {
+        info: chalk.blue,
+        warning: chalk.yellow,
+        error: chalk.red
+      };
+
+      const ruleCondition = markdownProofing
+        .rules
+        .find(x => x.messageType === message.type)
+        .condition;
+
+      console.log(colorsLookup[ruleCondition](messageTemplate));
+    } else {
+      console.log(messageTemplate);
+    }
+  });
+}
+
 function processFile(file) {
   fs.readFile(file, 'utf-8', (err, data) => {
     if (err) throw err;
-
-    const results = markdownProofing.proof(data);
 
     console.log();
     console.log(new Array(file.length + 1).join('-'));
@@ -81,35 +111,8 @@ function processFile(file) {
     console.log(new Array(file.length + 1).join('-'));
     console.log();
 
-    results.messages.forEach(message => {
-
-/* eslint-disable no-undefined */
-
-      const location = (message.line !== undefined && message.column !== undefined)
-        ? ` (${message.line}:${message.column})`
-        : '';
-
-/* eslint-enable no-undefined */
-
-      const messageTemplate = `${message.type}${location} : ${message.text}`;
-
-      if (!flags['no-colors']) {
-        const colorsLookup = {
-          info: chalk.blue,
-          warning: chalk.yellow,
-          error: chalk.red
-        };
-
-        const ruleCondition = markdownProofing
-          .rules
-          .find(x => x.messageType === message.type)
-          .condition;
-
-        console.log(colorsLookup[ruleCondition](messageTemplate));
-      } else {
-        console.log(messageTemplate);
-      }
-    });
+    const results = markdownProofing.proof(data);
+    displayResults(results);
   });
 }
 
