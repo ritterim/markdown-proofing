@@ -6,7 +6,7 @@ export default class StatisticsAnalyzer {
   analyze(str) {
     const result = new AnalyzerResult();
 
-    let strNoYamlFrontMatter = str.replace(/^\n*-{3}(.|\n)*-{3}\n*/, '');
+    const strNoYamlFrontMatter = str.replace(/^\n*-{3}(.|\n)*-{3}\n*/, '');
 
     const stats = textStatistics(strNoYamlFrontMatter || ' ');
     const statsFullTextContent = textStatistics(str || ' ');
