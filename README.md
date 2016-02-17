@@ -16,10 +16,18 @@ Install into your project:
 > npm install markdown-proofing --save
 ```
 
-Now, give it a test:
+Now, create a `.markdown-proofing` JSON file in the root of your project. Here's a simple one using a preset to get started:
+
+```json
+{
+  "presets": ["technical-blog"]
+}
+```
+
+Now, run it *(may require global npm installation to run directly at command line)*:
 
 ```
-> node cli.js ./file1.md
+> markdown-proofing ./file1.md
 ```
 
 Next, you could wire it up in your `package.json` as part of your build *(or, perhaps as a lint step, you decide!)*.
@@ -50,14 +58,6 @@ There are two core concepts: **Analyzers** and **Rules**.
 The `SpellingAnalyzer` implements [markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck). This package uses a `.spelling` file for permitting unrecognized text.
 
 [markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck) also includes an interactive CLI, which you can use to interactively fix spelling and update the `.spelling` file as necessary. You may find this useful.
-
-## TODO
-
-There are built-in presets for analyzers and rules. Or, you can supply your own -- optionally extending a preset!
-
-## Potential future features
-
-- Automatic reports to GitHub pull requests based on build results.
 
 ## Configuration
 
@@ -93,7 +93,7 @@ An example configuration file might be:
 ## Custom Analyzers
 
 ```javascript
-import AnalyzerResult from './analyzer-result'; // TODO: Change this import to allow for outside scripts to use it
+import AnalyzerResult from 'markdown-proofing/analyzer-result'; // TODO: Change this import if this is not correct
 
 export default class MyCustomAnalyzerAnalyzer {
   analyze(str) {
