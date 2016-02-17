@@ -56,6 +56,21 @@ test('Returns expected single message with one analyzer with matching configurat
   t.is(output.messages[0].message, 'test-analyzer-1 message.');
 });
 
+test('Returns expected single message with one analyzer added twice with matching configuration rule', t => {
+  const text = 'a';
+
+  const output = new MarkdownProofing()
+    .addAnalyzer(TestAnalyzer1)
+    .addAnalyzer(TestAnalyzer1)
+    .addRule('test-analyzer-1', 'info')
+    .proof(text);
+
+  t.is(output.messages.length, 1);
+
+  t.is(output.messages[0].type, 'test-analyzer-1');
+  t.is(output.messages[0].message, 'test-analyzer-1 message.');
+});
+
 test('Returns expected one message from two analyzers with one matching configuration rules', t => {
   const text = 'a';
 
