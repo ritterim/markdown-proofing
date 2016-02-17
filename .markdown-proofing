@@ -6,7 +6,6 @@
   ],
   "rules": {
     "spelling-error": "error",
-    "missing-oxford-commas": "error",
     "statistics-flesch-kincaid-reading-ease": "warning <= 40",
     "statistics-flesch-kincaid-grade-level": "warning > 12"
   }

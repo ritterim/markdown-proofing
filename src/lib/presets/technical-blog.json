@@ -3,19 +3,24 @@
     "buzzwords",
     "fillers",
     "passive-voice",
-    "require-oxford-commas",
-    "sensitivity",
     "sentiment",
+    "sensitivity",
     "spelling",
     "statistics",
     "write-good"
   ],
   "rules": {
-    "spelling-error": "error",
-    "missing-oxford-commas": "error",
+    "buzzwords": "info",
+    "fillers": "info",
+    "passive-voice": "info",
     "sentiment-score": "info",
     "sentiment-comparative-score": "info",
+    "sensitivity": "warning",
+    "spelling-error": "error",
+    "statistics-flesch-kincaid-reading-ease": "info",
     "statistics-flesch-kincaid-reading-ease": "warning < 40",
-    "statistics-flesch-kincaid-grade-level": "warning > 12"
+    "statistics-flesch-kincaid-grade-level": "info",
+    "statistics-flesch-kincaid-grade-level": "warning > 12",
+    "write-good": "info"
   }
 }
