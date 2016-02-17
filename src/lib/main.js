@@ -104,12 +104,7 @@ export default class MarkdownProofing {
           message => this.rules.some(
             rule => rule.matchesCondition(message)));
 
-        applicableMessages.forEach(am => analyzerMessages.push({
-          type: am.type,
-          text: am.text,
-          line: am.line,
-          column: am.column
-        }));
+        applicableMessages.forEach(m => analyzerMessages.push(m));
       });
 
       // Sort by message type ascending
