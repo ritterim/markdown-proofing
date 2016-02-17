@@ -107,7 +107,8 @@ function displayResults(results) {
       return x.condition;
     });
 
-    var messageTemplate = '' + message.type + location + ' : ' + message.text;
+    var ruleConditionToApply = getRuleConditionToApply(ruleConditions);
+    var messageTemplate = '[' + ruleConditionToApply + '] ' + message.type + location + ' : ' + message.text;
 
     if (!flags['no-colors']) {
       var colorsLookup = {
@@ -115,8 +116,6 @@ function displayResults(results) {
         warning: _chalk2.default.yellow,
         error: _chalk2.default.red
       };
-
-      var ruleConditionToApply = getRuleConditionToApply(ruleConditions);
 
       console.log(colorsLookup[ruleConditionToApply](messageTemplate));
     } else {

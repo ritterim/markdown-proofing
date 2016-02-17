@@ -100,7 +100,8 @@ function displayResults(results) {
       .filter(x => x.messageType === message.type)
       .map(x => x.condition);
 
-    const messageTemplate = `${message.type}${location} : ${message.text}`;
+    let ruleConditionToApply = getRuleConditionToApply(ruleConditions);
+    const messageTemplate = `[${ruleConditionToApply}] ${message.type}${location} : ${message.text}`;
 
     if (!flags['no-colors']) {
       const colorsLookup = {
@@ -108,8 +109,6 @@ function displayResults(results) {
         warning: chalk.yellow,
         error: chalk.red
       };
-
-      let ruleConditionToApply = getRuleConditionToApply(ruleConditions);
 
       console.log(colorsLookup[ruleConditionToApply](messageTemplate));
     } else {
