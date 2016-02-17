@@ -32,7 +32,7 @@ test('Returns empty messages when no analyzers', t => {
   t.is(result.messages.length, 0);
 });
 
-test('Returns empty messages with one analyzera and no matching configuration', t => {
+test('Returns empty messages with one analyzer and no matching configuration', t => {
   const text = 'a';
 
   const output = new MarkdownProofing()
