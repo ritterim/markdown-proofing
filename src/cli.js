@@ -69,6 +69,21 @@ const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration
 // Process input file(s)
 //
 
+// Check for `error`, `warning`, `info` in that order.
+// This is necessary to avoid displaying an error as a warning, etc.
+function getRuleConditionToApply(ruleConditions) {
+  // Use startsWith, as a condition could be `error < 30`
+  if (ruleConditions.some(x => x.startsWith('error'))) {
+    return 'error';
+  } else if (ruleConditions.some(x => x.startsWith('warning'))) {
+    return 'warning';
+  } else if (ruleConditions.some(x => x.startsWith('info'))) {
+    return 'info';
+  }
+
+  throw new Error('ruleConditions did not match any expected rule conditions.');
+}
+
 function displayResults(results) {
   results.messages.forEach(message => {
 
@@ -80,6 +95,11 @@ function displayResults(results) {
 
 /* eslint-enable no-undefined */
 
+    const ruleConditions = markdownProofing
+      .rules
+      .filter(x => x.messageType === message.type)
+      .map(x => x.condition);
+
     const messageTemplate = `${message.type}${location} : ${message.text}`;
 
     if (!flags['no-colors']) {
@@ -89,12 +109,9 @@ function displayResults(results) {
         error: chalk.red
       };
 
-      const ruleCondition = markdownProofing
-        .rules
-        .find(x => x.messageType === message.type)
-        .condition;
+      let ruleConditionToApply = getRuleConditionToApply(ruleConditions);
 
-      console.log(colorsLookup[ruleCondition](messageTemplate));
+      console.log(colorsLookup[ruleConditionToApply](messageTemplate));
     } else {
       console.log(messageTemplate);
     }

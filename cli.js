@@ -71,6 +71,27 @@ var markdownProofing = _main2.default.createUsingConfiguration(configuration);
 // Process input file(s)
 //
 
+// Check for `error`, `warning`, `info` in that order.
+// This is necessary to avoid displaying an error as a warning, etc.
+function getRuleConditionToApply(ruleConditions) {
+  // Use startsWith, as a condition could be `error < 30`
+  if (ruleConditions.some(function (x) {
+    return x.startsWith('error');
+  })) {
+    return 'error';
+  } else if (ruleConditions.some(function (x) {
+    return x.startsWith('warning');
+  })) {
+    return 'warning';
+  } else if (ruleConditions.some(function (x) {
+    return x.startsWith('info');
+  })) {
+    return 'info';
+  }
+
+  throw new Error('ruleConditions did not match any expected rule conditions.');
+}
+
 function displayResults(results) {
   results.messages.forEach(function (message) {
 
@@ -79,6 +100,12 @@ function displayResults(results) {
     var location = message.line !== undefined && message.column !== undefined ? ' (' + message.line + ':' + message.column + ')' : '';
 
     /* eslint-enable no-undefined */
+
+    var ruleConditions = markdownProofing.rules.filter(function (x) {
+      return x.messageType === message.type;
+    }).map(function (x) {
+      return x.condition;
+    });
 
     var messageTemplate = '' + message.type + location + ' : ' + message.text;
 
@@ -89,11 +116,9 @@ function displayResults(results) {
         error: _chalk2.default.red
       };
 
-      var ruleCondition = markdownProofing.rules.find(function (x) {
-        return x.messageType === message.type;
-      }).condition;
+      var ruleConditionToApply = getRuleConditionToApply(ruleConditions);
 
-      console.log(colorsLookup[ruleCondition](messageTemplate));
+      console.log(colorsLookup[ruleConditionToApply](messageTemplate));
     } else {
       console.log(messageTemplate);
     }
