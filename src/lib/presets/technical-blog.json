@@ -17,6 +17,7 @@
     "sentiment-comparative-score": "info",
     "sensitivity": "warning",
     "spelling-error": "error",
+    "statistics-estimated-read-time": "info",
     "statistics-flesch-kincaid-reading-ease": "info",
     "statistics-flesch-kincaid-reading-ease": "warning < 40",
     "statistics-flesch-kincaid-grade-level": "info",
