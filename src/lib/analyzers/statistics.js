@@ -1,4 +1,5 @@
 import textStatistics from 'text-statistics';
+import readTime from 'read-time';
 import roundTo from 'round-to';
 import AnalyzerResult from '../analyzer-result';
 
@@ -47,6 +48,12 @@ export default class StatisticsAnalyzer {
 
     // https://en.wikipedia.org/wiki/Automated_readability_index
     addMessage('statistics-automated-readability-index', stats.automatedReadabilityIndex());
+
+    //
+    // Estimated read time
+    //
+
+    result.addMessage('statistics-estimated-read-time', readTime(strNoYamlFrontMatter).text);
 
     return result;
   }

@@ -93,6 +93,12 @@ test('Returns statistics-automated-readability-index', t => {
   t.is(result.getMessage('statistics-automated-readability-index').text, -1.9);
 });
 
+test('Returns statistics-estimated-read-time', t => {
+  const result = new StatisticsAnalyzer().analyze(text);
+
+  t.is(result.getMessage('statistics-estimated-read-time').text, 'Less than a minute');
+});
+
 test('Ignores YAML front matter in all except statistics-text-length', t => {
   const initialValues = new StatisticsAnalyzer().analyze('');
 

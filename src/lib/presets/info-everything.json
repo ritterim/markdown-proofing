@@ -42,6 +42,7 @@
     "statistics-coleman-liau-index": "info",
     "statistics-smog-index": "info",
     "statistics-automated-readability-index": "info",
+    "statistics-estimated-read-time": "info",
 
     "write-good-suggestion": "info"
   }
