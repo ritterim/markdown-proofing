@@ -100,7 +100,7 @@ function displayResults(results) {
       .filter(x => x.messageType === message.type)
       .map(x => x.condition);
 
-    let ruleConditionToApply = getRuleConditionToApply(ruleConditions);
+    const ruleConditionToApply = getRuleConditionToApply(ruleConditions);
     const messageTemplate = `[${ruleConditionToApply}] ${message.type}${location} : ${message.text}`;
 
     if (!flags['no-colors']) {
