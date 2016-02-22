@@ -47,8 +47,10 @@
     "meow": "^3.7.0",
     "passive-voice": "^0.1.0",
     "read-time": "^1.0.0",
+    "remark": "^4.1.1",
     "round-to": "^1.1.0",
     "sentiment": "^1.0.6",
+    "strip-markdown": "^0.3.1",
     "text-statistics": "^0.1.1",
     "write-good": "^0.9.1"
   },
