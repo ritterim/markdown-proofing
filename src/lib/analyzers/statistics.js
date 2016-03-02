@@ -1,15 +1,16 @@
+import AnalyzerResult from '../analyzer-result';
+import TextProcessor from '../text-processor';
 import textStatistics from 'text-statistics';
 import readTime from 'read-time';
 import roundTo from 'round-to';
-import AnalyzerResult from '../analyzer-result';
 
 export default class StatisticsAnalyzer {
   analyze(str) {
     const result = new AnalyzerResult();
 
-    const strNoYamlFrontMatter = str.replace(/^\n*-{3}(.|\n)*-{3}\n*/, '');
+    const text = TextProcessor.markdownToText(str);
 
-    const stats = textStatistics(strNoYamlFrontMatter || ' ');
+    const stats = textStatistics(text || ' ');
     const statsFullTextContent = textStatistics(str || ' ');
 
     const addMessage = (messageType, numericValue) => {
@@ -53,7 +54,7 @@ export default class StatisticsAnalyzer {
     // Estimated read time
     //
 
-    result.addMessage('statistics-estimated-read-time', readTime(strNoYamlFrontMatter).text);
+    result.addMessage('statistics-estimated-read-time', readTime(text).text);
 
     return result;
   }

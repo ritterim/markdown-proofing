@@ -6,6 +6,8 @@ export default class WriteGoodAnalyzer {
   analyze(str) {
     const result = new AnalyzerResult();
 
+    // Based on https://github.com/btford/write-good/blob/master/README.md#cli
+    // removing any markdown elements may be unnecessary.
     const suggestions = writeGood(str);
 
     suggestions.forEach(x => {
