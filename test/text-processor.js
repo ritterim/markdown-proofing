@@ -59,3 +59,16 @@ test('markdownToText removes markdown formatting', t => {
 
   t.is(result, 'This is a test.\n');
 });
+
+test('markdownToText removes YAML front matter', t => {
+  const text = `---
+title: "Test Title"
+---
+
+This is a test.
+`;
+
+  const result = TextProcessor.markdownToText(text);
+
+  t.is(result, 'This is a test.\n');
+});

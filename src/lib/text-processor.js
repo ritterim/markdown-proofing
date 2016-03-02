@@ -12,6 +12,6 @@ export default class TextProcessor {
   }
 
   static markdownToText(str) {
-    return remark.process(str);
+    return this.removeYamlFrontMatter(remark.process(str));
   }
 }
