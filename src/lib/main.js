@@ -50,7 +50,9 @@ export default class MarkdownProofing {
   }
 
   addAnalyzer(analyzer) {
-    this.analyzers.push(analyzer);
+    if (this.analyzers.indexOf(analyzer) === -1) {
+      this.analyzers.push(analyzer);
+    }
 
     return this;
   }
