@@ -41,7 +41,8 @@ export default class MarkdownProofing {
         const ruleValue = configuration.rules[prop];
 
         if (ruleValue === 'none') {
-          markdownProofing.removeRule(prop);
+          markdownProofing.rules = markdownProofing.rules.filter(
+            x => x.messageType !== prop);
         } else {
           markdownProofing.addRule(prop, ruleValue);
         }
@@ -59,12 +60,6 @@ export default class MarkdownProofing {
 
   addRule(messageType, ruleCondition) {
     this.rules.push(new Rule(messageType, ruleCondition));
-
-    return this;
-  }
-
-  removeRule(messageType) {
-    this.rules = this.rules.filter(x => x.messageType !== messageType);
 
     return this;
   }
