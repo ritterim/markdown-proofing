@@ -41,7 +41,7 @@ test('markdownToText does not modify simple non-markdown text', t => {
   t.is(result, text);
 });
 
-test('markdownToText maintains trailing new lines', t => {
+test('markdownToText maintains only one trailing new line', t => {
   const text = `This is a test.
 
 
@@ -49,7 +49,7 @@ test('markdownToText maintains trailing new lines', t => {
 
   const result = TextProcessor.markdownToText(text);
 
-  t.is('This is a test.\n\n\n', text);
+  t.is(result, 'This is a test.\n');
 });
 
 test('markdownToText removes markdown formatting', t => {
