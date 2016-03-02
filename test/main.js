@@ -154,7 +154,7 @@ test('createUsingConfiguration presets adds preset rules', t => {
   t.true(proofing.rules.length > 1);
 });
 
-test.only('createUsingConfiguration removes rules from preset with none', t => {
+test('createUsingConfiguration removes rules from preset with none', t => {
   const configuration = {
     presets: [
       'technical-blog'
