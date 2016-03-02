@@ -107,6 +107,12 @@ test('Ignores YAML front matter in all except statistics-text-length', t => {
   const applicableMessages = result.messages
     .filter(x => x.type !== 'statistics-text-length');
 
+  // console.log(applicableMessages.map(x => x.type
+  //   + ' : '
+  //   + x.text
+  //   + ' : '
+  //   + initialValues.messages.find(y => y.type === x.type).text));
+
   t.true(applicableMessages.every(
     x => x.text === initialValues.messages
       .find(y => x.type === y.type)
