@@ -83,6 +83,7 @@ An example configuration file might be:
     "spelling-error": "error",
     "missing-oxford-commas": "error",
     "statistics-flesch-kincaid-reading-ease": "warning <= 40",
+    "statistics-flesch-kincaid-grade-level": "info",
     "statistics-flesch-kincaid-grade-level": "warning > 12",
     "sentiment-score": "info",
     "sentiment-comparative-score": "info"
