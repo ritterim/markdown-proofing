@@ -129,12 +129,9 @@ function processFile(file) {
     if (err) throw err;
 
     markdownProofing.proof(data).then(function (results) {
+      var line = new Array(file.length + 1).join('-');
 
-      console.log();
-      console.log(new Array(file.length + 1).join('-'));
-      console.log(file);
-      console.log(new Array(file.length + 1).join('-'));
-      console.log();
+      console.log('\n' + line + '\n' + file + '\n' + line + '\n');
 
       displayResults(results);
     });
