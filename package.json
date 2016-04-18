@@ -23,11 +23,11 @@
     "build": "babel -d ./ ./src && shjs build-copy-presets.js",
     "check": "npm run audit && npm outdated --depth 0",
     "coverage": "nyc --require babel-core/register --reporter=lcov --reporter=text --reporter=html npm test",
-    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rimraf ./coverage",
     "lint": "eslint src test",
     "test": "ava",
     "test:watch": "chokidar 'test/*.js' 'src/**' -c 'npm test' --silent --initial",
-    "integration-test": "npm run build && node cli.js test\\fixtures\\* && rm -rf ./lib",
+    "integration-test": "npm run build && node cli.js test\\fixtures\\* && rimraf ./lib",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check"
   },
@@ -66,6 +66,7 @@
     "eslint": "^1.10.3",
     "nsp": "^2.2.0",
     "nyc": "^5.5.0",
+    "rimraf": "^2.5.2",
     "shelljs": "^0.6.0"
   }
 }
