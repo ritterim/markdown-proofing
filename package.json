@@ -28,7 +28,7 @@
     "lint": "eslint src test",
     "test": "ava",
     "test:watch": "chokidar 'test/*.js' 'src/**' -c 'npm test' --silent --initial",
-    "integration-test": "npm run build && node cli.js test/fixtures/* && rimraf ./lib",
+    "integration-test": "npm run build && node cli.js test/fixtures/*",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check"
   },
