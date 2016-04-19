@@ -61,22 +61,13 @@ export default class Rule {
 
       const comparisonValue = this._getComparisonValue();
 
-/* eslint-disable no-undefined */
-
       // `0` is a valid `comparisonValue` value
-      if (comparisonValue === undefined || comparisonValue === null) {
+      if (comparisonValue === undefined || comparisonValue === null) { // eslint-disable-line no-undefined
         throw new Error(`Encountered a problem while parsing numeric condition value from: ${this.condition}`);
       }
 
-/* eslint-enable no-undefined */
-
-/* eslint-disable no-eval */
-
       return analyzerMessage.type === this.messageType
-        && eval(`${analyzerMessage.text} ${operator} ${comparisonValue}`);
-
-/* eslint-enable no-eval */
-
+        && eval(`${analyzerMessage.text} ${operator} ${comparisonValue}`); // eslint-disable-line no-eval
     } else if (!this.supportedConditionPrefixes.some(x => x === this.condition)) {
       // If non-numeric comparison, ensure matches
       // one of the valid message types exactly.

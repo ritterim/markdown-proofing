@@ -44,12 +44,7 @@ var flags = cli.flags || {};
 
 if (!cli.input || cli.input.length === 0) {
   console.log(cli.help);
-
-  /* eslint-disable no-process-exit */
-
-  process.exit(1);
-
-  /* eslint-enable no-process-exit */
+  process.exit(1); // eslint-disable-line no-process-exit
 }
 
 //
@@ -94,12 +89,8 @@ function getRuleConditionToApply(ruleConditions) {
 
 function displayResults(results) {
   results.messages.forEach(function (message) {
-
-    /* eslint-disable no-undefined */
-
-    var location = message.line !== undefined && message.column !== undefined ? ' (' + message.line + ':' + message.column + ')' : '';
-
-    /* eslint-enable no-undefined */
+    var location = message.line !== undefined && message.column !== undefined ? // eslint-disable-line no-undefined
+    ' (' + message.line + ':' + message.column + ')' : '';
 
     var ruleConditions = markdownProofing.rules.filter(function (x) {
       return x.messageType === message.type;
