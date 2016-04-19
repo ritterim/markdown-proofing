@@ -7,6 +7,7 @@ call npm install
 call npm run check
 call npm run build
 call npm run validate
+call npm run integration-test
 
 if %ERRORLEVEL% neq 0 goto BuildFail
 goto BuildSuccess

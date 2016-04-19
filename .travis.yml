@@ -9,5 +9,6 @@ script:
   - npm run check
   - npm run build
   - npm run validate
+  - npm run integration-test
 after_success:
   - npm run coveralls
