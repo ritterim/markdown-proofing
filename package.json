@@ -32,7 +32,9 @@
     "prepare": "npm run build && npm run validate && npm run check"
   },
   "ava": {
-    "require": ["babel-core/register"]
+    "require": [
+      "babel-core/register"
+    ]
   },
   "author": {
     "name": "Ritter Insurance Marketing",
@@ -62,6 +64,7 @@
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
     "babel-eslint": "^6.0.2",
+    "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-function-bind": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
     "chokidar-cli": "^1.2.0",

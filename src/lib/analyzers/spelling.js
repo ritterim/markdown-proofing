@@ -1,6 +1,6 @@
 import AnalyzerResult from '../analyzer-result';
 import Location from '../location';
-const spell = require('markdown-spellcheck').default.spell;
+import markdownSpellcheck from 'markdown-spellcheck';
 
 const opts = {
   ignoreAcronyms: true,
@@ -15,7 +15,7 @@ export default class SpellingAnalyzer {
   analyze(str) {
     const result = new AnalyzerResult();
 
-    const spellResult = spell(str, opts);
+    const spellResult = markdownSpellcheck.spell(str, opts);
 
     spellResult.forEach(x => {
       result.addMessage(

@@ -67,21 +67,10 @@ export default class MarkdownProofing {
   proof(text) {
     const analyzerPromises = [];
 
-    this.analyzers.forEach(x => {
-      // Instead of unwrapped the default if present
-      // https://www.npmjs.com/package/babel-plugin-add-module-exports
-      // may be useful, but I'm not sure and haven't tested it.
-      let CurrentAnalyzer;
-
-      if (x && x.default) {
-        CurrentAnalyzer = x.default;
-      } else {
-        CurrentAnalyzer = x;
-      }
-
+    this.analyzers.forEach(X => {
       // Analyzers can return a promise that resolves with an
       // `AnalyzerResult`, or they can simply return an `AnalyzerResult`.
-      const resultOrPromise = new CurrentAnalyzer().analyze(text);
+      const resultOrPromise = new X().analyze(text);
 
       // If the analyzer output is not a promise,
       // make it into a promise for consistency.
