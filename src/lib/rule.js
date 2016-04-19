@@ -56,14 +56,16 @@ export default class Rule {
     if (this.supportedOperators.some(x => this.condition.includes(x))) {
       const operator = this._getOperator();
       if (!operator) {
-        throw new Error(`Encountered a problem while parsing numeric condition operator from: ${this.condition}`);
+        throw new Error(
+          `Encountered an unexpected problem while parsing numeric condition operator from: ${this.condition}`);
       }
 
       const comparisonValue = this._getComparisonValue();
 
       // `0` is a valid `comparisonValue` value
       if (comparisonValue === undefined || comparisonValue === null) { // eslint-disable-line no-undefined
-        throw new Error(`Encountered a problem while parsing numeric condition value from: ${this.condition}`);
+        throw new Error(
+          `Encountered an unexpected problem while parsing numeric condition value from: ${this.condition}`);
       }
 
       return analyzerMessage.type === this.messageType
