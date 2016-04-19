@@ -11,7 +11,21 @@
   "keywords": [
     "markdown",
     "proofing",
-    "language"
+    "platform",
+    "language",
+    "English",
+    "spelling",
+    "grammar",
+    "writing",
+    "style",
+    "rules",
+    "readability",
+    "words",
+    "prose",
+    "text",
+    "bin",
+    "cli",
+    "cli-app"
   ],
   "license": "MIT",
   "repository": {
