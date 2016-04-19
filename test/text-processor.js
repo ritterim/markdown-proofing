@@ -30,7 +30,7 @@ test('markdownToText adds trailing newline if one is not provided', t => {
 
   const result = TextProcessor.markdownToText(text);
 
-  t.is(result, text + '\n');
+  t.is(result, `${text}\n`);
 });
 
 test('markdownToText does not modify simple non-markdown text', t => {

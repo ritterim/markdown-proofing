@@ -23,13 +23,13 @@ test('Constructor sets condition', t => {
 test('Constructor throws with expected message for invalid condition', t => {
   t.throws(
     () => new Rule('test-message-type', 'invalid-condition'),
-    `Unsupported configuration condition: 'invalid-condition'`);
+    'Unsupported configuration condition: \'invalid-condition\'');
 });
 
 test('Constructor throws with expected message for numeric invalid condition', t => {
   t.throws(
     () => new Rule('test-message-type', 'invalid-condition < 10'),
-    `Unsupported configuration condition: 'invalid-condition < 10'`);
+    'Unsupported configuration condition: \'invalid-condition < 10\'');
 });
 
 test('matchesCondition returns true when message type match', t => {
