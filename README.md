@@ -69,9 +69,6 @@ An example configuration file might be:
 {
   "presets": [],
   "analyzers": [
-    "buzzwords",
-    "fillers",
-    "passive-voice",
     "require-oxford-commas",
     "sensitivity",
     "sentiment",
@@ -80,13 +77,15 @@ An example configuration file might be:
     "write-good"
   ],
   "rules": {
-    "spelling-error": "error",
     "missing-oxford-commas": "error",
-    "statistics-flesch-kincaid-reading-ease": "warning <= 40",
+    "sensitivity": "warning",
+    "sentiment-score": "info",
+    "sentiment-comparative-score": "info",
+    "spelling-error": "error",
     "statistics-flesch-kincaid-grade-level": "info",
     "statistics-flesch-kincaid-grade-level": "warning > 12",
-    "sentiment-score": "info",
-    "sentiment-comparative-score": "info"
+    "statistics-flesch-kincaid-reading-ease": "warning <= 40",
+    "write-good": "info"
   }
 }
 ```
