@@ -7,7 +7,7 @@ call npm install
 call npm run check
 call npm run build
 call npm run lint
-call npm run coverage
+call npm run coverage:teamcity
 call npm run integration-test
 
 if %ERRORLEVEL% neq 0 goto BuildFail

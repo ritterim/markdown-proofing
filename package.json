@@ -23,6 +23,7 @@
     "build": "babel -d ./ ./src && shjs build-copy-presets.js",
     "check": "npm run audit && npm outdated --depth 0",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html ava",
+    "coverage:teamcity": "nyc --reporter=lcov --reporter=text --reporter=html --reporter=teamcity ava",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rimraf ./coverage",
     "lint": "eslint src test",
     "test": "ava",
