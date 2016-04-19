@@ -3,6 +3,7 @@
     "info-everything"
   ],
   "analyzers": [
+    "../../lib/analyzers/spelling"
   ],
   "rules": {
     "spelling-error": "error",
