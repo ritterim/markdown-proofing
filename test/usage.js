@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 import fs from 'fs';
 
 import MarkdownProofing from '../src/lib/main';

@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import AnalyzerResult from '../src/lib/analyzer-result';
 

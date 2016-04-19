@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import TextProcessor from '../src/lib/text-processor';
 

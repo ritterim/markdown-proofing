@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import SensitivityAnalyzer from '../../src/lib/analyzers/sensitivity';
 

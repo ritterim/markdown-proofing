@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import SpellingAnalyzer from '../../src/lib/analyzers/spelling';
 

@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import PromiseReturningTestAnalyzer from '../../src/lib/analyzers/promise-returning-test-analyzer';
 

@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import FillersAnalyzer from '../../src/lib/analyzers/fillers';
 const messageType = 'filler-words-usage-counts';

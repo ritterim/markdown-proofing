@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import WriteGoodAnalyzer from '../../src/lib/analyzers/write-good';
 

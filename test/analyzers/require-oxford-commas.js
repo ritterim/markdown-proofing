@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import RequireOxfordCommasAnalyzer from '../../src/lib/analyzers/require-oxford-commas';
 

@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import Validator from '../src/lib/validator';
 

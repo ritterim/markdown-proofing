@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import BuzzwordsAnalyzer from '../../src/lib/analyzers/buzzwords';
 const messageType = 'buzzword-usage-counts';

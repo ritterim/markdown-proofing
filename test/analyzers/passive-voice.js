@@ -1,5 +1,4 @@
 import test from 'ava';
-import 'babel-core/register';
 
 import PassiveVoiceAnalyzer from '../../src/lib/analyzers/passive-voice';
 
