@@ -2,9 +2,6 @@
 
 [![npm](https://img.shields.io/npm/v/markdown-proofing.svg)](https://www.npmjs.com/package/markdown-proofing)
 [![license](https://img.shields.io/npm/l/markdown-proofing.svg)](http://opensource.org/licenses/MIT)
-[![github-issues](https://img.shields.io/github/issues/ritterim/markdown-proofing.svg)](https://github.com/ritterim/markdown-proofing/issues)
-[![travis-status](https://img.shields.io/travis/ritterim/markdown-proofing.svg)](https://travis-ci.org/ritterim/markdown-proofing)
-[![coveralls](https://img.shields.io/coveralls/ritterim/markdown-proofing.svg)](https://coveralls.io/github/ritterim/markdown-proofing)
 
 A markdown proofing platform for individuals, teams, and organizations.
 
