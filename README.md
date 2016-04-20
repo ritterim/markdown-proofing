@@ -10,7 +10,7 @@ A markdown proofing platform for individuals, teams, and organizations.
 Install into your project:
 
 ```
-> npm install markdown-proofing --save
+> npm install markdown-proofing
 ```
 
 Now, create a `.markdown-proofing` JSON file in the root of your project. Here's a simple one using a preset to get started:
