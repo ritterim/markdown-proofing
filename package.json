@@ -36,6 +36,7 @@
     "audit": "nsp check package",
     "build": "babel -d ./ ./src && shjs build-copy-presets.js",
     "check": "npm run audit && npm outdated --depth 0",
+    "clean": "rimraf coverage lib .nyc_output",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html ava",
     "coverage:teamcity": "nyc --reporter=lcov --reporter=text --reporter=html --reporter=teamcity ava",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rimraf ./coverage",
@@ -45,7 +46,7 @@
     "integration-test": "npm run build && node cli.js test/fixtures/*",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check",
-    "prepublish": "npm run build"
+    "prepublish": "npm run clean && npm run build"
   },
   "ava": {
     "require": [
