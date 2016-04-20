@@ -59,7 +59,6 @@
   },
   "dependencies": {
     "alex": "^2.0.0",
-    "app-root-path": "^1.0.0",
     "buzzwords": "^1.0.1",
     "chalk": "^1.1.1",
     "ensure-oxford-commas": "^0.1.0",

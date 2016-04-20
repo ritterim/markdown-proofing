@@ -2,7 +2,6 @@
 
 /* eslint-disable no-console */
 
-import appRootPath from 'app-root-path';
 import meow from 'meow';
 import chalk from 'chalk';
 import glob from 'glob';
@@ -10,7 +9,7 @@ import fs from 'fs';
 
 import MarkdownProofing from './lib/main';
 
-const defaultConfigurationPath = '/.markdown-proofing';
+const defaultConfigurationPath = '.markdown-proofing';
 
 const cli = meow({
   help: [
@@ -49,7 +48,7 @@ if (!cli.input || cli.input.length === 0) {
 // Create markdownProofing using configuration file from disk
 //
 
-const filePath = appRootPath.resolve(flags.configuration || defaultConfigurationPath);
+const filePath = flags.configuration || defaultConfigurationPath;
 
 try {
   fs.accessSync(filePath, fs.F_OK);

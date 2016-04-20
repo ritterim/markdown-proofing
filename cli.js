@@ -1,10 +1,6 @@
 #! /usr/bin/env node
 'use strict';
 
-var _appRootPath = require('app-root-path');
-
-var _appRootPath2 = _interopRequireDefault(_appRootPath);
-
 var _meow = require('meow');
 
 var _meow2 = _interopRequireDefault(_meow);
@@ -27,9 +23,9 @@ var _main2 = _interopRequireDefault(_main);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-console */
+var defaultConfigurationPath = '.markdown-proofing';
 
-var defaultConfigurationPath = '/.markdown-proofing';
+/* eslint-disable no-console */
 
 var cli = (0, _meow2.default)({
   help: ['Usage', '  $ markdown-proofing [...file-glob]', '', 'Options', '  -c, --configuration  Specify a configuration file to use. [Default: .markdown-proofing]', '  -n, --no-colors      Do not apply colors to the output.   [Default: false]', '', 'Examples', '  $ markdown-proofing ./file1.md', '  Analyze ./file1.md file', '  $ markdown-proofing ./file1.md ./file2.md', '  Analyze ./file1.md and ./file2.md files', '  $ markdown-proofing -c ./custom-configuration.json ./file1.md', '  Analyze ./file.md file using ./custom-configuration.json', '  $ markdown-proofing **/*.md', '  Analyze all .md files recursively'],
@@ -51,7 +47,7 @@ if (!cli.input || cli.input.length === 0) {
 // Create markdownProofing using configuration file from disk
 //
 
-var filePath = _appRootPath2.default.resolve(flags.configuration || defaultConfigurationPath);
+var filePath = flags.configuration || defaultConfigurationPath;
 
 try {
   _fs2.default.accessSync(filePath, _fs2.default.F_OK);
