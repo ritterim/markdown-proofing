@@ -1,7 +1,6 @@
 # markdown-proofing
 
 [![npm](https://img.shields.io/npm/v/markdown-proofing.svg)](https://www.npmjs.com/package/markdown-proofing)
-[![license](https://img.shields.io/npm/l/markdown-proofing.svg)](http://opensource.org/licenses/MIT)
 
 A markdown proofing platform for individuals, teams, and organizations.
 
