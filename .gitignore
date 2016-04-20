@@ -1,6 +1,7 @@
 # Custom
 test/.temp
 /lib
+/cli.js
 
 # Logs
 logs
