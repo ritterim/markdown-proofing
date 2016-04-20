@@ -1,4 +1,3 @@
-import appRootPath from 'app-root-path';
 import fs from 'fs';
 import Rule from './rule';
 
@@ -8,30 +7,30 @@ export default class MarkdownProofing {
     this.rules = [];
   }
 
-  // The `rootFolder` parameter helps with testing
-  static createUsingConfiguration(configuration, rootFolder = '/lib') {
+  // The `rootDirOverride` parameter helps with testing
+  static createUsingConfiguration(configuration, rootDirOverride) {
     const markdownProofing = new MarkdownProofing();
 
     if (configuration.presets) {
       configuration.presets.forEach(x => {
-        const presetFilePath = appRootPath.resolve(`${rootFolder}/presets/${x}.json`);
+        const presetFilePath = `${rootDirOverride || __dirname}/presets/${x}.json`;
         const presetConfiguration = JSON.parse(fs.readFileSync(presetFilePath, 'utf-8'));
 
         this.addAssetsToInstance(
-          markdownProofing, presetConfiguration, rootFolder);
+          markdownProofing, presetConfiguration, rootDirOverride);
       });
     }
 
     this.addAssetsToInstance(
-      markdownProofing, configuration, rootFolder);
+      markdownProofing, configuration, rootDirOverride);
 
     return markdownProofing;
   }
 
-  static addAssetsToInstance(markdownProofing, configuration, rootFolder) {
+  static addAssetsToInstance(markdownProofing, configuration, rootDirOverride) {
     if (configuration.analyzers) {
       configuration.analyzers.forEach(x => {
-        const analyzer = require(appRootPath.resolve(`${rootFolder}/analyzers/${x}.js`));
+        const analyzer = require(`${rootDirOverride || __dirname}/analyzers/${x}.js`);
         markdownProofing.addAnalyzer(analyzer);
       });
     }

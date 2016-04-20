@@ -3,6 +3,8 @@ import test from 'ava';
 import MarkdownProofing from '../src/lib/main';
 import AnalyzerResult from '../src/lib/analyzer-result';
 
+const rootDirOverride = __dirname + '/../src/lib';
+
 class TestAnalyzer1 {
   analyze(/* str */) {
     const result = new AnalyzerResult();
@@ -184,7 +186,7 @@ test('createUsingConfiguration adds analyzers', t => {
     ]
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
   t.is(proofing.analyzers.length, 2);
 });
@@ -196,7 +198,7 @@ test('createUsingConfiguration adds rules', t => {
     }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
   t.is(proofing.rules.length, 1);
 });
@@ -208,7 +210,7 @@ test('createUsingConfiguration presets adds preset analyzers', t => {
     ]
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
   t.true(proofing.analyzers.length > 1);
 });
@@ -220,7 +222,7 @@ test('createUsingConfiguration presets adds preset rules', t => {
     ]
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
   t.true(proofing.rules.length > 1);
 });
@@ -235,7 +237,7 @@ test('createUsingConfiguration removes rules from preset with none', t => {
     }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, '/src/lib');
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
   t.false(proofing.rules.some(x => x.messageType === 'spelling-error'));
 });
