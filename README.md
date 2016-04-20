@@ -54,7 +54,15 @@ Now, use `npm test` to run markdown-proofing on the posts!
 
 Configuration is specified in JSON. By default markdown-proofing reads from a `.markdown-proofing` JSON configuration file from the root of the target project. You can optionally supply a different file, if you'd like.
 
-An example configuration file might be:
+The configuration can be as simple as:
+
+```json
+{
+  "presets": ["technical-blog"]
+}
+```
+
+Or, a bit more complex:
 
 ```json
 {
