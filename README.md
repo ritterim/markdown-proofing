@@ -28,38 +28,43 @@ Now, run it *(may require global npm installation to run directly at command lin
 
 Next, you could wire it up in your `package.json` as part of your build *(or, perhaps as a lint step, you decide!)*.
 
-## Core concepts
+## Usage with Jekyll / Static Site Generators
 
-There are two core concepts: **Analyzers** and **Rules**.
+*This section is centered around [Jekyll](https://jekyllrb.com/), but may work with other static site generators, too!*
 
-- **Analyzers** *process the text!*
-  - Analyzers parse a markdown text string and return an `AnalyzerResult`, which includes a collection of `AnalyzerMessage` objects.
-    - `AnalyzerMessage`'s are `{ type: String, text: String, line: Number, column: Number }`.
-  - There are useful analyzers built-in and ready for use. Custom analyzers are supported as well.
-- **Rules** *react to analyzers!*
-  - These react to the output of the configured analyzers. Without any rules, the output of the analyzers is not surfaced to the user or applied in any way. So, you'll need some rules!
-  - Rules are in the format of `'{{message-type}}': '{{condition}}'`.
-    - Example rule: `'statistics-word-count': 'info'`
-    - Example rule: `'statistics-flesch-kincaid-reading-ease': 'warning < 40'`
-  - There are **four** types of rules: `info`, `warning`, `error`, and `none`.
-    - `info` signals to add this to any output. It should show up in build results and any place where messages should be visible.
-    - `warning` is a standard *warning*, it shouldn't fail a build.
-    - `error` violations should result in a build failure.
-    - `none` is used to override a preset.
-  - Rules can have an optional condition, which is applied as `warning < 40` -- it's a `warning` only when the value is less than `40`.
-    - This is useful for statistics and other numerical outputs from analyzers.
+[Jekyll](https://jekyllrb.com/) itself doesn't use npm. But, markdown-proofing can still be used!
 
-## Spellcheck
+First, check if a `package.json` file exists in the repository root. If one does, great! If not, no problem -- simply create one using `npm init`.
 
-The `SpellingAnalyzer` implements [markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck). This package uses a `.spelling` file for permitting unrecognized text.
+After `package.json` exists, run `npm install markdown-proofing --save-dev`. This assumes you won't need this package available in your production environment.
 
-[markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck) also includes an interactive CLI, which you can use to interactively fix spelling and update the `.spelling` file as necessary. You may find this useful.
+Then, add or modify the `package.json` `test` script:
+
+```json
+"scripts": {
+  "test": "markdown-proofing _posts/*.md"
+},
+```
+
+Adjust the above as necessary if the posts live in a different place, or if you use a different file extension.
+
+Now, use `npm test` to run markdown-proofing on the posts!
 
 ## Configuration
 
-Configuration is specified in JSON. By default markdown-proofing reads from a `.markdown-proofing` JSON configuration file from the root of the target project. You can optionally supply a different file, if you'd like.
+Configuration is specified in JSON.
 
-An example configuration file might be:
+By default `.markdown-proofing` located in the root of the project is used. You can optionally specify a different file using the `-c` / `--configuration` flags, if you'd like.
+
+The configuration can be as simple as:
+
+```json
+{
+  "presets": ["technical-blog"]
+}
+```
+
+Or, a bit more complex:
 
 ```json
 {
@@ -85,6 +90,33 @@ An example configuration file might be:
   }
 }
 ```
+
+## Spellcheck
+
+The `SpellingAnalyzer` implements [markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck). This package uses a `.spelling` file for permitting unrecognized text.
+
+[markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck) also includes an interactive CLI, which you can use to interactively fix spelling and update the `.spelling` file as necessary. You may find this useful.
+
+## Core concepts
+
+There are two core concepts: **Analyzers** and **Rules**.
+
+- **Analyzers** *process the text!*
+  - Analyzers parse a markdown text string and return an `AnalyzerResult`, which includes a collection of `AnalyzerMessage` objects.
+    - `AnalyzerMessage`'s are `{ type: String, text: String, line: Number, column: Number }`.
+  - There are useful analyzers built-in and ready for use. Custom analyzers are supported as well.
+- **Rules** *react to analyzers!*
+  - These react to the output of the configured analyzers. Without any rules, the output of the analyzers is not surfaced to the user or applied in any way. So, you'll need some rules!
+  - Rules are in the format of `'{{message-type}}': '{{condition}}'`.
+    - Example rule: `'statistics-word-count': 'info'`
+    - Example rule: `'statistics-flesch-kincaid-reading-ease': 'warning < 40'`
+  - There are **four** types of rules: `info`, `warning`, `error`, and `none`.
+    - `info` signals to add this to any output. It should show up in build results and any place where messages should be visible.
+    - `warning` is a standard *warning*, it shouldn't fail a build.
+    - `error` violations should result in a build failure.
+    - `none` is used to override a preset.
+  - Rules can have an optional condition, which is applied as `warning < 40` -- it's a `warning` only when the value is less than `40`.
+    - This is useful for statistics and other numerical outputs from analyzers.
 
 ## Custom Analyzers
 
@@ -131,6 +163,6 @@ Ritter Insurance Marketing
 
 ## Contributing
 
-Contributions are highly welcome!
+Contributions are highly welcome! However, before making large changes that may be outside the scope of this project, we may want to discuss it in an issue prior to opening a pull request.
 
-If you construct a useful analyzer, we'd appreciate a pull request to incorporate it into the project!
+If you construct an analyzer useful to you and/or your team/company and it could be useful for others, we'd appreciate a pull request to incorporate it into the project!
