@@ -52,7 +52,9 @@ Now, use `npm test` to run markdown-proofing on the posts!
 
 ## Configuration
 
-Configuration is specified in JSON. By default markdown-proofing reads from a `.markdown-proofing` JSON configuration file from the root of the target project. You can optionally supply a different file, if you'd like.
+Configuration is specified in JSON.
+
+By default `.markdown-proofing` located in the root of the project is used. You can optionally specify a different file using the `-c` / `--configuration` flags, if you'd like.
 
 The configuration can be as simple as:
 
@@ -161,6 +163,6 @@ Ritter Insurance Marketing
 
 ## Contributing
 
-Contributions are highly welcome!
+Contributions are highly welcome! However, before making large changes that may be outside the scope of this project, we may want to discuss it in an issue prior to opening a pull request.
 
-If you construct a useful analyzer, we'd appreciate a pull request to incorporate it into the project!
+If you construct an analyzer useful to you and/or your team/company and it could be useful for others, we'd appreciate a pull request to incorporate it into the project!
