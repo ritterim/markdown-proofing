@@ -28,6 +28,28 @@ Now, run it *(may require global npm installation to run directly at command lin
 
 Next, you could wire it up in your `package.json` as part of your build *(or, perhaps as a lint step, you decide!)*.
 
+## Usage with Jekyll / Static Site Generators
+
+*This section is centered around [Jekyll](https://jekyllrb.com/), but may work with other static site generators, too!*
+
+[Jekyll](https://jekyllrb.com/) itself doesn't use npm. But, markdown-proofing can still be used!
+
+First, check if a `package.json` file exists in the repository root. If one does, great! If not, no problem -- simply create one using `npm init`.
+
+After `package.json` exists, run `npm install markdown-proofing --save-dev`. This assumes you won't need this package available in your production environment.
+
+Then, add or modify the `package.json` `test` script:
+
+```json
+"scripts": {
+  "test": "markdown-proofing _posts/*.md"
+},
+```
+
+Adjust the above as necessary if the posts live in a different place, or if you use a different file extension.
+
+Now, use `npm test` to run markdown-proofing on the posts!
+
 ## Core concepts
 
 There are two core concepts: **Analyzers** and **Rules**.
