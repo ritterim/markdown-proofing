@@ -107,10 +107,20 @@ export default class MyCustomAnalyzerAnalyzer {
 }
 ```
 
-Then, simply wire it up!
+Then, simply wire it up in configuration as an `analyzers` array item:
 
-```
-TODO
+```json
+{
+  "presets": [
+  ],
+  "analyzers": [
+    "path/to/custom-analyzer"
+  ],
+  "rules": {
+    "custom-analyzer-message": "info"
+  }
+}
+
 ```
 
 ## Author
