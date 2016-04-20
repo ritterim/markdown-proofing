@@ -50,33 +50,6 @@ Adjust the above as necessary if the posts live in a different place, or if you 
 
 Now, use `npm test` to run markdown-proofing on the posts!
 
-## Core concepts
-
-There are two core concepts: **Analyzers** and **Rules**.
-
-- **Analyzers** *process the text!*
-  - Analyzers parse a markdown text string and return an `AnalyzerResult`, which includes a collection of `AnalyzerMessage` objects.
-    - `AnalyzerMessage`'s are `{ type: String, text: String, line: Number, column: Number }`.
-  - There are useful analyzers built-in and ready for use. Custom analyzers are supported as well.
-- **Rules** *react to analyzers!*
-  - These react to the output of the configured analyzers. Without any rules, the output of the analyzers is not surfaced to the user or applied in any way. So, you'll need some rules!
-  - Rules are in the format of `'{{message-type}}': '{{condition}}'`.
-    - Example rule: `'statistics-word-count': 'info'`
-    - Example rule: `'statistics-flesch-kincaid-reading-ease': 'warning < 40'`
-  - There are **four** types of rules: `info`, `warning`, `error`, and `none`.
-    - `info` signals to add this to any output. It should show up in build results and any place where messages should be visible.
-    - `warning` is a standard *warning*, it shouldn't fail a build.
-    - `error` violations should result in a build failure.
-    - `none` is used to override a preset.
-  - Rules can have an optional condition, which is applied as `warning < 40` -- it's a `warning` only when the value is less than `40`.
-    - This is useful for statistics and other numerical outputs from analyzers.
-
-## Spellcheck
-
-The `SpellingAnalyzer` implements [markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck). This package uses a `.spelling` file for permitting unrecognized text.
-
-[markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck) also includes an interactive CLI, which you can use to interactively fix spelling and update the `.spelling` file as necessary. You may find this useful.
-
 ## Configuration
 
 Configuration is specified in JSON. By default markdown-proofing reads from a `.markdown-proofing` JSON configuration file from the root of the target project. You can optionally supply a different file, if you'd like.
@@ -107,6 +80,33 @@ An example configuration file might be:
   }
 }
 ```
+
+## Spellcheck
+
+The `SpellingAnalyzer` implements [markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck). This package uses a `.spelling` file for permitting unrecognized text.
+
+[markdown-spellcheck](https://www.npmjs.com/package/markdown-spellcheck) also includes an interactive CLI, which you can use to interactively fix spelling and update the `.spelling` file as necessary. You may find this useful.
+
+## Core concepts
+
+There are two core concepts: **Analyzers** and **Rules**.
+
+- **Analyzers** *process the text!*
+  - Analyzers parse a markdown text string and return an `AnalyzerResult`, which includes a collection of `AnalyzerMessage` objects.
+    - `AnalyzerMessage`'s are `{ type: String, text: String, line: Number, column: Number }`.
+  - There are useful analyzers built-in and ready for use. Custom analyzers are supported as well.
+- **Rules** *react to analyzers!*
+  - These react to the output of the configured analyzers. Without any rules, the output of the analyzers is not surfaced to the user or applied in any way. So, you'll need some rules!
+  - Rules are in the format of `'{{message-type}}': '{{condition}}'`.
+    - Example rule: `'statistics-word-count': 'info'`
+    - Example rule: `'statistics-flesch-kincaid-reading-ease': 'warning < 40'`
+  - There are **four** types of rules: `info`, `warning`, `error`, and `none`.
+    - `info` signals to add this to any output. It should show up in build results and any place where messages should be visible.
+    - `warning` is a standard *warning*, it shouldn't fail a build.
+    - `error` violations should result in a build failure.
+    - `none` is used to override a preset.
+  - Rules can have an optional condition, which is applied as `warning < 40` -- it's a `warning` only when the value is less than `40`.
+    - This is useful for statistics and other numerical outputs from analyzers.
 
 ## Custom Analyzers
 
