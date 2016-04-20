@@ -1,9 +1,10 @@
 import test from 'ava';
+import path from 'path';
 
 import MarkdownProofing from '../src/lib/main';
 import AnalyzerResult from '../src/lib/analyzer-result';
 
-const rootDirOverride = __dirname + '/../src/lib';
+const rootDirOverride = path.join(__dirname, '/../src/lib');
 
 class TestAnalyzer1 {
   analyze(/* str */) {
