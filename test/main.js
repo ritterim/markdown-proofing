@@ -72,7 +72,7 @@ test('Returns expected single message with one analyzer added twice with matchin
     });
 });
 
-test('Returns expected one message from two analyzers with one matching configuration rules', t => {
+test('Returns expected single message from two analyzers with one matching configuration rules', t => {
   const text = 'a';
 
   return new MarkdownProofing()
@@ -108,13 +108,12 @@ test('Returns expected two messages from two analyzers with two matching configu
     });
 });
 
-test('Returns expected error when warning exists applying error first', t => {
+test('Returns single message for multiple rule conditions', t => {
   const text = 'a';
 
   return new MarkdownProofing()
     .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'error')
-    .addRule('test-analyzer-1', 'warning')
+    .addRule('test-analyzer-1', 'info, warning')
     .proof(text)
     .then(result => {
       t.is(result.messages.length, 1);
@@ -122,61 +121,14 @@ test('Returns expected error when warning exists applying error first', t => {
     });
 });
 
-test('Returns expected error when warning exists applying warning first', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
+test('Sets two rules when comma seperated', t => {
+  const sut = new MarkdownProofing()
     .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'warning')
-    .addRule('test-analyzer-1', 'error')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-      t.is(result.messages[0].type, 'test-analyzer-1');
-    });
-});
+    .addRule('test-analyzer-1', 'info, warning < 10');
 
-test('Returns expected error when info rule condition exists', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'error')
-    .addRule('test-analyzer-1', 'info')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-      t.is(result.messages[0].type, 'test-analyzer-1');
-    });
-});
-
-test('Returns expected error when warning and info rule conditions exist', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'error')
-    .addRule('test-analyzer-1', 'warning')
-    .addRule('test-analyzer-1', 'info')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-      t.is(result.messages[0].type, 'test-analyzer-1');
-    });
-});
-
-test('Returns expected warning when info rule condition exists', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'info')
-    .addRule('test-analyzer-1', 'warning')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-      t.is(result.messages[0].type, 'test-analyzer-1');
-    });
+  t.is(sut.rules.length, 2);
+  t.is(sut.rules[0].condition, 'info');
+  t.is(sut.rules[1].condition, 'warning < 10');
 });
 
 test('createUsingConfiguration adds analyzers', t => {

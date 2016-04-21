@@ -18,10 +18,8 @@
     "sensitivity": "warning",
     "spelling-error": "error",
     "statistics-estimated-read-time": "info",
-    "statistics-flesch-kincaid-reading-ease": "info",
-    "statistics-flesch-kincaid-reading-ease": "warning < 40",
-    "statistics-flesch-kincaid-grade-level": "info",
-    "statistics-flesch-kincaid-grade-level": "warning > 12",
+    "statistics-flesch-kincaid-reading-ease": "info, warning < 40",
+    "statistics-flesch-kincaid-grade-level": "info, warning > 12",
     "write-good": "info"
   }
 }

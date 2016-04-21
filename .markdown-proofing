@@ -3,11 +3,12 @@
     "info-everything"
   ],
   "analyzers": [
-    "../../lib/analyzers/spelling"
+    "../../lib/analyzers/spelling",
+    "statistics"
   ],
   "rules": {
     "spelling-error": "error",
     "statistics-flesch-kincaid-reading-ease": "warning <= 40",
-    "statistics-flesch-kincaid-grade-level": "warning > 12"
+    "statistics-flesch-kincaid-grade-level": "info, warning > 12"
   }
 }
