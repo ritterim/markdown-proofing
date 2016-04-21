@@ -1,7 +1,7 @@
 import test from 'ava';
 import path from 'path';
 
-import MarkdownProofing from '../src/lib/main';
+import MarkdownProofing from '../src/lib/markdownProofing';
 import AnalyzerResult from '../src/lib/analyzer-result';
 
 const rootDirOverride = path.join(__dirname, '/../src/lib');

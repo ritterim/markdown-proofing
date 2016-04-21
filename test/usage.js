@@ -1,7 +1,7 @@
 import test from 'ava';
 import fs from 'fs';
 
-import MarkdownProofing from '../src/lib/main';
+import MarkdownProofing from '../src/lib/markdownProofing';
 import StatisticsAnalyzer from '../src/lib/analyzers/statistics';
 
 const exampleJekyllBlogPost = fs
