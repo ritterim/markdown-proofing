@@ -77,3 +77,38 @@ test('matchesCondition throws when invalid operator used', t => {
     () => rule.matchesCondition(analyzerMessage),
     `Invalid condition specified: ${testInvalidCondition}`);
 });
+
+test('matchesCondition should work with less than condition', t => {
+  const analyzerMessage = new AnalyzerMessage(testMessageType, 1);
+  const rule = new Rule(testMessageType, 'warning < 2');
+
+  t.true(rule.matchesCondition(analyzerMessage));
+});
+
+test('matchesCondition should work with less than or equal to condition', t => {
+  const analyzerMessage = new AnalyzerMessage(testMessageType, 2);
+  const rule = new Rule(testMessageType, 'warning <= 2');
+
+  t.true(rule.matchesCondition(analyzerMessage));
+});
+
+test('matchesCondition should work with equal to than condition', t => {
+  const analyzerMessage = new AnalyzerMessage(testMessageType, 2);
+  const rule = new Rule(testMessageType, 'warning == 2');
+
+  t.true(rule.matchesCondition(analyzerMessage));
+});
+
+test('matchesCondition should work with greater than or equal to condition', t => {
+  const analyzerMessage = new AnalyzerMessage(testMessageType, 2);
+  const rule = new Rule(testMessageType, 'warning >= 2');
+
+  t.true(rule.matchesCondition(analyzerMessage));
+});
+
+test('matchesCondition should work with greater than condition', t => {
+  const analyzerMessage = new AnalyzerMessage(testMessageType, 3);
+  const rule = new Rule(testMessageType, 'warning > 2');
+
+  t.true(rule.matchesCondition(analyzerMessage));
+});

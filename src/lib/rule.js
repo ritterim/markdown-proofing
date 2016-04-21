@@ -34,7 +34,7 @@ export default class Rule {
 
     let output;
     orderedSupportedOperators.forEach(x => {
-      if (this.condition.includes(x)) {
+      if (!output && this.condition.includes(x)) {
         output = x;
       }
     });
