@@ -4,6 +4,8 @@
 
 A markdown proofing platform for individuals, teams, and organizations.
 
+![screenshot](screenshot.png)
+
 ## Quickstart: Installation, usage, and build integrations
 
 Install into your project:
