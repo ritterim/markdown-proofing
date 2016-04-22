@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "A markdown proofing platform for individuals, teams, and organizations.",
   "bin": "cli.js",
-  "main": "lib/index.js",
   "files": [
     "lib/",
     "cli.js"
