@@ -58,7 +58,16 @@ export default class MarkdownProofing {
   }
 
   addRule(messageType, ruleCondition) {
-    this.rules.push(new Rule(messageType, ruleCondition));
+    // ruleCondition could be:
+    // info, warning < 5, error < 10
+    //
+    // We should apply each of these as a separate rule.
+
+    const ruleConditions = ruleCondition.split(',').map(x => x.trim());
+
+    ruleConditions.forEach(rc => {
+      this.rules.push(new Rule(messageType, rc));
+    });
 
     return this;
   }

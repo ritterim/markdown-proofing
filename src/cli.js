@@ -63,33 +63,31 @@ const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration
 // Process input file(s)
 //
 
-// Check for `error`, `warning`, `info` in that order.
-// This is necessary to avoid displaying an error as a warning, etc.
-function getRuleConditionToApply(ruleConditions) {
-  // Use startsWith, as a condition could be `error < 30`
-  if (ruleConditions.some(x => x.startsWith('error'))) {
-    return 'error';
-  } else if (ruleConditions.some(x => x.startsWith('warning'))) {
-    return 'warning';
-  } else if (ruleConditions.some(x => x.startsWith('info'))) {
-    return 'info';
-  }
-
-  throw new Error('ruleConditions did not match any expected rule conditions.');
-}
-
 function displayResults(results) {
   results.messages.forEach(message => {
     const location = (message.line !== undefined && message.column !== undefined) // eslint-disable-line no-undefined
       ? ` (${message.line}:${message.column})`
       : '';
 
-    const ruleConditions = markdownProofing
+    const applicableRules = markdownProofing
       .rules
-      .filter(x => x.messageType === message.type)
-      .map(x => x.condition);
+      .filter(rule => rule.messageType === message.type && rule.matchesCondition(message));
 
-    const ruleConditionToApply = getRuleConditionToApply(ruleConditions);
+    // Use startsWith when determining the condition to display
+    // as a condition could be:
+    // error < 5
+    let ruleConditionToApply;
+    if (applicableRules.some(x => x.condition.startsWith('error'))) {
+      ruleConditionToApply = 'error';
+    } else if (applicableRules.some(x => x.condition.startsWith('warning'))) {
+      ruleConditionToApply = 'warning';
+    } else if (applicableRules.some(x => x.condition.startsWith('info'))) {
+      ruleConditionToApply = 'info';
+    } else {
+      throw new Error('An unexpected error occurred: '
+        + 'The applicableRules did not match any of the handled conditions.');
+    }
+
     const messageTemplate = `[${ruleConditionToApply}] ${message.type}${location} : ${message.text}`;
 
     if (!flags['no-colors']) {

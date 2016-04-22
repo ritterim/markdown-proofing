@@ -85,8 +85,7 @@ Or, a bit more complex:
     "sentiment-score": "info",
     "sentiment-comparative-score": "info",
     "spelling-error": "error",
-    "statistics-flesch-kincaid-grade-level": "info",
-    "statistics-flesch-kincaid-grade-level": "warning > 12",
+    "statistics-flesch-kincaid-grade-level": "info, warning > 12",
     "statistics-flesch-kincaid-reading-ease": "warning <= 40",
     "write-good": "info"
   }
