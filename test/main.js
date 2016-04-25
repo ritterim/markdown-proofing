@@ -1,196 +1,183 @@
 import test from 'ava';
+import chalk from 'chalk';
 import path from 'path';
 
-import MarkdownProofing from '../src/lib/main';
-import AnalyzerResult from '../src/lib/analyzer-result';
+import Main from '../src/lib/main';
 
-const rootDirOverride = path.join(__dirname, '/../src/lib');
+class TestConfigurationProvider {
+  constructor(configuration) {
+    this.configuration = configuration;
+  }
 
-class TestAnalyzer1 {
-  analyze(/* str */) {
-    const result = new AnalyzerResult();
-
-    result.addMessage('test-analyzer-1', 'test-analyzer-1 message.');
-
-    return result;
+  getConfiguration() {
+    return this.configuration;
   }
 }
 
-class TestAnalyzer2 {
-  analyze(/* str */) {
-    const result = new AnalyzerResult();
+class TestLogger {
+  constructor() {
+    this.messages = [];
+  }
 
-    result.addMessage('test-analyzer-2', 'test-analyzer-2 message.');
-
-    return result;
+  log(message) {
+    this.messages.push(message);
   }
 }
 
-test('Returns empty messages when no analyzers', t => {
-  return new MarkdownProofing()
-    .proof('a')
-    .then(result => t.is(result.messages.length, 0));
-});
+function getMain(configuration, flags) {
+  return new Main(
+    [path.resolve(__dirname, '../test/fixtures/2015-12-20-announcing-rimdev-releases.md')],
+    flags || {},
+    new TestConfigurationProvider(configuration),
+    new TestLogger());
+}
 
-test('Returns empty messages with one analyzer and no matching configuration', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .proof(text)
-    .then(result => t.is(result.messages.length, 0));
-});
-
-test('Returns expected single message with one analyzer with matching configuration rule', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'info')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
-    });
-});
-
-test('Returns expected single message with one analyzer added twice with matching configuration rule', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'info')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
-    });
-});
-
-test('Returns expected single message from two analyzers with one matching configuration rules', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addAnalyzer(TestAnalyzer2)
-    .addRule('test-analyzer-1', 'info')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
-    });
-});
-
-test('Returns expected two messages from two analyzers with two matching configuration rules', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addAnalyzer(TestAnalyzer2)
-    .addRule('test-analyzer-1', 'info')
-    .addRule('test-analyzer-2', 'info')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 2);
-
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
-
-      t.is(result.messages[1].type, 'test-analyzer-2');
-      t.is(result.messages[1].text, 'test-analyzer-2 message.');
-    });
-});
-
-test('Returns single message for multiple rule conditions', t => {
-  const text = 'a';
-
-  return new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'info, warning')
-    .proof(text)
-    .then(result => {
-      t.is(result.messages.length, 1);
-      t.is(result.messages[0].type, 'test-analyzer-1');
-    });
-});
-
-test('Sets two rules when comma seperated', t => {
-  const sut = new MarkdownProofing()
-    .addAnalyzer(TestAnalyzer1)
-    .addRule('test-analyzer-1', 'info, warning < 10');
-
-  t.is(sut.rules.length, 2);
-  t.is(sut.rules[0].condition, 'info');
-  t.is(sut.rules[1].condition, 'warning < 10');
-});
-
-test('createUsingConfiguration adds analyzers', t => {
+test('Returns expected error when warning exists applying error first', t => {
   const configuration = {
-    analyzers: [
-      'spelling',
-      'statistics'
-    ]
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error, warning' }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
+  const main = getMain(configuration, { 'no-colors': true });
 
-  t.is(proofing.analyzers.length, 2);
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+  });
 });
 
-test('createUsingConfiguration adds rules', t => {
+test('Returns expected error when warning exists applying warning first', t => {
   const configuration = {
-    rules: {
-      'statistics-word-count': 'info'
-    }
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'warning, error' }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
+  const main = getMain(configuration, { 'no-colors': true });
 
-  t.is(proofing.rules.length, 1);
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+  });
 });
 
-test('createUsingConfiguration presets adds preset analyzers', t => {
+test('Returns expected error when info rule condition exists', t => {
   const configuration = {
-    presets: [
-      'technical-blog'
-    ]
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error, info' }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
+  const main = getMain(configuration, { 'no-colors': true });
 
-  t.true(proofing.analyzers.length > 1);
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+  });
 });
 
-test('createUsingConfiguration presets adds preset rules', t => {
+test('Returns expected warning when info rule exists', t => {
   const configuration = {
-    presets: [
-      'technical-blog'
-    ]
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'warning, info' }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
+  const main = getMain(configuration, { 'no-colors': true });
 
-  t.true(proofing.rules.length > 1);
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], '[warning] statistics-word-count : 198');
+  });
 });
 
-test('createUsingConfiguration removes rules from preset with none', t => {
+test('Returns expected info rule condition', t => {
   const configuration = {
-    presets: [
-      'technical-blog'
-    ],
-    rules: {
-      'spelling-error': 'none'
-    }
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'info' }
   };
 
-  const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
+  const main = getMain(configuration, { 'no-colors': true });
 
-  t.false(proofing.rules.some(x => x.messageType === 'spelling-error'));
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], '[info] statistics-word-count : 198');
+  });
+});
+
+test('Throws error for unexpected rule condition', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'invalid-condition' }
+  };
+
+  const main = getMain(configuration);
+
+  t.throws(
+    () => main._displayResults(
+      'test.md',
+      [configuration.rules],
+      {
+        messages: [
+          {
+            type: 'statistics-word-count',
+            text: 198
+          }
+        ]
+      }),
+    'An unexpected error occurred: The applicableRules did not match any of the handled conditions.');
+});
+
+
+test('Shows red for error by default', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error' }
+  };
+
+  const main = getMain(configuration);
+
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], chalk.red('[error] statistics-word-count : 198'));
+  });
+});
+
+test('Shows yellow for warning by default', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'warning' }
+  };
+
+  const main = getMain(configuration);
+
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], chalk.yellow('[warning] statistics-word-count : 198'));
+  });
+});
+
+test('Shows blue for info by default', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'info' }
+  };
+
+  const main = getMain(configuration);
+
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], chalk.blue('[info] statistics-word-count : 198'));
+  });
+});
+
+test('no-colors flag disables colors', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error' }
+  };
+
+  const main = getMain(configuration, { 'no-colors': true });
+
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+  });
 });

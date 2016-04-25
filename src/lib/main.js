@@ -1,112 +1,79 @@
+import chalk from 'chalk';
+import glob from 'glob';
 import fs from 'fs';
-import Rule from './rule';
+import MarkdownProofing from './markdownProofing';
 
-export default class MarkdownProofing {
-  constructor() {
-    this.analyzers = [];
-    this.rules = [];
+export default class Main {
+  constructor(input, flags, configurationProvider, logger) {
+    this.input = input;
+    this.flags = flags;
+    this.configurationProvider = configurationProvider;
+    this.logger = logger;
   }
 
-  // The `rootDirOverride` parameter helps with testing
-  static createUsingConfiguration(configuration, rootDirOverride) {
-    const markdownProofing = new MarkdownProofing();
+  run() {
+    const configuration = this.configurationProvider.getConfiguration();
+    const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration);
 
-    if (configuration.presets) {
-      configuration.presets.forEach(x => {
-        const presetFilePath = `${rootDirOverride || __dirname}/presets/${x}.json`;
-        const presetConfiguration = JSON.parse(fs.readFileSync(presetFilePath, 'utf-8'));
+    const promises = [];
 
-        this.addAssetsToInstance(
-          markdownProofing, presetConfiguration, rootDirOverride);
+    this.input.forEach(x => {
+      const files = glob.sync(x, {});
+
+      files.forEach(file => {
+        const text = fs.readFileSync(file, 'utf-8');
+
+        const promise = markdownProofing
+          .proof(text)
+          .then(results => this._displayResults(file, markdownProofing.rules, results));
+
+        promises.push(promise);
       });
-    }
+    });
 
-    this.addAssetsToInstance(
-      markdownProofing, configuration, rootDirOverride);
-
-    return markdownProofing;
+    return Promise.all(promises);
   }
 
-  static addAssetsToInstance(markdownProofing, configuration, rootDirOverride) {
-    if (configuration.analyzers) {
-      configuration.analyzers.forEach(x => {
-        const analyzer = require(`${rootDirOverride || __dirname}/analyzers/${x}.js`);
-        markdownProofing.addAnalyzer(analyzer);
-      });
-    }
+  _displayResults(file, rules, results) {
+    const line = new Array(file.length + 1).join('-');
+    this.logger.log(`\n${line}\n${file}\n${line}\n`);
 
-    if (configuration.rules) {
-      for (const prop in configuration.rules) {
-        const ruleValue = configuration.rules[prop];
+    results.messages.forEach(message => {
+      const location = (message.line !== undefined && message.column !== undefined) // eslint-disable-line no-undefined
+        ? ` (${message.line}:${message.column})`
+        : '';
 
-        if (ruleValue === 'none') {
-          markdownProofing.rules = markdownProofing.rules.filter(
-            x => x.messageType !== prop);
-        } else {
-          markdownProofing.addRule(prop, ruleValue);
-        }
+      const applicableRules = rules
+        .filter(rule => rule.messageType === message.type && rule.matchesCondition(message));
+
+      // Use startsWith when determining the condition to display
+      // as a condition could be:
+      // error < 5
+      let ruleConditionToApply;
+      if (applicableRules.some(x => x.condition.startsWith('error'))) {
+        ruleConditionToApply = 'error';
+      } else if (applicableRules.some(x => x.condition.startsWith('warning'))) {
+        ruleConditionToApply = 'warning';
+      } else if (applicableRules.some(x => x.condition.startsWith('info'))) {
+        ruleConditionToApply = 'info';
+      } else {
+        throw new Error('An unexpected error occurred: '
+          + 'The applicableRules did not match any of the handled conditions.');
       }
-    }
-  }
 
-  addAnalyzer(analyzer) {
-    if (this.analyzers.indexOf(analyzer) === -1) {
-      this.analyzers.push(analyzer);
-    }
+      const messageTemplate = `[${ruleConditionToApply}] ${message.type}${location} : ${message.text}`;
 
-    return this;
-  }
+      if (!this.flags['no-colors']) {
+        const colorsLookup = {
+          info: chalk.blue,
+          warning: chalk.yellow,
+          error: chalk.red
+        };
 
-  addRule(messageType, ruleCondition) {
-    // ruleCondition could be:
-    // info, warning < 5, error < 10
-    //
-    // We should apply each of these as a separate rule.
-
-    const ruleConditions = ruleCondition.split(',').map(x => x.trim());
-
-    ruleConditions.forEach(rc => {
-      this.rules.push(new Rule(messageType, rc));
-    });
-
-    return this;
-  }
-
-  proof(text) {
-    const analyzerPromises = [];
-
-    this.analyzers.forEach(X => {
-      // Analyzers can return a promise that resolves with an
-      // `AnalyzerResult`, or they can simply return an `AnalyzerResult`.
-      const resultOrPromise = new X().analyze(text);
-
-      // If the analyzer output is not a promise,
-      // make it into a promise for consistency.
-      const promise = resultOrPromise.then
-        ? resultOrPromise
-        : Promise.resolve(resultOrPromise);
-
-      analyzerPromises.push(promise);
-    });
-
-    return Promise.all(analyzerPromises).then(x => {
-      // Collect any messages outputted by any analyzers
-      const analyzerMessages = [];
-
-      x.forEach(y => {
-        const applicableMessages = y.messages.filter(
-          message => this.rules.some(
-            rule => rule.matchesCondition(message)));
-
-        applicableMessages.forEach(m => analyzerMessages.push(m));
-      });
-
-      // Sort by message type ascending
-      analyzerMessages.sort((a, b) => a.type.localeCompare(b.type));
-
-      return {
-        messages: analyzerMessages
-      };
+        this.logger.log(colorsLookup[ruleConditionToApply](messageTemplate));
+      } else {
+        this.logger.log(messageTemplate);
+      }
     });
   }
 }
