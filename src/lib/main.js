@@ -3,63 +3,47 @@ import glob from 'glob';
 import fs from 'fs';
 import MarkdownProofing from './markdownProofing';
 
-/* eslint-disable no-console */
-
 export default class Main {
-  run(input, flags) {
-    //
-    // Create markdownProofing using configuration file from disk
-    //
+  constructor(input, flags, configurationProvider, logger) {
+    this.input = input;
+    this.flags = flags;
+    this.configurationProvider = configurationProvider;
+    this.logger = logger;
+  }
 
-    const defaultConfigurationPath = '.markdown-proofing';
-    const filePath = flags.configuration || defaultConfigurationPath;
-
-    try {
-      fs.accessSync(filePath, fs.F_OK);
-    } catch (e) {
-      throw new Error(`Configuration was not found or could not be read from '${filePath}'.`, e);
-    }
-
-    const configuration = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  run() {
+    const configuration = this.configurationProvider.getConfiguration();
     const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration);
 
-    //
-    // Process input file(s)
-    //
+    const promises = [];
 
-    input.forEach(x => {
-      const globOptions = {};
+    this.input.forEach(x => {
+      const files = glob.sync(x, {});
 
-      glob(x, globOptions, (er, files) => {
-        if (er) throw er;
-        files.forEach(file => this._processFile(markdownProofing, file, flags));
+      files.forEach(file => {
+        const text = fs.readFileSync(file, 'utf-8');
+
+        const promise = markdownProofing
+          .proof(text)
+          .then(results => this._displayResults(file, markdownProofing.rules, results));
+
+        promises.push(promise);
       });
     });
+
+    return Promise.all(promises);
   }
 
-  _processFile(markdownProofing, file, flags) {
-    fs.readFile(file, 'utf-8', (err, data) => {
-      if (err) throw err;
+  _displayResults(file, rules, results) {
+    const line = new Array(file.length + 1).join('-');
+    this.logger.log(`\n${line}\n${file}\n${line}\n`);
 
-      markdownProofing.proof(data)
-        .then(results => {
-          const line = new Array(file.length + 1).join('-');
-
-          console.log(`\n${line}\n${file}\n${line}\n`);
-
-          this._displayResults(markdownProofing, results, flags);
-        });
-    });
-  }
-
-  _displayResults(markdownProofing, results, flags) {
     results.messages.forEach(message => {
       const location = (message.line !== undefined && message.column !== undefined) // eslint-disable-line no-undefined
         ? ` (${message.line}:${message.column})`
         : '';
 
-      const applicableRules = markdownProofing
-        .rules
+      const applicableRules = rules
         .filter(rule => rule.messageType === message.type && rule.matchesCondition(message));
 
       // Use startsWith when determining the condition to display
@@ -79,16 +63,16 @@ export default class Main {
 
       const messageTemplate = `[${ruleConditionToApply}] ${message.type}${location} : ${message.text}`;
 
-      if (!flags['no-colors']) {
+      if (!this.flags['no-colors']) {
         const colorsLookup = {
           info: chalk.blue,
           warning: chalk.yellow,
           error: chalk.red
         };
 
-        console.log(colorsLookup[ruleConditionToApply](messageTemplate));
+        this.logger.log(colorsLookup[ruleConditionToApply](messageTemplate));
       } else {
-        console.log(messageTemplate);
+        this.logger.log(messageTemplate);
       }
     });
   }

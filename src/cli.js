@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 import meow from 'meow';
+import JsonFileConfigurationProvider from './lib/jsonFileConfigurationProvider';
 import Main from './lib/main';
 
 const cli = meow({
@@ -36,4 +37,10 @@ if (!cli.input || cli.input.length === 0) {
   process.exit(1); // eslint-disable-line no-process-exit
 }
 
-new Main().run(input, flags);
+const main = new Main(
+  input,
+  flags,
+  new JsonFileConfigurationProvider(flags.configuration || '.markdown-proofing'),
+  console);
+
+main.run();

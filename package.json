@@ -42,7 +42,7 @@
     "lint": "eslint src test",
     "test": "ava",
     "test:watch": "chokidar 'test/*.js' 'src/**' -c 'npm test' --silent --initial",
-    "integration-test": "npm run build && node cli.js test/fixtures/*",
+    "integration-test": "npm run build && node cli.js test/fixtures/*.md test/fixtures/*.txt",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check",
     "prepublish": "npm run clean && npm run build"
