@@ -63,7 +63,7 @@ export default class Main {
 
       const messageTemplate = `[${ruleConditionToApply}] ${message.type}${location} : ${message.text}`;
 
-      if (!this.flags['no-colors']) {
+      if (this.flags.color) {
         const colorsLookup = {
           info: chalk.blue,
           warning: chalk.yellow,
