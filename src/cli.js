@@ -12,7 +12,7 @@ const defaultFlags = {
 
 const cli = meow(`
 Usage
-  $ markdown-proofing [...file-glob] [options]
+  $ markdown-proofing [options] [...file-glob]
 
 Options
   -c, --configuration      Specify a configuration file to use.               [Default: ${defaultFlags.configuration}]
