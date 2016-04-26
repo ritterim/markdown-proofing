@@ -6,7 +6,8 @@ import Main from './lib/main';
 
 const defaultFlags = {
   configuration: '.markdown-proofing',
-  color: true
+  color: true,
+  throw: true
 };
 
 const cli = meow(`
@@ -14,8 +15,9 @@ Usage
   $ markdown-proofing [...file-glob] [options]
 
 Options
-  -c, --configuration  Specify a configuration file to use.               [Default: ${defaultFlags.configuration}]
-  --color, --no-color  Specify if color should be applied to the output.  [Default: ${defaultFlags.color}]
+  -c, --configuration      Specify a configuration file to use.               [Default: ${defaultFlags.configuration}]
+  --color, --no-color      Specify if color should be applied to the output.  [Default: ${defaultFlags.color}]
+  -t, --throw, --no-throw  Do not throw when errors are encountered.          [Default: ${defaultFlags.throw}]
 
 Examples
   $ markdown-proofing ./file1.md',
@@ -27,7 +29,8 @@ Examples
   $ markdown-proofing **/*.md',
   Analyze all .md files recursively`, {
     alias: {
-      c: 'configuration'
+      c: 'configuration',
+      t: 'throw'
     },
     default: defaultFlags
   });

@@ -180,3 +180,42 @@ test('Shows blue for info when color specified', t => {
     t.is(main.logger.messages[1], chalk.blue('[info] statistics-word-count : 198'));
   });
 });
+
+test('Does not throw for proofing errors by default', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error' }
+  };
+
+  const main = getMain(configuration);
+
+  main.run().catch(() => {
+    t.fail();
+  });
+});
+
+test('Throws for one error by default with expected message', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error' }
+  };
+
+  const main = getMain(configuration, { throw: true });
+
+  main.run().catch(e => {
+    t.is(e, ['Error: 1 error was encountered while proofing.']);
+  });
+});
+
+test('Throws for two errors by default with expected message', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error' }
+  };
+
+  const main = getMain(configuration, { throw: true });
+
+  main.run().catch(e => {
+    t.is(e, ['Error: 2 errors were encountered while proofing.']);
+  });
+});
