@@ -125,14 +125,27 @@ test('Throws error for unexpected rule condition', t => {
     'An unexpected error occurred: The applicableRules did not match any of the handled conditions.');
 });
 
-
-test('Shows red for error by default', t => {
+test('Does not use colors when no colors specified', t => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'error' }
   };
 
   const main = getMain(configuration);
+
+  return main.run().then(() => {
+    t.is(main.logger.messages.length, 2); // First message is the file printout
+    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+  });
+});
+
+test('Shows red for error when color specified', t => {
+  const configuration = {
+    analyzers: ['statistics'],
+    rules: { 'statistics-word-count': 'error' }
+  };
+
+  const main = getMain(configuration, { color: true });
 
   return main.run().then(() => {
     t.is(main.logger.messages.length, 2); // First message is the file printout
@@ -140,13 +153,13 @@ test('Shows red for error by default', t => {
   });
 });
 
-test('Shows yellow for warning by default', t => {
+test('Shows yellow for warning when color specified', t => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'warning' }
   };
 
-  const main = getMain(configuration);
+  const main = getMain(configuration, { color: true });
 
   return main.run().then(() => {
     t.is(main.logger.messages.length, 2); // First message is the file printout
@@ -154,30 +167,16 @@ test('Shows yellow for warning by default', t => {
   });
 });
 
-test('Shows blue for info by default', t => {
+test('Shows blue for info when color specified', t => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'info' }
   };
 
-  const main = getMain(configuration);
+  const main = getMain(configuration, { color: true });
 
   return main.run().then(() => {
     t.is(main.logger.messages.length, 2); // First message is the file printout
     t.is(main.logger.messages[1], chalk.blue('[info] statistics-word-count : 198'));
-  });
-});
-
-test('no-colors flag disables colors', t => {
-  const configuration = {
-    analyzers: ['statistics'],
-    rules: { 'statistics-word-count': 'error' }
-  };
-
-  const main = getMain(configuration, { 'no-colors': true });
-
-  return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
   });
 });
