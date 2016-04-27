@@ -16,6 +16,7 @@ export default class Main {
     const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration);
 
     const promises = [];
+    let errorsCount = 0;
 
     this.input.forEach(x => {
       const files = glob.sync(x, {});
@@ -25,18 +26,26 @@ export default class Main {
 
         const promise = markdownProofing
           .proof(text)
-          .then(results => this._displayResults(file, markdownProofing.rules, results));
+          .then(results => {
+            errorsCount += this._displayResults(file, markdownProofing.rules, results);
+          });
 
         promises.push(promise);
       });
     });
 
-    return Promise.all(promises);
+    return Promise.all(promises).then(() => {
+      if (this.flags.throw && errorsCount > 0) {
+        throw new Error(`${errorsCount} ${errorsCount > 1 ? 'errors were' : 'error was'} encountered while proofing.`);
+      }
+    });
   }
 
   _displayResults(file, rules, results) {
     const line = new Array(file.length + 1).join('-');
     this.logger.log(`\n${line}\n${file}\n${line}\n`);
+
+    let errorsCount = 0;
 
     results.messages.forEach(message => {
       const location = (message.line !== undefined && message.column !== undefined) // eslint-disable-line no-undefined
@@ -52,6 +61,7 @@ export default class Main {
       let ruleConditionToApply;
       if (applicableRules.some(x => x.condition.startsWith('error'))) {
         ruleConditionToApply = 'error';
+        errorsCount++;
       } else if (applicableRules.some(x => x.condition.startsWith('warning'))) {
         ruleConditionToApply = 'warning';
       } else if (applicableRules.some(x => x.condition.startsWith('info'))) {
@@ -75,5 +85,7 @@ export default class Main {
         this.logger.log(messageTemplate);
       }
     });
+
+    return errorsCount;
   }
 }
