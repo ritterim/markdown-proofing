@@ -54,7 +54,10 @@ export default class StatisticsAnalyzer {
     // Estimated read time
     //
 
-    result.addMessage('statistics-estimated-read-time', readTime(text).text);
+    const readTimeResult = readTime(text);
+
+    result.addMessage('statistics-estimated-read-time', readTimeResult.text);
+    result.addMessage('statistics-estimated-read-time-minutes', readTimeResult.m);
 
     return result;
   }

@@ -98,6 +98,12 @@ test('Returns statistics-estimated-read-time', t => {
   t.is(result.getMessage('statistics-estimated-read-time').text, 'Less than a minute');
 });
 
+test('Returns statistics-estimated-read-time-minutes', t => {
+  const result = new StatisticsAnalyzer().analyze(text);
+
+  t.is(result.getMessage('statistics-estimated-read-time-minutes').text, 0);
+});
+
 test('Ignores YAML front matter in all except statistics-text-length', t => {
   const initialValues = new StatisticsAnalyzer().analyze('');
 

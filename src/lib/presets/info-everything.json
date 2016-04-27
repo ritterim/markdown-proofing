@@ -43,6 +43,7 @@
     "statistics-smog-index": "info",
     "statistics-automated-readability-index": "info",
     "statistics-estimated-read-time": "info",
+    "statistics-estimated-read-time-minutes": "info",
 
     "write-good-suggestion": "info"
   }
