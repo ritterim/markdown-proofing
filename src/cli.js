@@ -20,13 +20,13 @@ Options
   -t, --throw, --no-throw  Do not throw when errors are encountered.          [Default: ${defaultFlags.throw}]
 
 Examples
-  $ markdown-proofing ./file1.md',
-  Analyze ./file1.md file',
-  $ markdown-proofing ./file1.md ./file2.md',
-  Analyze ./file1.md and ./file2.md files',
-  $ markdown-proofing -c ./custom-configuration.json ./file1.md',
-  Analyze ./file.md file using ./custom-configuration.json',
-  $ markdown-proofing **/*.md',
+  $ markdown-proofing ./file1.md
+  Analyze ./file1.md file
+  $ markdown-proofing ./file1.md ./file2.md
+  Analyze ./file1.md and ./file2.md files
+  $ markdown-proofing -c ./custom-configuration.json ./file1.md
+  Analyze ./file.md file using ./custom-configuration.json
+  $ markdown-proofing **/*.md
   Analyze all .md files recursively`, {
     alias: {
       c: 'configuration',
