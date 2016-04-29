@@ -43,6 +43,8 @@
     "test": "ava",
     "test:watch": "chokidar 'test/*.js' 'src/**' -c 'npm test' --silent --initial",
     "integration-test": "npm run build && node cli.js --no-throw test/fixtures/*.md test/fixtures/*.txt",
+    "integration-test-stdin": "npm run build && cat README.md | node cli.js --no-throw",
+    "integration-test-stdin-windows": "npm run build && type README.md | node cli.js --no-throw",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check",
     "prepublish": "npm run clean && npm run build"

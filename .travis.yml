@@ -11,5 +11,6 @@ script:
   - npm run build
   - npm run validate
   - npm run integration-test
+  - npm run integration-test-stdin
 after_success:
   - npm run coveralls

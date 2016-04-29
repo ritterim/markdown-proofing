@@ -9,6 +9,7 @@ call npm run build
 call npm run lint
 call npm run coverage:teamcity
 call npm run integration-test
+call npm run integration-test-stdin-windows
 
 if %ERRORLEVEL% neq 0 goto BuildFail
 goto BuildSuccess

@@ -4,46 +4,88 @@ import fs from 'fs';
 import MarkdownProofing from './markdownProofing';
 
 export default class Main {
-  constructor(input, flags, configurationProvider, logger) {
-    this.input = input;
-    this.flags = flags;
+  constructor(cli, configurationProvider, logger, stdinHelper) {
+    this.cli = cli;
     this.configurationProvider = configurationProvider;
     this.logger = logger;
+    this.stdinHelper = stdinHelper;
   }
 
   run() {
+    let items = this._getItemsFromInput(this.cli.input);
+
+    if (items.length === 0) {
+      items = this._getItemsFromStandardInput();
+    }
+
+    if (items.length === 0) {
+      this.logger.log(this.cli.help);
+    }
+
+    return this._processItems(items);
+  }
+
+  _getItemsFromInput(input) {
+    const items = [];
+
+    input.forEach(x => {
+      const files = glob.sync(x, {});
+
+      files.forEach(file => {
+        const text = fs.readFileSync(file, 'utf-8');
+
+        items.push({
+          info: file,
+          text: text
+        });
+      });
+    });
+
+    return items;
+  }
+
+  _getItemsFromStandardInput() {
+    const items = [];
+
+    const text = this.stdinHelper.readAllSync();
+
+    if (text !== undefined && text !== null) { // eslint-disable-line no-undefined
+      items.push({
+        info: 'stdin',
+        text: text
+      });
+    }
+
+    return items;
+  }
+
+  _processItems(items) {
     const configuration = this.configurationProvider.getConfiguration();
     const markdownProofing = MarkdownProofing.createUsingConfiguration(configuration);
 
     const promises = [];
     let errorsCount = 0;
 
-    this.input.forEach(x => {
-      const files = glob.sync(x, {});
+    items.forEach(item => {
+      const promise = markdownProofing
+        .proof(item.text)
+        .then(results => {
+          errorsCount += this._displayResults(item.info, markdownProofing.rules, results);
+        });
 
-      files.forEach(file => {
-        const text = fs.readFileSync(file, 'utf-8');
-
-        const promise = markdownProofing
-          .proof(text)
-          .then(results => {
-            errorsCount += this._displayResults(file, markdownProofing.rules, results);
-          });
-
-        promises.push(promise);
-      });
+      promises.push(promise);
     });
 
     return Promise.all(promises).then(() => {
-      if (this.flags.throw && errorsCount > 0) {
+      if (this.cli.flags.throw && errorsCount > 0) {
         throw new Error(`${errorsCount} ${errorsCount > 1 ? 'errors were' : 'error was'} encountered while proofing.`);
       }
     });
   }
 
-  _displayResults(file, rules, results) {
-    const line = new Array(file.length + 1).join('-');
-    this.logger.log(`\n${line}\n${file}\n${line}\n`);
+  _displayResults(info, rules, results) {
+    const line = new Array(info.length + 1).join('-');
+    this.logger.log(`\n${line}\n${info}\n${line}\n`);
 
     let errorsCount = 0;
 
@@ -73,7 +115,7 @@ export default class Main {
 
       const messageTemplate = `[${ruleConditionToApply}] ${message.type}${location} : ${message.text}`;
 
-      if (this.flags.color) {
+      if (this.cli.flags.color) {
         const colorsLookup = {
           info: chalk.blue,
           warning: chalk.yellow,
