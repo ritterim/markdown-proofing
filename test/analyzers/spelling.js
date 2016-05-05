@@ -93,3 +93,25 @@ test('Should be initialized after analyze invoked', t => {
       t.true(SpellingAnalyzer.initialized);
     });
 });
+
+test('initialize should initially return a promise resolving to false', t => {
+  return new SpellingAnalyzer()
+    .initialize()
+    .then(x => {
+      t.false(x);
+    });
+});
+
+test('initialize should return a promise resolving to true after previously invoked', t => {
+  const analyzer = new SpellingAnalyzer();
+
+  return analyzer
+    .initialize()
+    .then(() => {
+      analyzer
+        .initialize()
+        .then(x => {
+          t.true(x);
+        });
+    });
+});
