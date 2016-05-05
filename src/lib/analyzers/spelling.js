@@ -19,15 +19,10 @@ export default class SpellingAnalyzer {
   }
 
   analyze(str) {
-    return new Promise(resolve => {
-      spellConfig.initialise(this.configurationFile, () => {
+    return this
+      .initialize()
+      .then(() => {
         const result = new AnalyzerResult();
-
-        spellcheck.initialise(opts);
-
-        spellConfig
-          .getGlobalWords()
-          .forEach(x => spellcheck.addWord(x, /* temporary: */ true));
 
         const spellResult = markdownSpellcheck.spell(str, opts);
 
@@ -39,8 +34,32 @@ export default class SpellingAnalyzer {
             Location.getLineColumn(str, x.index));
         });
 
-        resolve(result);
+        return result;
       });
+  }
+
+  // The returned Promise resolves to `true` if initialization
+  // was not required (as in, it already took place).
+  // `false` is returned if initialization was ran.
+  initialize() {
+    return new Promise(resolve => {
+      if (SpellingAnalyzer.initialized) {
+        resolve(SpellingAnalyzer.initialized);
+      } else {
+        spellConfig.initialise(this.configurationFile, () => {
+          spellcheck.initialise(opts);
+
+          spellConfig
+            .getGlobalWords()
+            .forEach(x => spellcheck.addWord(x, /* temporary: */ true));
+
+          SpellingAnalyzer.initialized = true;
+
+          resolve(!SpellingAnalyzer.initialized);
+        });
+      }
     });
   }
 }
+
+SpellingAnalyzer.initialized = false;

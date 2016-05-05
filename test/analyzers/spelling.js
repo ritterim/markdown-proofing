@@ -67,3 +67,29 @@ test('Should use spelling configuration file', t => {
       t.is(result.messages.length, 0);
     });
 });
+
+test('Should not be initially initialized', t => {
+  t.false(SpellingAnalyzer.initialized);
+});
+
+test('Should be initialized after initialize invoked', t => {
+  const testText = 'abc123';
+
+  t.false(SpellingAnalyzer.initialized);
+
+  return new SpellingAnalyzer()
+    .analyze(testText)
+    .then(() => {
+      t.true(SpellingAnalyzer.initialized);
+    });
+});
+
+test('Should be initialized after analyze invoked', t => {
+  const testText = 'abc123';
+
+  return new SpellingAnalyzer()
+    .analyze(testText)
+    .then(() => {
+      t.true(SpellingAnalyzer.initialized);
+    });
+});
