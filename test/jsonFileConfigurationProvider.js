@@ -30,7 +30,7 @@ test('getConfiguration should throw for invalid JSON', t => {
 
   const provider = new JsonFileConfigurationProvider(testFilePath);
 
-  t.throws(() => provider.getConfiguration(), 'Unexpected token T');
+  t.throws(() => provider.getConfiguration(), /Unexpected token T/);
 });
 
 test('getConfiguration should return expected configuration when valid JSON', t => {
