@@ -33,7 +33,7 @@
   },
   "scripts": {
     "audit": "nsp check package",
-    "build": "babel -d ./ ./src && shjs build-copy-presets.js",
+    "build": "babel -d ./ ./src && shx mkdir -p ./lib/presets && shx cp -R ./src/lib/presets/ ./lib/",
     "check": "npm run audit && npm outdated --depth 0",
     "clean": "rimraf coverage lib .nyc_output cli.js",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html ava",
@@ -90,6 +90,6 @@
     "nsp": "^2.2.0",
     "nyc": "^6.4.0",
     "rimraf": "^2.5.2",
-    "shelljs": "^0.6.0"
+    "shx": "^0.1.1"
   }
 }
