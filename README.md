@@ -135,6 +135,9 @@ You can use the following to integrate with Jekyll:
   "proof:index": "node proofScripts.js git-index _posts/*.md",
   "proof:uncommitted": "node proofScripts.js git-uncommitted _posts/*.md"
 },
+"devDependencies": {
+  "shelljs": "^0.7.0"
+}
 ```
 
 **proofScripts.js**
