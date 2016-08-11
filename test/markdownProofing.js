@@ -194,3 +194,29 @@ test('createUsingConfiguration removes rules from preset with none', t => {
 
   t.false(proofing.rules.some(x => x.messageType === 'spelling-error'));
 });
+
+test('Inline rules override preset rules', t => {
+  const configurationBaseline = {
+    presets: [
+      'inline-rule'
+    ]
+  };
+
+  const configuration = {
+    presets: [
+      'inline-rule'
+    ],
+    rules: {
+      'spelling-error': 'info'
+    }
+  };
+
+  const proofingBaseline = MarkdownProofing.createUsingConfiguration(configurationBaseline, __dirname);
+  const proofing = MarkdownProofing.createUsingConfiguration(configuration, __dirname);
+
+  t.true(proofingBaseline.rules.filter(x => x.messageType === 'spelling-error').length === 1);
+  t.true(proofingBaseline.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'error');
+  
+  t.true(proofing.rules.filter(x => x.messageType === 'spelling-error').length === 1);
+  t.true(proofing.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'info');
+});
