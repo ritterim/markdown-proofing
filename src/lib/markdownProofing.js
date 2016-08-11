@@ -43,7 +43,12 @@ export default class MarkdownProofing {
           markdownProofing.rules = markdownProofing.rules.filter(
             x => x.messageType !== prop);
         } else {
-          markdownProofing.addRule(prop, ruleValue);
+          if (markdownProofing.ruleExists(prop)) {
+            markdownProofing.updateRule(prop, ruleValue);
+          }
+          else {
+            markdownProofing.addRule(prop, ruleValue);
+          }
         }
       }
     }
@@ -108,5 +113,17 @@ export default class MarkdownProofing {
         messages: analyzerMessages
       };
     });
+  }
+
+  ruleExists(messageType) {
+    var existingRules = this.rules.filter(x => x.messageType === messageType);
+
+    return existingRules.length > 0;
+  }
+  
+  updateRule(messageType, ruleCondition) {
+    this.rules = this.rules.filter(x => x.messageType !== messageType);
+
+    return this.addRule(messageType, ruleCondition);
   }
 }
