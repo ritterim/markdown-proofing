@@ -216,7 +216,7 @@ test('Inline rules override preset rules', t => {
 
   t.true(proofingBaseline.rules.filter(x => x.messageType === 'spelling-error').length === 1);
   t.true(proofingBaseline.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'error');
-  
+
   t.true(proofing.rules.filter(x => x.messageType === 'spelling-error').length === 1);
   t.true(proofing.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'info');
 });

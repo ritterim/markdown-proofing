@@ -42,13 +42,10 @@ export default class MarkdownProofing {
         if (ruleValue === 'none') {
           markdownProofing.rules = markdownProofing.rules.filter(
             x => x.messageType !== prop);
+        } else if (markdownProofing.ruleExists(prop)) {
+          markdownProofing.updateRule(prop, ruleValue);
         } else {
-          if (markdownProofing.ruleExists(prop)) {
-            markdownProofing.updateRule(prop, ruleValue);
-          }
-          else {
-            markdownProofing.addRule(prop, ruleValue);
-          }
+          markdownProofing.addRule(prop, ruleValue);
         }
       }
     }
@@ -116,11 +113,11 @@ export default class MarkdownProofing {
   }
 
   ruleExists(messageType) {
-    var existingRules = this.rules.filter(x => x.messageType === messageType);
+    const existingRules = this.rules.filter(x => x.messageType === messageType);
 
     return existingRules.length > 0;
   }
-  
+
   updateRule(messageType, ruleCondition) {
     this.rules = this.rules.filter(x => x.messageType !== messageType);
 

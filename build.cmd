@@ -4,14 +4,26 @@ setlocal
 
 :Build
 call npm install
-call npm run check
-call npm run build
-call npm run lint
-call npm run coverage:teamcity
-call npm run integration-test
-call npm run integration-test-stdin-windows
-
 if %ERRORLEVEL% neq 0 goto BuildFail
+
+call npm run check
+if %ERRORLEVEL% neq 0 goto BuildFail
+
+call npm run build
+if %ERRORLEVEL% neq 0 goto BuildFail
+
+call npm run lint
+if %ERRORLEVEL% neq 0 goto BuildFail
+
+call npm run coverage:teamcity
+if %ERRORLEVEL% neq 0 goto BuildFail
+
+call npm run integration-test
+if %ERRORLEVEL% neq 0 goto BuildFail
+
+call npm run integration-test-stdin-windows
+if %ERRORLEVEL% neq 0 goto BuildFail
+
 goto BuildSuccess
 
 :BuildFail
