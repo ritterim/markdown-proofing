@@ -24,25 +24,13 @@ class TestLogger {
   }
 }
 
-class TestStdinHelper {
-  constructor(text) {
-    this.readAllSyncCalled = false;
-    this.text = text;
-  }
-
-  readAllSync() {
-    this.readAllSyncCalled = true;
-    return this.text;
-  }
-}
-
 const inputDefault = [
   path.resolve(__dirname, '../test/fixtures/2015-12-20-announcing-rimdev-releases.md')
 ];
 
 const testHelpMessage = 'test-help';
 
-function getMain(configuration, flags = {}, input = inputDefault, stdinText = null) {
+function getMain(configuration, flags = {}, input = inputDefault) {
   const cli = {
     input: input,
     flags: flags,
@@ -52,11 +40,10 @@ function getMain(configuration, flags = {}, input = inputDefault, stdinText = nu
   return new Main(
     cli,
     new TestConfigurationProvider(configuration),
-    new TestLogger(),
-    new TestStdinHelper(stdinText));
+    new TestLogger());
 }
 
-test('Sends help message to logger when no files or stdin contents', t => {
+test('Sends help message to logger when no files', t => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'info' }
@@ -67,36 +54,6 @@ test('Sends help message to logger when no files or stdin contents', t => {
   return main.run().then(() => {
     t.is(main.logger.messages.length, 1);
     t.is(main.logger.messages[0], testHelpMessage);
-  });
-});
-
-test('Reads from stdin when no files specified', t => {
-  const configuration = {
-    analyzers: ['statistics'],
-    rules: { 'statistics-letter-count': 'info' }
-  };
-
-  const stdinText = 'test';
-  const main = getMain(configuration, {}, [], stdinText);
-
-  return main.run().then(() => {
-    t.true(main.stdinHelper.readAllSyncCalled);
-
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], `[info] statistics-letter-count : ${stdinText.length}`);
-  });
-});
-
-test('Does not read from stdin when any files specified', t => {
-  const configuration = {
-    analyzers: ['statistics'],
-    rules: { 'statistics-word-count': 'info' }
-  };
-
-  const main = getMain(configuration);
-
-  return main.run().then(() => {
-    t.false(main.stdinHelper.readAllSyncCalled);
   });
 });
 

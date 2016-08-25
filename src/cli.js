@@ -2,7 +2,6 @@
 
 import meow from 'meow';
 import JsonFileConfigurationProvider from './lib/jsonFileConfigurationProvider';
-import StdinHelper from './lib/stdin-helper';
 import Main from './lib/main';
 
 const defaultFlags = {
@@ -25,8 +24,6 @@ Examples
   Analyze ./file1.md file
   $ markdown-proofing ./file1.md ./file2.md
   Analyze ./file1.md and ./file2.md files
-  $ cat ./file1.md | markdown-proofing
-  Analyze text from standard input
   $ markdown-proofing -c ./custom-configuration.json ./file1.md
   Analyze ./file.md file using ./custom-configuration.json
   $ markdown-proofing **/*.md
@@ -41,7 +38,6 @@ Examples
 const main = new Main(
   cli,
   new JsonFileConfigurationProvider(cli.flags.configuration),
-  console,
-  new StdinHelper());
+  console);
 
 main.run();

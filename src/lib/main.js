@@ -4,19 +4,14 @@ import fs from 'fs';
 import MarkdownProofing from './markdownProofing';
 
 export default class Main {
-  constructor(cli, configurationProvider, logger, stdinHelper) {
+  constructor(cli, configurationProvider, logger) {
     this.cli = cli;
     this.configurationProvider = configurationProvider;
     this.logger = logger;
-    this.stdinHelper = stdinHelper;
   }
 
   run() {
-    let items = this._getItemsFromInput(this.cli.input);
-
-    if (this.cli.input.length === 0 && items.length === 0) {
-      items = this._getItemsFromStandardInput();
-    }
+    const items = this._getItemsFromInput(this.cli.input);
 
     if (this.cli.input.length === 0 && items.length === 0) {
       this.logger.log(this.cli.help);
@@ -40,21 +35,6 @@ export default class Main {
         });
       });
     });
-
-    return items;
-  }
-
-  _getItemsFromStandardInput() {
-    const items = [];
-
-    const text = this.stdinHelper.readAllSync();
-
-    if (text !== undefined && text !== null) { // eslint-disable-line no-undefined
-      items.push({
-        info: 'stdin',
-        text: text
-      });
-    }
 
     return items;
   }

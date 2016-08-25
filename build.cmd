@@ -21,9 +21,6 @@ if %ERRORLEVEL% neq 0 goto BuildFail
 call npm run integration-test
 if %ERRORLEVEL% neq 0 goto BuildFail
 
-call npm run integration-test-stdin-windows
-if %ERRORLEVEL% neq 0 goto BuildFail
-
 goto BuildSuccess
 
 :BuildFail
