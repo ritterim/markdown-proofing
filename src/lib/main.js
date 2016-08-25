@@ -14,7 +14,7 @@ export default class Main {
   run() {
     let items = this._getItemsFromInput(this.cli.input);
 
-    if (items.length === 0) {
+    if (this.cli.input.length === 0 && items.length === 0) {
       items = this._getItemsFromStandardInput();
     }
 
