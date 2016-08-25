@@ -18,7 +18,7 @@ export default class Main {
       items = this._getItemsFromStandardInput();
     }
 
-    if (items.length === 0) {
+    if (this.cli.input.length === 0 && items.length === 0) {
       this.logger.log(this.cli.help);
     }
 
