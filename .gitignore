@@ -2,6 +2,7 @@
 test/.temp
 /lib
 /cli.js
+markdown-proofing-*.tgz
 
 # Logs
 logs
