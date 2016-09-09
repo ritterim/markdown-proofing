@@ -35,10 +35,10 @@
     "audit": "nsp check package",
     "build": "babel -d ./ ./src && shx mkdir -p ./lib/presets && shx cp -R ./src/lib/presets/ ./lib/",
     "check": "npm run audit && npm outdated --depth 0",
-    "clean": "rimraf coverage lib .nyc_output cli.js",
+    "clean": "rm -rf coverage lib .nyc_output cli.js",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html ava",
     "coverage:teamcity": "nyc --reporter=lcov --reporter=text --reporter=html --reporter=teamcity ava",
-    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rimraf ./coverage",
+    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint src test",
     "test": "ava",
     "test:watch": "chokidar 'test/*.js' 'src/**' -c 'npm test' --silent --initial",
@@ -87,7 +87,6 @@
     "eslint": "^2.8.0",
     "nsp": "^2.2.0",
     "nyc": "^6.4.0",
-    "rimraf": "^2.5.2",
     "shx": "^0.1.1"
   }
 }
