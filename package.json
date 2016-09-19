@@ -1,6 +1,6 @@
 {
   "name": "markdown-proofing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A markdown proofing platform for individuals, teams, and organizations.",
   "bin": "cli.js",
   "files": [
