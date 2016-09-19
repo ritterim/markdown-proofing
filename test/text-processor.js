@@ -71,3 +71,17 @@ This is a test.
 
   t.is(result, 'This is a test.\n');
 });
+
+test('markdownToText handles blank links', t => {
+  const text = `---
+title: "Test Title"
+---
+
+[]()
+[]()
+`;
+
+  const result = TextProcessor.markdownToText(text);
+
+  t.is(result, '');
+});
