@@ -85,3 +85,22 @@ title: "Test Title"
 
   t.is(result, '');
 });
+
+test('markdownToText handles empty list items', t => {
+  // text includes list items with empty links, too.
+  const text = `---
+title: "Test Title"
+---
+
+-
+*
+- []()
+* []()
+-
+*
+`;
+
+  const result = TextProcessor.markdownToText(text);
+
+  t.is(result, '');
+});
