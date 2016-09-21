@@ -12,6 +12,13 @@ export default class TextProcessor {
   }
 
   static markdownToText(str) {
-    return this.removeYamlFrontMatter(remark.process(str.replace(/\[\]\(\)/g, '')));
+    const preprocessedStr = str
+      // Remove empty links
+      .replace(/\[\]\(\)/g, '')
+
+      // Remove empty list items
+      .replace(/^(-|\*)\s*\n/gm, '');
+
+    return this.removeYamlFrontMatter(remark.process(preprocessedStr));
   }
 }
