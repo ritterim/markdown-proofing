@@ -1,8 +1,6 @@
-import test from 'ava';
-
 import Location from '../src/lib/location';
 
-test('Should return expected line number', t => {
+test('Should return expected line number', () => {
   const testText = `1
 2
 3
@@ -14,10 +12,10 @@ test.`;
 
   const result = Location.getLine(testText, /* index: */ 6);
 
-  t.is(result, 4);
+  expect(result).toBe(4);
 });
 
-test('Should return expected line column', t => {
+test('Should return expected line column', () => {
   const testText = `1
 2
 3
@@ -29,5 +27,5 @@ test.`;
 
   const result = Location.getLineColumn(testText, /* index: */ 21);
 
-  t.is(result, 16);
+  expect(result).toBe(16);
 });

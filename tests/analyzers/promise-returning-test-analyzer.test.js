@@ -1,8 +1,6 @@
-import test from 'ava';
-
 import PromiseReturningTestAnalyzer from '../../src/lib/analyzers/promise-returning-test-analyzer';
 
-test('Should return no messages when no issues found', t => {
+test('Should return no messages when no issues found', () => {
   return new PromiseReturningTestAnalyzer().analyze()
-    .then(x => t.is(x.messages.length, 0));
+    .then(x => expect(x.messages.length).toBe(0));
 });

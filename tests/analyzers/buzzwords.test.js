@@ -1,20 +1,18 @@
-import test from 'ava';
-
 import BuzzwordsAnalyzer from '../../src/lib/analyzers/buzzwords';
 const messageType = 'buzzword-usage-counts';
 
-test('Uses expected message type', t => {
+test('Uses expected message type', () => {
   const text = 'This is an ajax test.';
 
   const result = new BuzzwordsAnalyzer().analyze(text);
 
-  t.is(result.messages[0].type, messageType);
+  expect(result.messages[0].type).toBe(messageType);
 });
 
-test('Uses expected buzzwords', t => {
+test('Uses expected buzzwords', () => {
   const text = 'This is an ajax test.';
 
   const result = new BuzzwordsAnalyzer().analyze(text);
 
-  t.is(result.getMessage(messageType).text, 'ajax: 1');
+  expect(result.getMessage(messageType).text).toBe('ajax: 1');
 });

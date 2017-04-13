@@ -35,21 +35,14 @@
     "audit": "nsp check package",
     "build": "babel -d ./ ./src && shx mkdir -p ./lib/presets && shx cp -R ./src/lib/presets/ ./lib/",
     "check": "npm run audit && npm outdated --depth 0",
-    "clean": "rimraf coverage lib .nyc_output cli.js",
-    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html ava",
-    "coverage:teamcity": "nyc --reporter=lcov --reporter=text --reporter=html --reporter=teamcity ava",
-    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rimraf ./coverage",
-    "lint": "eslint src test",
-    "test": "ava",
-    "test:watch": "chokidar 'test/*.js' 'src/**' -c 'npm test' --silent --initial",
-    "integration-test": "npm run build && node cli.js --no-throw test/fixtures/*.md test/fixtures/*.txt",
+    "clean": "rimraf coverage lib cli.js",
+    "coverage": "jest --coverage",
+    "lint": "eslint src tests",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "integration-test": "npm run build && node cli.js --no-throw tests/fixtures/*.md tests/fixtures/*.txt",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check"
-  },
-  "ava": {
-    "require": [
-      "babel-core/register"
-    ]
   },
   "author": {
     "name": "Ritter Insurance Marketing",
@@ -74,18 +67,15 @@
     "write-good": "^0.9.1"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
     "babel-eslint": "^6.0.2",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-function-bind": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
-    "chokidar-cli": "^1.2.0",
-    "coveralls": "^2.11.6",
     "eslint": "^2.8.0",
+    "jest": "^19.0.2",
     "nsp": "^2.2.0",
-    "nyc": "^6.4.0",
     "rimraf": "^2.5.2",
     "shx": "^0.1.1"
   }

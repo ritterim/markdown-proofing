@@ -1,4 +1,3 @@
-import test from 'ava';
 import chalk from 'chalk';
 import path from 'path';
 
@@ -25,7 +24,7 @@ class TestLogger {
 }
 
 const inputDefault = [
-  path.resolve(__dirname, '../test/fixtures/2015-12-20-announcing-rimdev-releases.md')
+  path.resolve(__dirname, '../tests/fixtures/2015-12-20-announcing-rimdev-releases.md')
 ];
 
 const testHelpMessage = 'test-help';
@@ -43,7 +42,7 @@ function getMain(configuration, flags = {}, input = inputDefault) {
     new TestLogger());
 }
 
-test('Sends help message to logger when no files', t => {
+test('Sends help message to logger when no files', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'info' }
@@ -52,12 +51,12 @@ test('Sends help message to logger when no files', t => {
   const main = getMain(configuration, {}, []);
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 1);
-    t.is(main.logger.messages[0], testHelpMessage);
+    expect(main.logger.messages.length).toBe(1);
+    expect(main.logger.messages[0]).toBe(testHelpMessage);
   });
 });
 
-test('Returns expected error when warning exists applying error first', t => {
+test('Returns expected error when warning exists applying error first', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'error, warning' }
@@ -66,12 +65,12 @@ test('Returns expected error when warning exists applying error first', t => {
   const main = getMain(configuration, { 'no-colors': true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe('[error] statistics-word-count : 198');
   });
 });
 
-test('Returns expected error when warning exists applying warning first', t => {
+test('Returns expected error when warning exists applying warning first', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'warning, error' }
@@ -80,12 +79,12 @@ test('Returns expected error when warning exists applying warning first', t => {
   const main = getMain(configuration, { 'no-colors': true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe('[error] statistics-word-count : 198');
   });
 });
 
-test('Returns expected error when info rule condition exists', t => {
+test('Returns expected error when info rule condition exists', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'error, info' }
@@ -94,12 +93,12 @@ test('Returns expected error when info rule condition exists', t => {
   const main = getMain(configuration, { 'no-colors': true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe('[error] statistics-word-count : 198');
   });
 });
 
-test('Returns expected warning when info rule exists', t => {
+test('Returns expected warning when info rule exists', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'warning, info' }
@@ -108,12 +107,12 @@ test('Returns expected warning when info rule exists', t => {
   const main = getMain(configuration, { 'no-colors': true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], '[warning] statistics-word-count : 198');
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe('[warning] statistics-word-count : 198');
   });
 });
 
-test('Returns expected info rule condition', t => {
+test('Returns expected info rule condition', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'info' }
@@ -122,12 +121,12 @@ test('Returns expected info rule condition', t => {
   const main = getMain(configuration, { 'no-colors': true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], '[info] statistics-word-count : 198');
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe('[info] statistics-word-count : 198');
   });
 });
 
-test('Throws error for unexpected rule condition', t => {
+test('Throws error for unexpected rule condition', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'invalid-condition' }
@@ -135,22 +134,20 @@ test('Throws error for unexpected rule condition', t => {
 
   const main = getMain(configuration);
 
-  t.throws(
-    () => main._displayResults(
-      'test.md',
-      [configuration.rules],
-      {
-        messages: [
-          {
-            type: 'statistics-word-count',
-            text: 198
-          }
-        ]
-      }),
-    'An unexpected error occurred: The applicableRules did not match any of the handled conditions.');
+  expect(() => main._displayResults(
+    'test.md',
+    [configuration.rules],
+    {
+      messages: [
+        {
+          type: 'statistics-word-count',
+          text: 198
+        }
+      ]
+    })).toThrowError('An unexpected error occurred: The applicableRules did not match any of the handled conditions.');
 });
 
-test('Does not use colors when no colors specified', t => {
+test('Does not use colors when no colors specified', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'error' }
@@ -159,12 +156,12 @@ test('Does not use colors when no colors specified', t => {
   const main = getMain(configuration);
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], '[error] statistics-word-count : 198');
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe('[error] statistics-word-count : 198');
   });
 });
 
-test('Shows red for error when color specified', t => {
+test('Shows red for error when color specified', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'error' }
@@ -173,12 +170,12 @@ test('Shows red for error when color specified', t => {
   const main = getMain(configuration, { color: true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], chalk.red('[error] statistics-word-count : 198'));
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe(chalk.red('[error] statistics-word-count : 198'));
   });
 });
 
-test('Shows yellow for warning when color specified', t => {
+test('Shows yellow for warning when color specified', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'warning' }
@@ -187,12 +184,12 @@ test('Shows yellow for warning when color specified', t => {
   const main = getMain(configuration, { color: true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], chalk.yellow('[warning] statistics-word-count : 198'));
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe(chalk.yellow('[warning] statistics-word-count : 198'));
   });
 });
 
-test('Shows blue for info when color specified', t => {
+test('Shows blue for info when color specified', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'info' }
@@ -201,12 +198,12 @@ test('Shows blue for info when color specified', t => {
   const main = getMain(configuration, { color: true });
 
   return main.run().then(() => {
-    t.is(main.logger.messages.length, 2); // First message is the file printout
-    t.is(main.logger.messages[1], chalk.blue('[info] statistics-word-count : 198'));
+    expect(main.logger.messages.length).toBe(2); // First message is the file printout
+    expect(main.logger.messages[1]).toBe(chalk.blue('[info] statistics-word-count : 198'));
   });
 });
 
-test('Does not throw for proofing errors by default', t => {
+test('Does not throw for proofing errors by default', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'error' }
@@ -214,12 +211,10 @@ test('Does not throw for proofing errors by default', t => {
 
   const main = getMain(configuration);
 
-  main.run().catch(() => {
-    t.fail();
-  });
+  return main.run();
 });
 
-test('Throws for one error by default with expected message', t => {
+test('Throws for one error by default with expected message', () => {
   const configuration = {
     analyzers: ['statistics'],
     rules: { 'statistics-word-count': 'error' }
@@ -227,20 +222,23 @@ test('Throws for one error by default with expected message', t => {
 
   const main = getMain(configuration, { throw: true });
 
-  main.run().catch(e => {
-    t.is(e, ['Error: 1 error was encountered while proofing.']);
+  return main.run().catch(e => {
+    expect(e.message).toBe('1 error was encountered while proofing.');
   });
 });
 
-test('Throws for two errors by default with expected message', t => {
+test('Throws for two errors by default with expected message', () => {
   const configuration = {
     analyzers: ['statistics'],
-    rules: { 'statistics-word-count': 'error' }
+    rules: {
+      'statistics-letter-count': 'error',
+      'statistics-word-count': 'error'
+    }
   };
 
   const main = getMain(configuration, { throw: true });
 
-  main.run().catch(e => {
-    t.is(e, ['Error: 2 errors were encountered while proofing.']);
+  return main.run().catch(e => {
+    expect(e.message).toBe('2 errors were encountered while proofing.');
   });
 });

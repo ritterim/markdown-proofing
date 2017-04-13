@@ -1,4 +1,3 @@
-import test from 'ava';
 import path from 'path';
 
 import MarkdownProofing from '../src/lib/markdownProofing';
@@ -26,22 +25,22 @@ class TestAnalyzer2 {
   }
 }
 
-test('Returns empty messages when no analyzers', t => {
+test('Returns empty messages when no analyzers', () => {
   return new MarkdownProofing()
     .proof('a')
-    .then(result => t.is(result.messages.length, 0));
+    .then(result => expect(result.messages.length).toBe(0));
 });
 
-test('Returns empty messages with one analyzer and no matching configuration', t => {
+test('Returns empty messages with one analyzer and no matching configuration', () => {
   const text = 'a';
 
   return new MarkdownProofing()
     .addAnalyzer(TestAnalyzer1)
     .proof(text)
-    .then(result => t.is(result.messages.length, 0));
+    .then(result => expect(result.messages.length).toBe(0));
 });
 
-test('Returns expected single message with one analyzer with matching configuration rule', t => {
+test('Returns expected single message with one analyzer with matching configuration rule', () => {
   const text = 'a';
 
   return new MarkdownProofing()
@@ -49,14 +48,14 @@ test('Returns expected single message with one analyzer with matching configurat
     .addRule('test-analyzer-1', 'info')
     .proof(text)
     .then(result => {
-      t.is(result.messages.length, 1);
+      expect(result.messages.length).toBe(1);
 
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
+      expect(result.messages[0].type).toBe('test-analyzer-1');
+      expect(result.messages[0].text).toBe('test-analyzer-1 message.');
     });
 });
 
-test('Returns expected single message with one analyzer added twice with matching configuration rule', t => {
+test('Returns expected single message with one analyzer added twice with matching configuration rule', () => {
   const text = 'a';
 
   return new MarkdownProofing()
@@ -65,14 +64,14 @@ test('Returns expected single message with one analyzer added twice with matchin
     .addRule('test-analyzer-1', 'info')
     .proof(text)
     .then(result => {
-      t.is(result.messages.length, 1);
+      expect(result.messages.length).toBe(1);
 
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
+      expect(result.messages[0].type).toBe('test-analyzer-1');
+      expect(result.messages[0].text).toBe('test-analyzer-1 message.');
     });
 });
 
-test('Returns expected single message from two analyzers with one matching configuration rules', t => {
+test('Returns expected single message from two analyzers with one matching configuration rules', () => {
   const text = 'a';
 
   return new MarkdownProofing()
@@ -81,14 +80,14 @@ test('Returns expected single message from two analyzers with one matching confi
     .addRule('test-analyzer-1', 'info')
     .proof(text)
     .then(result => {
-      t.is(result.messages.length, 1);
+      expect(result.messages.length).toBe(1);
 
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
+      expect(result.messages[0].type).toBe('test-analyzer-1');
+      expect(result.messages[0].text).toBe('test-analyzer-1 message.');
     });
 });
 
-test('Returns expected two messages from two analyzers with two matching configuration rules', t => {
+test('Returns expected two messages from two analyzers with two matching configuration rules', () => {
   const text = 'a';
 
   return new MarkdownProofing()
@@ -98,17 +97,17 @@ test('Returns expected two messages from two analyzers with two matching configu
     .addRule('test-analyzer-2', 'info')
     .proof(text)
     .then(result => {
-      t.is(result.messages.length, 2);
+      expect(result.messages.length).toBe(2);
 
-      t.is(result.messages[0].type, 'test-analyzer-1');
-      t.is(result.messages[0].text, 'test-analyzer-1 message.');
+      expect(result.messages[0].type).toBe('test-analyzer-1');
+      expect(result.messages[0].text).toBe('test-analyzer-1 message.');
 
-      t.is(result.messages[1].type, 'test-analyzer-2');
-      t.is(result.messages[1].text, 'test-analyzer-2 message.');
+      expect(result.messages[1].type).toBe('test-analyzer-2');
+      expect(result.messages[1].text).toBe('test-analyzer-2 message.');
     });
 });
 
-test('Returns single message for multiple rule conditions', t => {
+test('Returns single message for multiple rule conditions', () => {
   const text = 'a';
 
   return new MarkdownProofing()
@@ -116,22 +115,22 @@ test('Returns single message for multiple rule conditions', t => {
     .addRule('test-analyzer-1', 'info, warning')
     .proof(text)
     .then(result => {
-      t.is(result.messages.length, 1);
-      t.is(result.messages[0].type, 'test-analyzer-1');
+      expect(result.messages.length).toBe(1);
+      expect(result.messages[0].type).toBe('test-analyzer-1');
     });
 });
 
-test('Sets two rules when comma seperated', t => {
+test('Sets two rules when comma seperated', () => {
   const sut = new MarkdownProofing()
     .addAnalyzer(TestAnalyzer1)
     .addRule('test-analyzer-1', 'info, warning < 10');
 
-  t.is(sut.rules.length, 2);
-  t.is(sut.rules[0].condition, 'info');
-  t.is(sut.rules[1].condition, 'warning < 10');
+  expect(sut.rules.length).toBe(2);
+  expect(sut.rules[0].condition).toBe('info');
+  expect(sut.rules[1].condition).toBe('warning < 10');
 });
 
-test('createUsingConfiguration adds analyzers', t => {
+test('createUsingConfiguration adds analyzers', () => {
   const configuration = {
     analyzers: [
       'spelling',
@@ -141,10 +140,10 @@ test('createUsingConfiguration adds analyzers', t => {
 
   const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
-  t.is(proofing.analyzers.length, 2);
+  expect(proofing.analyzers.length).toBe(2);
 });
 
-test('createUsingConfiguration adds rules', t => {
+test('createUsingConfiguration adds rules', () => {
   const configuration = {
     rules: {
       'statistics-word-count': 'info'
@@ -153,10 +152,10 @@ test('createUsingConfiguration adds rules', t => {
 
   const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
-  t.is(proofing.rules.length, 1);
+  expect(proofing.rules.length).toBe(1);
 });
 
-test('createUsingConfiguration presets adds preset analyzers', t => {
+test('createUsingConfiguration presets adds preset analyzers', () => {
   const configuration = {
     presets: [
       'technical-blog'
@@ -165,10 +164,10 @@ test('createUsingConfiguration presets adds preset analyzers', t => {
 
   const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
-  t.true(proofing.analyzers.length > 1);
+  expect(proofing.analyzers.length > 1).toBe(true);
 });
 
-test('createUsingConfiguration presets adds preset rules', t => {
+test('createUsingConfiguration presets adds preset rules', () => {
   const configuration = {
     presets: [
       'technical-blog'
@@ -177,10 +176,10 @@ test('createUsingConfiguration presets adds preset rules', t => {
 
   const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
-  t.true(proofing.rules.length > 1);
+  expect(proofing.rules.length > 1).toBe(true);
 });
 
-test('createUsingConfiguration removes rules from preset with none', t => {
+test('createUsingConfiguration removes rules from preset with none', () => {
   const configuration = {
     presets: [
       'technical-blog'
@@ -192,10 +191,10 @@ test('createUsingConfiguration removes rules from preset with none', t => {
 
   const proofing = MarkdownProofing.createUsingConfiguration(configuration, rootDirOverride);
 
-  t.false(proofing.rules.some(x => x.messageType === 'spelling-error'));
+  expect(proofing.rules.some(x => x.messageType === 'spelling-error')).toBe(false);
 });
 
-test('Inline rules override preset rules', t => {
+test('Inline rules override preset rules', () => {
   const configurationBaseline = {
     presets: [
       'inline-rule'
@@ -214,9 +213,17 @@ test('Inline rules override preset rules', t => {
   const proofingBaseline = MarkdownProofing.createUsingConfiguration(configurationBaseline, __dirname);
   const proofing = MarkdownProofing.createUsingConfiguration(configuration, __dirname);
 
-  t.true(proofingBaseline.rules.filter(x => x.messageType === 'spelling-error').length === 1);
-  t.true(proofingBaseline.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'error');
+  expect(
+    proofingBaseline.rules.filter(x => x.messageType === 'spelling-error').length === 1
+  ).toBe(true);
+  expect(
+    proofingBaseline.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'error'
+  ).toBe(true);
 
-  t.true(proofing.rules.filter(x => x.messageType === 'spelling-error').length === 1);
-  t.true(proofing.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'info');
+  expect(
+    proofing.rules.filter(x => x.messageType === 'spelling-error').length === 1
+  ).toBe(true);
+  expect(
+    proofing.rules.filter(x => x.messageType === 'spelling-error')[0].condition === 'info'
+  ).toBe(true);
 });
