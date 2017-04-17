@@ -15,7 +15,7 @@ if %ERRORLEVEL% neq 0 goto BuildFail
 call npm run lint
 if %ERRORLEVEL% neq 0 goto BuildFail
 
-call npm run coverage:teamcity
+call npm run coverage
 if %ERRORLEVEL% neq 0 goto BuildFail
 
 call npm run integration-test

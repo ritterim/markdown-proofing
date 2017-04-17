@@ -1,46 +1,44 @@
-import test from 'ava';
-
 import AnalyzerResult from '../src/lib/analyzer-result';
 
-test('addMessage adds expected message', t => {
+test('addMessage adds expected message', () => {
   const testMessageType = 'test';
   const testMessageText = 'test-message';
   const result = new AnalyzerResult();
 
   result.addMessage(testMessageType, testMessageText);
 
-  t.is(result.getMessage(testMessageType).text, testMessageText);
+  expect(result.getMessage(testMessageType).text).toBe(testMessageText);
 });
 
-test('addMessage adds expected line', t => {
+test('addMessage adds expected line', () => {
   const testMessageType = 'test';
   const testMessageLine = 3;
   const result = new AnalyzerResult();
 
   result.addMessage(testMessageType, 'test-message', testMessageLine);
 
-  t.is(result.getMessage(testMessageType).line, testMessageLine);
+  expect(result.getMessage(testMessageType).line).toBe(testMessageLine);
 });
 
-test('addMessage adds expected column', t => {
+test('addMessage adds expected column', () => {
   const testMessageType = 'test';
   const testMessageColumn = 7;
   const result = new AnalyzerResult();
 
   result.addMessage(testMessageType, 'test-message', 3, testMessageColumn);
 
-  t.is(result.getMessage(testMessageType).column, testMessageColumn);
+  expect(result.getMessage(testMessageType).column).toBe(testMessageColumn);
 });
 
-test('getMessage returns null if message type does not exist', t => {
+test('getMessage returns null if message type does not exist', () => {
   const result = new AnalyzerResult();
 
   const message = result.getMessage('does-not-exist');
 
-  t.is(message, null);
+  expect(message).toBe(null);
 });
 
-test('getMessage returns expected message text if it exists', t => {
+test('getMessage returns expected message text if it exists', () => {
   const testMessageType = 'test';
   const testMessageText = 'test-message';
 
@@ -49,5 +47,5 @@ test('getMessage returns expected message text if it exists', t => {
 
   const messageText = result.getMessage(testMessageType).text;
 
-  t.is(messageText, testMessageText);
+  expect(messageText).toBe(testMessageText);
 });

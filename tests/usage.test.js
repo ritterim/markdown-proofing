@@ -1,23 +1,21 @@
-import test from 'ava';
 import fs from 'fs';
 
 import MarkdownProofing from '../src/lib/markdownProofing';
 import StatisticsAnalyzer from '../src/lib/analyzers/statistics';
 
 const exampleJekyllBlogPost = fs
-  .readFileSync('./fixtures/2015-12-20-announcing-rimdev-releases.md')
+  .readFileSync('./tests/fixtures/2015-12-20-announcing-rimdev-releases.md')
   .toString();
 
-test('Should read Jekyll markdown blog post string', t => {
+test('Should read Jekyll markdown blog post string', () => {
   return new MarkdownProofing()
-    .proof(exampleJekyllBlogPost)
-    .then(() => t.pass());
+    .proof(exampleJekyllBlogPost);
 });
 
-test('Should parse statistics from Jekyll markdown blog post string', t => {
+test('Should parse statistics from Jekyll markdown blog post string', () => {
   return new MarkdownProofing()
     .addAnalyzer(StatisticsAnalyzer)
     .addRule('statistics-word-count', 'info')
     .proof(exampleJekyllBlogPost)
-    .then(x => t.is(x.messages.length, 1));
+    .then(x => expect(x.messages.length).toBe(1));
 });
