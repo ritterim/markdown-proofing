@@ -34,15 +34,13 @@
   "scripts": {
     "audit": "nsp check package",
     "build": "babel -d ./ ./src && shx mkdir -p ./lib/presets && shx cp -R ./src/lib/presets/ ./lib/",
-    "check": "npm run audit && npm outdated --depth 0",
     "clean": "rimraf coverage lib cli.js",
     "coverage": "jest --coverage",
     "lint": "eslint src tests",
     "test": "jest",
     "test:watch": "jest --watch",
     "integration-test": "npm run build && node cli.js --no-throw tests/fixtures/*.md tests/fixtures/*.txt",
-    "validate": "npm run lint && npm test",
-    "prepare": "npm run build && npm run validate && npm run check"
+    "validate": "npm run lint && npm test"
   },
   "author": {
     "name": "Ritter Insurance Marketing",
