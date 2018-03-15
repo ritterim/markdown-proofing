@@ -177,7 +177,7 @@ else if (arg === 'git-uncommitted') {
 else if (arg === 'git-index-and-uncommitted') {
   gitProof([
     `git diff --name-only --diff-filter=ACMRT ${filePattern}`,
-    `git diff --name-only --cached' ${filePattern}`
+    `git diff --name-only --cached ${filePattern}`
   ]);
 }
 
