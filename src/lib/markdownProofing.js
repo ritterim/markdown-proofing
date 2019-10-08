@@ -36,7 +36,7 @@ export default class MarkdownProofing {
     }
 
     if (configuration.rules) {
-      for (const prop in configuration.rules) {
+      for (const prop in configuration.rules) { // eslint-disable-line no-unused-vars
         const ruleValue = configuration.rules[prop];
 
         if (ruleValue === 'none') {
